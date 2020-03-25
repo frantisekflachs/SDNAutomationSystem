@@ -2,6 +2,7 @@ from mininet.topo import Topo
 
 
 class Topology2(Topo):
+
     def __init__(self):
         # Initialize topology
         Topo.__init__(self)

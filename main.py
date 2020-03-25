@@ -1,7 +1,4 @@
-try:
-    from tkinter import Tk
-except:
-    from Tkinter import Tk
+from tkinter import Tk
 
 from controller import Controller
 from view import View

@@ -1,5 +1,4 @@
 from mininet.topo import Topo
-from mininet.topolib import TreeTopo
 
 
 class Topology1(Topo):
@@ -21,7 +20,3 @@ class Topology1(Topo):
 
 
 topos = {'topology1': (lambda: Topology1())}
-
-if __name__ == '__main__':
-    topo = TreeTopo(1, 2)
-    t = Topology1(Topo)

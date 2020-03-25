@@ -6,4 +6,3 @@ class NetworkTopology(ABC):
     @abstractmethod
     def run(self):
         pass
-e

@@ -21,9 +21,13 @@ import sys
 from mininet.net import Mininet
 from mininet.cli import CLI
 from mininet.log import lg, info
-from mininet.node import Node
+from mininet.node import Node, RemoteController
+from mininet.topo import SingleSwitchTopo
 from mininet.topolib import TreeTopo
 from mininet.util import waitListening
+
+from topologyTemplates.topology1 import Topology1
+from topologyTemplates.topology2 import Topology2
 
 
 def TreeNet(depth=1, fanout=2):
@@ -31,6 +35,11 @@ def TreeNet(depth=1, fanout=2):
 
     topo = TreeTopo(depth, fanout)
     return Mininet(topo)
+
+
+def ClassicNet(hosts=2):
+    topo = Topology2()
+    return Mininet(topo, controller=lambda name: RemoteController(name, ip='127.0.0.1'))
 
 
 def connectToRootNS(network, switch, ip, routes):
@@ -77,6 +86,7 @@ def sshd(network, cmd='/usr/sbin/sshd', opts='-D', ip='10.123.123.1/32', routes=
     info("\n*** Hosts are running sshd at the following addresses:\n")
     for host in network.hosts:
         info(host.name, host.IP(), '\n')
+
     info("\n*** Type 'exit' or control-D to shut down network\n")
 
     CLI(network)
@@ -91,7 +101,8 @@ def sshd(network, cmd='/usr/sbin/sshd', opts='-D', ip='10.123.123.1/32', routes=
 if __name__ == '__main__':
     lg.setLogLevel('info')
 
-    net = TreeNet(depth=1, fanout=4)
+    # net = TreeNet(depth=1, fanout=4)
+    net = ClassicNet()
 
     # get sshd args from the command line or use default args
     # useDNS=no -u0 to avoid reverse DNS lookup timeout

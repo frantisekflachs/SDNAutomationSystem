@@ -1,3 +1,5 @@
+import subprocess
+
 from networkTopology.virtualTopology.virtualTopology import VirtualTopology
 import os
 
@@ -24,30 +26,8 @@ class MininetVirtualTopology(VirtualTopology):
                                     self.OFVersion))
 
     def run2(self):
-        """Create an empty network and add nodes to it."""
+        """Create network"""
+        # os.system('gnome-terminal -- bash -c "python3.7 /home/user/PycharmProjects/SDNAutomationSystem/sshd.py && bash"')
 
-        # setLogLevel('info')
-        #
-        # self.net = Mininet(controller=Controller)
-        #
-        # info('*** Adding controller\n')
-        # # net.addController( 'c0' )
-        #
-        # info('*** Adding hosts\n')
-        # h1 = self.net.addHost('h1', ip='10.0.0.1')
-        # h2 = self.net.addHost('h2', ip='10.0.0.2')
-        #
-        # info('*** Adding switch\n')
-        # s3 = self.net.addSwitch('s3')
-        #
-        # info('*** Creating links\n')
-        # self.net.addLink(h1, s3)
-        # self.net.addLink(h2, s3)
-        #
-        # info('*** Starting network\n')
-        # self.net.start()
-        #
-        # info('*** Running CLI\n')
-        # CLI(self.net)
-        #
-        # self.net.stop()
+        proc = subprocess.Popen(["gnome-terminal", "-e", "bash -c \"python3.7 /home/user/PycharmProjects/SDNAutomationSystem/sshd.py; /bin/bash -i\""])
+        print(proc)

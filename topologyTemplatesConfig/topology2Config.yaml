@@ -1,0 +1,6 @@
+topologyTemplate: topology2
+IPAddressPool: 10.0.0.0/8
+tests:
+- ping_topology_test 10.0.0.1
+- ping_topology_test 10.0.0.2
+- username_test pepa

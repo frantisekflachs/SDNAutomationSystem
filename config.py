@@ -32,7 +32,8 @@ topologyTemplatesConfigPath = '/home/user/PycharmProjects/SDNAutomationSystem/to
 # Topology templates
 implementedTopologyTemplates = {
     'Topology 1 - 2 hosts, 1 switch': 'topology1',
-    'Topology 2 - 4 hosts, 2 switches': 'topology2'
+    'Topology 2 - 4 hosts, 2 switches': 'topology2',
+    'Topology 3 - 3 hosts, 1 switch': 'topology3'
 }
 
 # OpenFlow versions

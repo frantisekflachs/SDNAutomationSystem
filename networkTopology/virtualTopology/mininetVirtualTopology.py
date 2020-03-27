@@ -7,19 +7,19 @@ import os
 class MininetVirtualTopology(VirtualTopology):
     """Virtual topology Mininet"""
 
-    def __init__(self, topologyTemplate, topologyIP, xTermEnable, OFVersion, SDNControllerIP):
+    def __init__(self, topologyTemplate, topologyIP, topologySetup, OFVersion, SDNControllerIP):
         self.topologyTemplate = topologyTemplate
         self.topologyIP = topologyIP
-        self.xTermEnable = xTermEnable
+        self.topologySetup = topologySetup
         self.OFVersion = OFVersion
         self.SDNControllerIP = SDNControllerIP
 
     def run(self):
         """Run Mininet topology"""
 
-        if self.xTermEnable:
+        if not self.topologySetup:
             os.system('gnome-terminal -- bash -c '
-                      '"mn -x --custom topologyTemplates/{}.py --topo {} '
+                      '"mn --custom topologyTemplates/{}.py --topo {} '
                       '-i {} --controller=remote,ip={},port=6653 '
                       '--switch ovsk,protocols=OpenFlow{} '
                       '&& bash"'.format(self.topologyTemplate,
@@ -29,11 +29,18 @@ class MininetVirtualTopology(VirtualTopology):
                                         self.OFVersion))
 
         else:
+            additionSwitches = ''
+            for switch in self.topologySetup:
+                additionSwitches += ' ' + switch
+
+            print(additionSwitches)
+
             os.system('gnome-terminal -- bash -c '
-                      '"mn --custom topologyTemplates/{}.py --topo {} '
+                      '"mn{} --custom topologyTemplates/{}.py --topo {} '
                       '-i {} --controller=remote,ip={},port=6653 '
                       '--switch ovsk,protocols=OpenFlow{} '
-                      '&& bash"'.format(self.topologyTemplate,
+                      '&& bash"'.format(additionSwitches,
+                                        self.topologyTemplate,
                                         self.topologyTemplate,
                                         self.topologyIP,
                                         self.SDNControllerIP,

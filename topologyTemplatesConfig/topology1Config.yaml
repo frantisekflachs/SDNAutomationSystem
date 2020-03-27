@@ -1,6 +1,18 @@
+# Basic topology configurations
 topologyTemplate: topology1
 IPAddressPool: 10.0.0.0/8
+
+# Mininet switches
+topologySetup:
+  - --mac # ID = MAC
+  - -v info # info, debug, output
+#  - --test pingall # pingall, pingpair, iperf, iperfudp
+#  - --innamespace # put hosts in their own namespaces; controllers and switches are default in theis own namespaces
+
+# Define tests which will be applied in the system after clicked on button Test topology
+# [test_name] [expected_output]
+
 tests:
-- ping_topology_test 10.0.0.1
-- ping_topology_test 10.0.0.2
-- username_test pepa
+  - ping_topology_test 10.0.0.1
+  - ping_topology_test 10.0.0.2
+  - username_test pepa

@@ -37,27 +37,29 @@ class Controller:
     def runSDNAutomationSystem(self):
         """Load configure and run SDN Automation System"""
 
-        # topology
-        self.topology = self.loadTopology()
-        if self.topology is None:
-            self.view.printText("Topology not selected.")
-            return
-
-        self.topologyTemplate, self.IPAddressPool, self.loadedTests = self.model.loadTopologyConfig(
-            "topologyTemplatesConfig/{}Config.yaml".format(self.topology))
-        if (self.topologyTemplate or self.IPAddressPool or self.loadedTests) is None:
-            self.view.printText("Error reading topology config file.")
-            return
-
+        # load Open Flow version
         self.OFVersion = self.loadOFVersion()
         if self.OFVersion is None:
             self.view.printText("Error reading OpenFlow protocol version.")
             return
 
-        # SDN controller
+        # load SDN controller
         self.SDNController = self.loadSDNController()
         if self.SDNController is None:
             self.view.printText("Error reading SDN Controller.")
+            return
+
+        # load topology
+        self.topology = self.loadTopology()
+        if self.topology is None:
+            self.view.printText("Topology not selected.")
+            return
+
+        # load settings from yaml file
+        self.topologyTemplate, self.IPAddressPool, self.topologySetup, self.loadedTests = self.model.loadTopologyConfig(
+            "topologyTemplatesConfig/{}Config.yaml".format(self.topology))
+        if (self.topologyTemplate or self.IPAddressPool or self.topologySetup or self.loadedTests) is None:
+            self.view.printText("Error reading topology config file.")
             return
 
         # run SDN controller
@@ -69,7 +71,10 @@ class Controller:
 
         # run network topology
         self.xtermEnable = self.loadXTermEnable()
-        self.model.runNetworkTopology(self.topologyTemplate, self.IPAddressPool, self.xtermEnable, self.OFVersion,
+        if self.xtermEnable:
+            self.topologySetup.append('-x')
+
+        self.model.runNetworkTopology(self.topologyTemplate, self.IPAddressPool, self.topologySetup, self.OFVersion,
                                       self.SDNControllerIP)
 
         self.topologyState = "RUNNING"

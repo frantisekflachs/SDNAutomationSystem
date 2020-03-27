@@ -15,9 +15,10 @@ class Model:
 
             topologyTemplate = loadedTopologyConfig["topologyTemplate"]
             IPAddressPool = loadedTopologyConfig["IPAddressPool"]
+            topologySwitches = loadedTopologyConfig['topologySetup']
             tests = loadedTopologyConfig["tests"]
 
-            return topologyTemplate, IPAddressPool, tests
+            return topologyTemplate, IPAddressPool, topologySwitches, tests
         except:
             return None
 
@@ -28,13 +29,13 @@ class Model:
 
         SDNController.run(self, OFVersion)
 
-    def runNetworkTopology(self, topology, topologyIP, xtermEnable, OFVersion, SDNControllerIP):
+    def runNetworkTopology(self, topology, topologyIP, topologySetup, OFVersion, SDNControllerIP):
         """Run Network Topology
         topology: pre-defined topology
         topologyIP: IP address pool
         SDNControllerIP: IP address for the controller"""
 
-        mvt = MininetVirtualTopology(topology, topologyIP, xtermEnable, OFVersion, SDNControllerIP)
+        mvt = MininetVirtualTopology(topology, topologyIP, topologySetup, OFVersion, SDNControllerIP)
         mvt.run()
 
     def showSDNControllerGui(self, SDNController):

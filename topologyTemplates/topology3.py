@@ -21,4 +21,4 @@ class Topology3(Topo):
         self.addLink(host3, switch1)
 
 
-topos = {'topology1': (lambda: Topology3())}
+topos = {'topology3': (lambda: Topology3())}

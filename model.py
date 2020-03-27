@@ -28,13 +28,13 @@ class Model:
 
         SDNController.run(self, OFVersion)
 
-    def runNetworkTopology(self, topology, topologyIP, OFVersion, SDNControllerIP):
+    def runNetworkTopology(self, topology, topologyIP, xtermEnable, OFVersion, SDNControllerIP):
         """Run Network Topology
         topology: pre-defined topology
         topologyIP: IP address pool
         SDNControllerIP: IP address for the controller"""
 
-        mvt = MininetVirtualTopology(topology, topologyIP, OFVersion, SDNControllerIP)
+        mvt = MininetVirtualTopology(topology, topologyIP, xtermEnable, OFVersion, SDNControllerIP)
         mvt.run()
 
     def showSDNControllerGui(self, SDNController):

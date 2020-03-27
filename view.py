@@ -11,6 +11,7 @@ class View:
 
     def __init__(self, parent):
         # initialize variables
+        self.hostsXTerm = tk.BooleanVar()
         self.container = parent
         self.initGUI()
 
@@ -55,6 +56,13 @@ class View:
         self.cmbOFVersion = ttk.Combobox(self.container)
         self.cmbOFVersion.pack()
         self.cmbOFVersion.place(x=150, y=260)
+
+        # Run with XTerm for all hosts
+        self.hostsXTerm.set(False)
+        self.chbtnXTerm = Checkbutton(self.container, text='run all hosts with XTerm', variable=self.hostsXTerm,
+                                      onvalue=True, offvalue=False)
+        self.chbtnXTerm.pack()
+        self.chbtnXTerm.place(x=20, y=300)
 
         # run topology button
         self.btnRunTopology = tk.Button(self.container, text='Run topology', width=20, command=self.runTopology)
@@ -118,11 +126,13 @@ class View:
         """Return OpenFlow Version"""
         return self.cmbOFVersion.get()
 
+    def getXTerm(self):
+        """Return if run with XTerm for all hosts"""
+        return self.hostsXTerm.get()
+
     def printText(self, data):
         """Print text to console, file and to log window.
         data: """
-
-
 
         if type(data) is dict:
             print('slovnik')
@@ -196,3 +206,5 @@ if __name__ == "__main__":
     root.geometry("+{}+{}".format(positionRight, positionDown))
 
     root.mainloop()
+
+    print(view.getXTerm())

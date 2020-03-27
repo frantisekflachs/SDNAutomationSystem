@@ -36,8 +36,8 @@ class Controller:
 
     def runSDNAutomationSystem(self):
         """Load configure and run SDN Automation System"""
-        # topology
 
+        # topology
         self.topology = self.loadTopology()
         if self.topology is None:
             self.view.printText("Topology not selected.")
@@ -68,10 +68,12 @@ class Controller:
         time.sleep(6)
 
         # run network topology
-        self.model.runNetworkTopology(self.topologyTemplate, self.IPAddressPool, self.OFVersion, self.SDNControllerIP)
-        self.view.printText("Topology is running.")
+        self.xtermEnable = self.loadXTermEnable()
+        self.model.runNetworkTopology(self.topologyTemplate, self.IPAddressPool, self.xtermEnable, self.OFVersion,
+                                      self.SDNControllerIP)
 
         self.topologyState = "RUNNING"
+        self.view.printText("Topology is running.")
 
     def endSDNAutomationSystem(self):
         """End all created instances"""
@@ -124,5 +126,13 @@ class Controller:
             OFVersionChoosed = self.view.getOFVersions()
             OFVersion = config.implementedOFVersions[OFVersionChoosed]
             return OFVersion
+        except:
+            return None
+
+    def loadXTermEnable(self):
+        """Load enabling of XTerm fo all hosts"""
+        try:
+            xterm = self.view.getXTerm()
+            return xterm
         except:
             return None

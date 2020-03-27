@@ -7,12 +7,13 @@ import os
 
 class Ryu(SDNController):
 
-    def run(self, OFVersion):
-        print(OFVersion)
-        os.system('gnome-terminal -- bash -c "/bin/ryu-manager --verbose --observe-links {}/ryu/ryu/app/gui_topology/gui_topology.py '
-                  '{}/ryu/ryu/app/simple_switch_{}.py && bash"'.format(config.SDNControllersPath,
-                                                                       config.SDNControllersPath,
-                                                                       OFVersion))
+    def run(self, OFVersion, SDNControllerSetup):
+
+        runOptions = ''
+        for o in SDNControllerSetup:
+            runOptions += ' ' + o
+
+        os.system('gnome-terminal -- bash -c "cd {}/ryu && /bin/ryu-manager{} && bash"'.format(config.SDNControllersPath, runOptions))
 
     def showSDNControllerGui(self):
         os.system('gnome-terminal -- bash -c "/bin/su user /usr/bin/firefox http://localhost:8080/"')

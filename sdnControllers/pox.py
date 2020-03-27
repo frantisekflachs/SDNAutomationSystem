@@ -5,10 +5,20 @@ import os
 
 class Pox(SDNController):
 
-    def run(self, OFVersion):
-        if OFVersion == '10':
-            os.system('gnome-terminal -- bash -c "{}/pox/pox.py --verbose py samples.pretty_log forwarding.l2_learning '
-                  'openflow.of_01 --port=6653 && bash"'.format(config.SDNControllersPath))
+    def run(self, OFVersion, SDNControllerSetup):
+
+        if not SDNControllerSetup:
+            if OFVersion == '10':
+                os.system(
+                    'gnome-terminal -- bash -c "{}/pox/pox.py --verbose py samples.pretty_log forwarding.l2_learning '
+                    'openflow.of_01 --port=6653 && bash"'.format(config.SDNControllersPath))
+        else:
+            runOptions = ''
+            for o in SDNControllerSetup:
+                runOptions += ' ' + o
+            os.system(
+                'gnome-terminal -- bash -c "{}/pox/pox.py {} && bash"'.format(config.SDNControllersPath,
+                                                                              runOptions))
 
     def showSDNControllerGui(self):
         pass

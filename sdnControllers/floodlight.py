@@ -9,7 +9,7 @@ import json
 
 class Floodlight(SDNController):
 
-    def run(self, OFVersion):
+    def run(self, OFVersion, SDNControllerSetup):
         """Run SDN controller in new terminal window"""
         # os.system('gnome-terminal -- bash -c "cd {}/floodlight && java -jar target/floodlight.jar && bash"'.format(
         #     config.SDNControllersPath))

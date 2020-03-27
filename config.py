@@ -25,6 +25,9 @@ implementedSDNControllers = {
     'Ryu': Ryu
 }
 
+implementedSDNControllersNames = list(implementedSDNControllers.keys())
+implementedSDNControllersClasses = list(implementedSDNControllers.values())
+
 # Topology Templates setup
 topologyTemplatesPath = '/home/user/PycharmProjects/SDNAutomationSystem/topologyTemplates'
 topologyTemplatesConfigPath = '/home/user/PycharmProjects/SDNAutomationSystem/topologyTemplatesConfig'

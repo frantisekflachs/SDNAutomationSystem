@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 class SDNController(ABC):
 
     @abstractmethod
-    def run(self, OFVersion):
+    def run(self, OFVersion, SDNControllerSetup):
         pass
 
     @abstractmethod

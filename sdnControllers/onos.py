@@ -5,7 +5,7 @@ import os
 
 class Onos(SDNController):
 
-    def run(self, OFVersion):
+    def run(self, OFVersion, SDNControllerSetup):
         os.system('gnome-terminal -- bash -c "{}/onos/bin/onos-service start && bash"'.format(config.SDNControllersPath))
 
     def showSDNControllerGui(self):

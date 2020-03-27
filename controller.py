@@ -49,6 +49,8 @@ class Controller:
             self.view.printText("Error reading SDN Controller.")
             return
 
+        print(self.SDNController)
+
         # load topology
         self.topology = self.loadTopology()
         if self.topology is None:
@@ -56,14 +58,13 @@ class Controller:
             return
 
         # load settings from yaml file
-        self.topologyTemplate, self.IPAddressPool, self.topologySetup, self.loadedTests = self.model.loadTopologyConfig(
-            "topologyTemplatesConfig/{}Config.yaml".format(self.topology))
-        if (self.topologyTemplate or self.IPAddressPool or self.topologySetup or self.loadedTests) is None:
+        self.topologyTemplate, self.IPAddressPool, self.topologySetup, self.loadedTests, self.SDNControllerSetup = self.model.loadTopologyConfig("topologyTemplatesConfig/{}Config.yaml".format(self.topology), self.SDNController)
+        if (self.topologyTemplate or self.IPAddressPool or self.topologySetup or self.loadedTests or self.SDNControllerSetup) is None:
             self.view.printText("Error reading topology config file.")
             return
 
         # run SDN controller
-        self.model.runSDNController(self.SDNController, self.OFVersion)
+        self.model.runSDNController(self.SDNController, self.OFVersion, self.SDNControllerSetup)
         self.view.printText("SDN Controller started.")
 
         # sleep for 6 sec

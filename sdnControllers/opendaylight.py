@@ -5,7 +5,7 @@ import os
 
 class Opendaylight(SDNController):
 
-    def run(self, OFVersion):
+    def run(self, OFVersion, SDNControllerSetup):
         print(OFVersion)
         # os.system('gnome-terminal -- bash -c "{}/opendaylight/bin/karaf&& bash"'.format(config.SDNControllersPath))
         pass

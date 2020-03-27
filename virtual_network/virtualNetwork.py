@@ -1,7 +1,6 @@
 from abc import ABC, abstractmethod
 
-
-class NetworkTopology(ABC):
+class VirtualNetwork(ABC):
 
     @abstractmethod
     def run(self):

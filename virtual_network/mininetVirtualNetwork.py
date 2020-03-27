@@ -1,10 +1,10 @@
 import subprocess
 
-from networkTopology.virtualTopology.virtualTopology import VirtualTopology
+from virtual_network.virtualNetwork import VirtualNetwork
 import os
 
 
-class MininetVirtualTopology(VirtualTopology):
+class MininetVirtualTopology(VirtualNetwork):
     """Virtual topology Mininet"""
 
     def __init__(self, networkTemplate, networkSetup):

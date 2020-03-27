@@ -21,7 +21,7 @@ implementedSDNControllers = {
     'Floodlight': Floodlight,
     'Onos': Onos,
     'OpenDaylight': Opendaylight,
-    'Pox (only OF 1.0)': Pox,
+    'Pox': Pox,
     'Ryu': Ryu
 }
 

@@ -1,5 +1,5 @@
 from sdn_controllers.opendaylight import Opendaylight
-from tests.topology_tests.ping_topology_test import PingTopologyTest
+from tests.topology_tests.ping_topology_test import PingNetworkTest
 import config
 import yaml
 
@@ -10,7 +10,7 @@ class TestExecutor:
         self.sdnController = SDNController
 
         self.implementedTests = {
-            'ping_topology_test': PingTopologyTest()
+            'ping_topology_test': PingNetworkTest()
         }
 
     def run(self, testsFromConfig):

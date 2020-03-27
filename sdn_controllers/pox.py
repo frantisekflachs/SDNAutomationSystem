@@ -16,8 +16,9 @@ class Pox(SDNController):
             runOptions = ''
             for o in SDNControllerSetup:
                 runOptions += ' ' + o
-            os.system(
-                'gnome-terminal -- bash -c "{}/pox/pox.py {} && bash"'.format(config.SDNControllersPath,
+            print('gnome-terminal -- bash -c "{}/pox/pox.py {} && bash"'.format(config.SDNControllersPath,
+                                                                              runOptions))
+            os.system('gnome-terminal -- bash -c "{}/pox/pox.py {} && bash"'.format(config.SDNControllersPath,
                                                                               runOptions))
 
     def showSDNControllerGui(self):

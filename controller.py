@@ -13,6 +13,7 @@ class Controller:
         model: model for MVC architecture
         view: view for MVC architecture
         parent: tkinter master app frame"""
+
         self.parent = parent
         self.model = model
         self.view = view
@@ -20,21 +21,13 @@ class Controller:
         self.testExecutor = None
         self.topologyState = "STOPPED"
 
-        self.topology = None
-        self.topologyTemplate = None
-        self.IPAddressPool = None
-        self.loadedSDNController = None
-        self.SDNControllerIP = 'localhost'
-        self.networkOFVersion = None
-        self.loadedTests = None
-
         # binding listeners on buttons
-        pub.subscribe(self.runSDNAutomationSystem, "btnRunTopology_Pressed")
-        pub.subscribe(self.endSDNAutomationSystem, "btnEndTopology_Pressed")
+        pub.subscribe(self.runTopology, "btnRunTopology_Pressed")
+        pub.subscribe(self.endTopology, "btnEndTopology_Pressed")
         pub.subscribe(self.showSDNControllerGui, "btnSDNControllerGui_Pressed")
         pub.subscribe(self.testTopology, "btnTestTopology_Pressed")
 
-    def runSDNAutomationSystem(self):
+    def runTopology(self):
         """Load configure and run SDN Automation System"""
 
         # load SDN controller
@@ -44,13 +37,14 @@ class Controller:
             return
 
         # load topology
-        self.topology = self.loadTopology()
-        if self.topology is None:
-            self.view.printText("Topology not selected.")
+        self.loadedTopologyTemplate = self.loadTopology()
+        if self.loadedTopologyTemplate is None:
+            self.view.printText("Topology template not selected.")
             return
 
         # load settings from yaml file
-        self.topologyTests, self.networkTemplate, self.networkSetup, self.SDNControllerSetup = self.model.loadTopologyConfig("topology_templates_config/{}.yaml".format(self.topology), self.loadedSDNController)
+        self.topologyTests, self.networkTemplate, self.networkSetup, self.SDNControllerSetup = self.model.loadTopologyConfig("topology_templates_config/{}.yaml".format(self.loadedTopologyTemplate), self.loadedSDNController)
+
         if (self.topologyTests or self.networkTemplate or self.networkSetup or self.SDNControllerSetup) is None:
             self.view.printText("Error reading topology config file.")
             return
@@ -72,8 +66,9 @@ class Controller:
         self.topologyState = "RUNNING"
         self.view.printText("Topology is running.")
 
-    def endSDNAutomationSystem(self):
+    def endTopology(self):
         """End all created instances"""
+
         pass
 
     def showSDNControllerGui(self):
@@ -101,6 +96,7 @@ class Controller:
 
     def loadSDNController(self):
         """"Load SDN Controller from View"""
+
         try:
             selectedSDNController = self.view.getSelectedSDNController()
             SDNController = config.implementedSDNControllers[selectedSDNController]
@@ -110,24 +106,17 @@ class Controller:
 
     def loadTopology(self):
         """Load topology from View"""
-        try:
-            selectedTopologyChoosed = self.view.getSelectedTopologyTemplate()
-            topology = config.implementedTopologyTemplates[selectedTopologyChoosed]
-            return topology
-        except:
-            return None
 
-    def loadOFVersion(self):
-        """Lod OpenFlow protocol version"""
         try:
-            OFVersionChoosed = self.view.getOFVersions()
-            OFVersion = config.implementedOFVersions[OFVersionChoosed]
-            return OFVersion
+            selectedTopologyTemplate = self.view.getSelectedTopologyTemplate()
+            topology = config.implementedTopologyTemplates[selectedTopologyTemplate]
+            return topology
         except:
             return None
 
     def loadXTermEnable(self):
         """Load enabling of XTerm fo all hosts"""
+
         try:
             xterm = self.view.getXTerm()
             return xterm

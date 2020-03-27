@@ -11,12 +11,18 @@ class View:
 
     def __init__(self, parent):
         # initialize variables
-        self.hostsXTerm = tk.BooleanVar()
         self.container = parent
+
+        # XTerm for hosts enable
+        self.hostsXTerm = tk.BooleanVar()
+
+        # init items in GUI
         self.initGUI()
 
+        # file reader for logs
         self.f = self.logInit(config.logsPath)
 
+        # load methods
         self.loadTopologyTemplates(config.implementedTopologyTemplates)
         self.loadImplementedSDNControllers(config.implementedSDNControllers)
 
@@ -87,35 +93,42 @@ class View:
         self.frameLog.pack(side=BOTTOM)
 
     def logInit(self, path):
+        """Init file reader for logs"""
+
         timeNow = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
         f = open(path + "/" + timeNow + ".txt", "a")
         return f
 
     def loadTopologyTemplates(self, templates):
         """Load topology templates from path file"""
+
         for t in templates:
             self.lstTopologyTemplate.insert(END, t)
 
     def loadImplementedSDNControllers(self, controllers):
         """Load implemented controllers"""
+
         for c in controllers:
             self.cmbSDNController['values'] = (*self.cmbSDNController['values'], c)
 
     def getSelectedSDNController(self):
         """Returns name of selected controller"""
+
         return self.cmbSDNController.get()
 
     def getSelectedTopologyTemplate(self):
         """Return name of selected topology"""
+
         return self.lstTopologyTemplate.get(ACTIVE)
 
     def getXTerm(self):
         """Return if run with XTerm for all hosts"""
+
         return self.hostsXTerm.get()
 
     def printText(self, data):
         """Print text to console, file and to log window.
-        data: """
+        data: data to write to console, GUI and to file"""
 
         if type(data) is dict:
             print('slovnik')
@@ -150,18 +163,22 @@ class View:
 
     def runTopology(self):
         """Button run topology pressed"""
+
         pub.sendMessage("btnRunTopology_Pressed")
 
     def endTopology(self):
         """Button end topology pressed"""
+
         pub.sendMessage("btnEndTopology_Pressed")
 
     def openSDNControllerGui(self):
         """Show SDN Controller GUI"""
+
         pub.sendMessage("btnSDNControllerGui_Pressed")
 
     def testTopology(self):
         """Test configured topology"""
+
         pub.sendMessage("btnTestTopology_Pressed")
 
 

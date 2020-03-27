@@ -1,4 +1,4 @@
-from networkTopology.virtualTopology.mininetVirtualTopology import MininetVirtualTopology
+from virtual_network.mininetVirtualNetwork import MininetVirtualTopology
 import config
 import yaml
 
@@ -6,20 +6,19 @@ import yaml
 class Model:
     """ Model for the MVC architecture. """
 
-    def loadTopologyConfig(self, topologyConfigPath, SDNController):
+    def loadTopologyConfig(self, topologyTemplateConfigPath, SDNController):
         """Load topology from yaml config file
-        topologyPath: path where to find config file"""
+        topologyTemplateConfigPath: path where to find yaml config file
+        SDNController: defined SDN Controller - config will be loaded only for this SDN Controller not others"""
 
         # TODO except missing parameters
         try:
-            stream = open(topologyConfigPath, 'r')
+            stream = open(topologyTemplateConfigPath, 'r')
             loadedTopologyConfig = yaml.load(stream, Loader=yaml.FullLoader)
 
             tt = loadedTopologyConfig["topologyTests"]
             nt = loadedTopologyConfig["networkTemplate"]
-            # ipb = loadedTopologyConfig["IPBase"]
             ns = loadedTopologyConfig['networkSetup']
-            # nofv = loadedTopologyConfig['networkOFVersion']
             sdns = loadedTopologyConfig[config.implementedSDNControllersNames[config.implementedSDNControllersClasses.index(SDNController)]]
 
             return tt, nt, ns, sdns
@@ -29,19 +28,21 @@ class Model:
 
     def runSDNController(self, SDNController, SDNControllerSetup):
         """Run SDN Controller
-        SDNController: Implemented SDN Controllers in the system."""
+        SDNController: Implemented SDN Controllers in the system
+        SDNControllerSetup: parameters for SDN Controller"""
 
         SDNController.run(self, SDNControllerSetup)
 
     def runVirtualNetwork(self, networkTemplate, networkSetup):
         """Run Network Topology
-        topology: pre-defined topology
-        topologyIP: IP address pool
-        SDNControllerIP: IP address for the controller"""
+        networkTemplate: pre-defined netwrok template
+        networkSetup: parameters for virtual network """
 
         mvt = MininetVirtualTopology(networkTemplate, networkSetup)
         mvt.run()
 
     def showSDNControllerGui(self, SDNController):
-        """Show SDN Controller GUI"""
+        """Show SDN Controller GUI
+        SDNController: run GUI for defined SDN Controller"""
+
         SDNController.showSDNControllerGui(self)

@@ -1,8 +1,8 @@
 from abc import abstractmethod
-from tests.test import Test
+from tests.topology_test import TopologyTest
 
 
-class TopologyTest(Test):
+class NetworkTest(TopologyTest):
 
     @abstractmethod
     def execute(self):

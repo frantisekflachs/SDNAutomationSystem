@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class Test(ABC):
+class TopologyTest(ABC):
 
     @abstractmethod
     def execute(self):

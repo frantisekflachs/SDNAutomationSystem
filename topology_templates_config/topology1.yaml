@@ -1,3 +1,6 @@
+### Topology description ###
+# using Open Flow protocol version 1.0
+
 ### TOPOLOGY SETUP
 # Define tests which will be applied in the system after clicked on button Test topology
 # [test_name] [expected_output]
@@ -39,7 +42,3 @@ Pox:
 
 # run options for Ryu SDN Controller
 Ryu:
-  - --verbose
-  - --observe-links
-  - ryu/app/gui_topology/gui_topology.py
-  - ryu/app/simple_switch_10.py

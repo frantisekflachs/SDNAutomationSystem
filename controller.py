@@ -23,9 +23,9 @@ class Controller:
         self.topology = None
         self.topologyTemplate = None
         self.IPAddressPool = None
-        self.SDNController = None
+        self.loadedSDNController = None
         self.SDNControllerIP = 'localhost'
-        self.OFVersion = None
+        self.networkOFVersion = None
         self.loadedTests = None
 
         # binding listeners on buttons
@@ -37,19 +37,11 @@ class Controller:
     def runSDNAutomationSystem(self):
         """Load configure and run SDN Automation System"""
 
-        # load Open Flow version
-        self.OFVersion = self.loadOFVersion()
-        if self.OFVersion is None:
-            self.view.printText("Error reading OpenFlow protocol version.")
-            return
-
         # load SDN controller
-        self.SDNController = self.loadSDNController()
-        if self.SDNController is None:
+        self.loadedSDNController = self.loadSDNController()
+        if self.loadedSDNController is None:
             self.view.printText("Error reading SDN Controller.")
             return
-
-        print(self.SDNController)
 
         # load topology
         self.topology = self.loadTopology()
@@ -58,13 +50,13 @@ class Controller:
             return
 
         # load settings from yaml file
-        self.topologyTemplate, self.IPAddressPool, self.topologySetup, self.loadedTests, self.SDNControllerSetup = self.model.loadTopologyConfig("topologyTemplatesConfig/{}Config.yaml".format(self.topology), self.SDNController)
-        if (self.topologyTemplate or self.IPAddressPool or self.topologySetup or self.loadedTests or self.SDNControllerSetup) is None:
+        self.topologyTests, self.networkTemplate, self.networkSetup, self.SDNControllerSetup = self.model.loadTopologyConfig("topology_templates_config/{}.yaml".format(self.topology), self.loadedSDNController)
+        if (self.topologyTests or self.networkTemplate or self.networkSetup or self.SDNControllerSetup) is None:
             self.view.printText("Error reading topology config file.")
             return
 
         # run SDN controller
-        self.model.runSDNController(self.SDNController, self.OFVersion, self.SDNControllerSetup)
+        self.model.runSDNController(self.loadedSDNController, self.SDNControllerSetup)
         self.view.printText("SDN Controller started.")
 
         # sleep for 6 sec
@@ -73,10 +65,9 @@ class Controller:
         # run network topology
         self.xtermEnable = self.loadXTermEnable()
         if self.xtermEnable:
-            self.topologySetup.append('-x')
+            self.networkSetup.append('-x')
 
-        self.model.runNetworkTopology(self.topologyTemplate, self.IPAddressPool, self.topologySetup, self.OFVersion,
-                                      self.SDNControllerIP)
+        self.model.runVirtualNetwork(self.networkTemplate, self.networkSetup)
 
         self.topologyState = "RUNNING"
         self.view.printText("Topology is running.")
@@ -103,7 +94,7 @@ class Controller:
             self.view.printText('Topology not started.')
         else:
             self.view.printText('Testing topology...')
-            self.testExecutor = TestExecutor(self.SDNController)
+            self.testExecutor = TestExecutor(self.loadedSDNController)
             testsResults = self.testExecutor.run(self.loadedTests)
 
             self.view.printText(testsResults)

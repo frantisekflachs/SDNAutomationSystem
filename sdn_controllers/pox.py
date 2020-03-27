@@ -1,17 +1,17 @@
-from sdnControllers.sdnController import SDNController
+from sdn_controllers.sdnController import SDNController
+
 import config
 import os
 
 
 class Pox(SDNController):
 
-    def run(self, OFVersion, SDNControllerSetup):
+    def run(self, SDNControllerSetup):
 
         if not SDNControllerSetup:
-            if OFVersion == '10':
-                os.system(
-                    'gnome-terminal -- bash -c "{}/pox/pox.py --verbose py samples.pretty_log forwarding.l2_learning '
-                    'openflow.of_01 --port=6653 && bash"'.format(config.SDNControllersPath))
+            os.system(
+                'gnome-terminal -- bash -c "{}/pox/pox.py --verbose py samples.pretty_log forwarding.l2_learning '
+                'openflow.of_01 --port=6653 && bash"'.format(config.SDNControllersPath))
         else:
             runOptions = ''
             for o in SDNControllerSetup:

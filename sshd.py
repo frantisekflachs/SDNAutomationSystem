@@ -26,8 +26,8 @@ from mininet.topo import SingleSwitchTopo
 from mininet.topolib import TreeTopo
 from mininet.util import waitListening
 
-from topologyTemplates.topology1 import Topology1
-from topologyTemplates.topology2 import Topology2
+from network_templates.network1 import Topology1
+from network_templates.network2 import Topology2
 
 
 def TreeNet(depth=1, fanout=2):

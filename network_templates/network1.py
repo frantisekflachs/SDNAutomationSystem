@@ -1,10 +1,10 @@
 from mininet.topo import Topo
 
 
-class Topology1(Topo):
+class Network1(Topo):
 
     def __init__(self):
-        # Initialize topology
+        # Initialize network
         Topo.__init__(self)
 
         # hosts
@@ -19,4 +19,4 @@ class Topology1(Topo):
         self.addLink(host2, switch1)
 
 
-topos = {'topology1': (lambda: Topology1())}
+topos = {'network1': (lambda: Network1())}

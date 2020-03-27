@@ -1,15 +1,22 @@
-from sdnControllers.sdnController import SDNController
+from sdn_controllers.sdnController import SDNController
 import config
+import subprocess
 import os
 
 
-class Onos(SDNController):
 
-    def run(self, OFVersion, SDNControllerSetup):
-        os.system('gnome-terminal -- bash -c "{}/onos/bin/onos-service start && bash"'.format(config.SDNControllersPath))
+class Ryu(SDNController):
+
+    def run(self, SDNControllerSetup):
+
+        runOptions = ''
+        for o in SDNControllerSetup:
+            runOptions += ' ' + o
+
+        os.system('gnome-terminal -- bash -c "cd {}/ryu && /bin/ryu-manager{} && bash"'.format(config.SDNControllersPath, runOptions))
 
     def showSDNControllerGui(self):
-        pass
+        os.system('gnome-terminal -- bash -c "/bin/su user /usr/bin/firefox http://localhost:8080/"')
 
     def addFlow(self, data):
         pass

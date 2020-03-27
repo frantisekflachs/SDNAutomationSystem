@@ -7,48 +7,35 @@ import os
 class MininetVirtualTopology(VirtualTopology):
     """Virtual topology Mininet"""
 
-    def __init__(self, topologyTemplate, topologyIP, topologySetup, OFVersion, SDNControllerIP):
-        self.topologyTemplate = topologyTemplate
-        self.topologyIP = topologyIP
-        self.topologySetup = topologySetup
-        self.OFVersion = OFVersion
-        self.SDNControllerIP = SDNControllerIP
+    def __init__(self, networkTemplate, networkSetup):
+        self.networkTemplate = networkTemplate
+        self.networkSetup = networkSetup
 
     def run(self):
         """Run Mininet topology"""
 
-        if not self.topologySetup:
+        if not self.networkSetup:
             os.system('gnome-terminal -- bash -c '
-                      '"mn --custom topologyTemplates/{}.py --topo {} '
-                      '-i {} --controller=remote,ip={},port=6653 '
-                      '--switch ovsk,protocols=OpenFlow{} '
-                      '&& bash"'.format(self.topologyTemplate,
-                                        self.topologyTemplate,
-                                        self.topologyIP,
-                                        self.SDNControllerIP,
-                                        self.OFVersion))
+                      '"mn --custom network_templates/{}.py --topo {} '
+                      '--controller=remote,ip=localhost,port=6653 '
+                      '--switch ovsk,protocols=OpenFlow10 '
+                      '&& bash"'.format(self.networkTemplate,
+                                        self.networkTemplate))
 
         else:
-            additionSwitches = ''
-            for switch in self.topologySetup:
-                additionSwitches += ' ' + switch
+            runOptions = ''
+            for switch in self.networkSetup:
+                runOptions += ' ' + switch
 
-            print(additionSwitches)
+            print(runOptions)
 
-            os.system('gnome-terminal -- bash -c '
-                      '"mn{} --custom topologyTemplates/{}.py --topo {} '
-                      '-i {} --controller=remote,ip={},port=6653 '
-                      '--switch ovsk,protocols=OpenFlow{} '
-                      '&& bash"'.format(additionSwitches,
-                                        self.topologyTemplate,
-                                        self.topologyTemplate,
-                                        self.topologyIP,
-                                        self.SDNControllerIP,
-                                        self.OFVersion))
+            os.system('gnome-terminal -- bash -c "mn{} --custom network_templates/{}.py --topo {} && bash"'
+                      .format(runOptions, self.networkTemplate, self.networkTemplate))
 
     def run2(self):
         """Create network"""
         # os.system('gnome-terminal -- bash -c "python3.7 /home/user/PycharmProjects/SDNAutomationSystem/sshd.py && bash"')
 
-        proc = subprocess.Popen(["gnome-terminal", "-e", "bash -c \"python3.7 /home/user/PycharmProjects/SDNAutomationSystem/sshd.py; /bin/bash -i\""])
+        proc = subprocess.Popen(["gnome-terminal", "-e",
+                                 "bash -c \"python3.7 /home/user/PycharmProjects/SDNAutomationSystem/sshd.py; /bin/bash -i\""])
         print(proc)

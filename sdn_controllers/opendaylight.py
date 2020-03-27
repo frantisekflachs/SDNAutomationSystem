@@ -1,12 +1,11 @@
-from sdnControllers.sdnController import SDNController
+from sdn_controllers.sdnController import SDNController
 # import config
 import os
 
 
 class Opendaylight(SDNController):
 
-    def run(self, OFVersion, SDNControllerSetup):
-        print(OFVersion)
+    def run(self, SDNControllerSetup):
         # os.system('gnome-terminal -- bash -c "{}/opendaylight/bin/karaf&& bash"'.format(config.SDNControllersPath))
         pass
 

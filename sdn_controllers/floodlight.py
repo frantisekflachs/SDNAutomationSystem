@@ -1,6 +1,6 @@
 import subprocess
 
-from sdnControllers.sdnController import SDNController
+from sdn_controllers.sdnController import SDNController
 import config
 import os
 import http.client
@@ -9,7 +9,7 @@ import json
 
 class Floodlight(SDNController):
 
-    def run(self, OFVersion, SDNControllerSetup):
+    def run(self, SDNControllerSetup):
         """Run SDN controller in new terminal window"""
         # os.system('gnome-terminal -- bash -c "cd {}/floodlight && java -jar target/floodlight.jar && bash"'.format(
         #     config.SDNControllersPath))

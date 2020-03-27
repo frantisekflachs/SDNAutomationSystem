@@ -1,4 +1,4 @@
-from sdnControllers.opendaylight import Opendaylight
+from sdn_controllers.opendaylight import Opendaylight
 from tests.topology_tests.ping_topology_test import PingTopologyTest
 import config
 import yaml
@@ -36,7 +36,7 @@ class TestExecutor:
     # od = Opendaylight()
     # te = TestExecutor(od)
     #
-    # stream = open("../topologyTemplatesConfig/topology1Config.yaml", 'r')
+    # stream = open("../topology_templates_config/topology1.yaml", 'r')
     # loadedTopologyConfig = yaml.load(stream, Loader=yaml.FullLoader)
     #
     # config.topologyVersion = loadedTopologyConfig["topologyVersion"]

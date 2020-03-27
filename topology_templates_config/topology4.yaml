@@ -1,6 +1,4 @@
 ### TOPOLOGY SETUP
-IPBase: 10.0.0.0/8
-
 # Define tests which will be applied in the system after clicked on button Test topology
 # [test_name] [expected_output]
 topologyTests:
@@ -9,26 +7,34 @@ topologyTests:
   - username_test pepa
 
 ### VIRTUAL NETWORK SETUP
-networkTemplate: topology1
+networkTemplate: network3 # network templates in network_template folder
 
 # Mininet switches
 networkSetup:
-  - --mac # ID = MAC
+  - -i 10.0.0.0/8
+  - --controller=remote,ip=localhost,port=6653 #
+  - --switch ovsk,protocols=OpenFlow14 #
   - -v info # info, debug, output
+#  - --mac # ID = MAC
 #  - --test pingall # pingall, pingpair, iperf, iperfudp
 #  - --innamespace # put hosts in their own namespaces; controllers and switches are default in theis own namespaces
 
-
 ### SDN CONTROLLERS SETUP (SWITCHES AND PACKAGES)
-Pox:
-  - --verbose
-  - py
-  - samples.pretty_log
-  - forwarding.l2_learning
-  - openflow.of_01 --port=6653
+# run options for Floodlight SDN Controller
+Floodlight:
 
+# run options for Onos SDN Controller
+Onos:
+
+# run options for Opendaylight SDN Controller
+Opedaylight:
+
+# run options for Pox SDN Controller
+Pox:
+
+# run options for Ryu SDN Controller
 Ryu:
   - --verbose
   - --observe-links
   - ryu/app/gui_topology/gui_topology.py
-  - ryu/app/simple_switch_13.py
+  - ryu/app/simple_switch_14.py

@@ -1,10 +1,10 @@
 """Configuration file for the SDN Automation System"""
 
-from sdnControllers.opendaylight import Opendaylight
-from sdnControllers.floodlight import Floodlight
-from sdnControllers.onos import Onos
-from sdnControllers.pox import Pox
-from sdnControllers.ryu import Ryu
+from sdn_controllers.opendaylight import Opendaylight
+from sdn_controllers.floodlight import Floodlight
+from sdn_controllers.onos import Onos
+from sdn_controllers.pox import Pox
+from sdn_controllers.ryu import Ryu
 
 # log setup
 logsPath = '/home/user/PycharmProjects/SDNAutomationSystem/Logs'
@@ -21,7 +21,7 @@ implementedSDNControllers = {
     'Floodlight': Floodlight,
     'Onos': Onos,
     'OpenDaylight': Opendaylight,
-    'Pox': Pox,
+    'Pox (only OF 1.0)': Pox,
     'Ryu': Ryu
 }
 
@@ -29,23 +29,14 @@ implementedSDNControllersNames = list(implementedSDNControllers.keys())
 implementedSDNControllersClasses = list(implementedSDNControllers.values())
 
 # Topology Templates setup
-topologyTemplatesPath = '/home/user/PycharmProjects/SDNAutomationSystem/topologyTemplates'
-topologyTemplatesConfigPath = '/home/user/PycharmProjects/SDNAutomationSystem/topologyTemplatesConfig'
+topologyTemplatesPath = '/home/user/PycharmProjects/SDNAutomationSystem/network_templates'
+topologyTemplatesConfigPath = '/home/user/PycharmProjects/SDNAutomationSystem/topology_templates_config'
 
 # Topology templates
 implementedTopologyTemplates = {
-    'Topology 1 - 2 hosts, 1 switch': 'topology1',
-    'Topology 2 - 4 hosts, 2 switches': 'topology2',
-    'Topology 3 - 3 hosts, 1 switch': 'topology3'
+    'Topology 1 - OF 1.0, network1': 'topology1',
+    'Topology 2 - OF 1.3, network1': 'topology2',
+    'Topology 3 - OF 1.4, network2': 'topology3',
+    'Topology 4 - OF 1.4, network3': 'topology3',
+    'Topology 5 - OF 1.5, network3': 'topology3'
 }
-
-# OpenFlow versions
-implementedOFVersions = {
-    'OF 1.0': '10',
-    'OF 1.1': '11',
-    'OF 1.2': '12',
-    'OF 1.3': '13',
-    'OF 1.4': '14',
-    'OF 1.5': '15'
-}
-

@@ -10,34 +10,36 @@ class Model:
         """Load topology from yaml config file
         topologyPath: path where to find config file"""
 
+        # TODO except missing parameters
         try:
             stream = open(topologyConfigPath, 'r')
             loadedTopologyConfig = yaml.load(stream, Loader=yaml.FullLoader)
 
+            tt = loadedTopologyConfig["topologyTests"]
             nt = loadedTopologyConfig["networkTemplate"]
-            ipb = loadedTopologyConfig["IPBase"]
+            # ipb = loadedTopologyConfig["IPBase"]
             ns = loadedTopologyConfig['networkSetup']
-            tc = loadedTopologyConfig["topologyTests"]
-            sdnc = loadedTopologyConfig[config.implementedSDNControllersNames[config.implementedSDNControllersClasses.index(SDNController)]]
-            return nt, ipb, ns, tc, sdnc
+            # nofv = loadedTopologyConfig['networkOFVersion']
+            sdns = loadedTopologyConfig[config.implementedSDNControllersNames[config.implementedSDNControllersClasses.index(SDNController)]]
+
+            return tt, nt, ns, sdns
 
         except:
             return None
 
-    def runSDNController(self, SDNController, OFVersion, SDNControllerSetup):
+    def runSDNController(self, SDNController, SDNControllerSetup):
         """Run SDN Controller
-        SDNController: Implemented SDN Controllers in the system.
-        OFVerson: OpenFlow protocol version"""
+        SDNController: Implemented SDN Controllers in the system."""
 
-        SDNController.run(self, OFVersion, SDNControllerSetup)
+        SDNController.run(self, SDNControllerSetup)
 
-    def runNetworkTopology(self, topology, topologyIP, topologySetup, OFVersion, SDNControllerIP):
+    def runVirtualNetwork(self, networkTemplate, networkSetup):
         """Run Network Topology
         topology: pre-defined topology
         topologyIP: IP address pool
         SDNControllerIP: IP address for the controller"""
 
-        mvt = MininetVirtualTopology(topology, topologyIP, topologySetup, OFVersion, SDNControllerIP)
+        mvt = MininetVirtualTopology(networkTemplate, networkSetup)
         mvt.run()
 
     def showSDNControllerGui(self, SDNController):

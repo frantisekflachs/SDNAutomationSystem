@@ -1,48 +1,39 @@
-from abc import ABC, abstractmethod
+from sdn_controllers.sdnController import SDNController
+import config
+import os
 
 
-class SDNController(ABC):
+class Onos(SDNController):
 
-    @abstractmethod
-    def run(self, OFVersion, SDNControllerSetup):
-        pass
+    def run(self, SDNControllerSetup):
+        os.system('gnome-terminal -- bash -c "{}/onos/bin/onos-service start && bash"'.format(config.SDNControllersPath))
 
-    @abstractmethod
     def showSDNControllerGui(self):
         pass
 
-    @abstractmethod
     def addFlow(self, data):
         pass
 
-    @abstractmethod
     def deleteFlow(self, data):
         pass
 
-    @abstractmethod
     def listFlowTable(self, device):
         pass
 
-    @abstractmethod
     def clearFlowTable(self, device):
         pass
 
-    @abstractmethod
     def firewallStatus(self):
         pass
 
-    @abstractmethod
     def firewallSetStatus(self, status):
         pass
 
-    @abstractmethod
     def firewallAddRule(self, data):
         pass
 
-    @abstractmethod
     def firewallDeleteRule(self, data):
         pass
 
-    @abstractmethod
     def firewallListRules(self):
         pass

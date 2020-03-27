@@ -19,7 +19,6 @@ class View:
 
         self.loadTopologyTemplates(config.implementedTopologyTemplates)
         self.loadImplementedSDNControllers(config.implementedSDNControllers)
-        self.loadOFVersions(config.implementedOFVersions)
 
     def initGUI(self):
         """Inicializing Graphical User Interface"""
@@ -49,20 +48,12 @@ class View:
         self.cmbSDNController.pack()
         self.cmbSDNController.place(x=150, y=220)
 
-        # OF version
-        self.lblOFVersion = Label(self.container, text='OpenFlow version')
-        self.lblOFVersion.pack()
-        self.lblOFVersion.place(x=20, y=260)
-        self.cmbOFVersion = ttk.Combobox(self.container)
-        self.cmbOFVersion.pack()
-        self.cmbOFVersion.place(x=150, y=260)
-
         # Run with XTerm for all hosts
         self.hostsXTerm.set(False)
         self.chbtnXTerm = Checkbutton(self.container, text='run all hosts with XTerm', variable=self.hostsXTerm,
                                       onvalue=True, offvalue=False)
         self.chbtnXTerm.pack()
-        self.chbtnXTerm.place(x=20, y=300)
+        self.chbtnXTerm.place(x=20, y=260)
 
         # run topology button
         self.btnRunTopology = tk.Button(self.container, text='Run topology', width=20, command=self.runTopology)
@@ -110,10 +101,6 @@ class View:
         for c in controllers:
             self.cmbSDNController['values'] = (*self.cmbSDNController['values'], c)
 
-    def loadOFVersions(self, OFVersions):
-        for ofv in OFVersions:
-            self.cmbOFVersion['values'] = (*self.cmbOFVersion['values'], ofv)
-
     def getSelectedSDNController(self):
         """Returns name of selected controller"""
         return self.cmbSDNController.get()
@@ -121,10 +108,6 @@ class View:
     def getSelectedTopologyTemplate(self):
         """Return name of selected topology"""
         return self.lstTopologyTemplate.get(ACTIVE)
-
-    def getOFVersions(self):
-        """Return OpenFlow Version"""
-        return self.cmbOFVersion.get()
 
     def getXTerm(self):
         """Return if run with XTerm for all hosts"""

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """Package: mininet
-   Regression tests for switch dpid assignment."""
+   Regression topology_tests for switch dpid assignment."""
 
 import unittest
 import sys

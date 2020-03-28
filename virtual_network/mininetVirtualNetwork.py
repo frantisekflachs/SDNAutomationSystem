@@ -37,5 +37,5 @@ class MininetVirtualTopology(VirtualNetwork):
         # os.system('gnome-terminal -- bash -c "python3.7 /home/user/PycharmProjects/SDNAutomationSystem/sshd.py && bash"')
 
         proc = subprocess.Popen(["gnome-terminal", "-e",
-                                 "bash -c \"python3.7 /home/user/PycharmProjects/SDNAutomationSystem/sshd.py; /bin/bash -i\""])
+                                 "bash -c \"python3.7 /home/user/PycharmProjects/SDNAutomationSystem/virtual_network/sshd.py; /bin/bash -i\""])
         print(proc)

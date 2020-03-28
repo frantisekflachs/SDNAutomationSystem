@@ -56,7 +56,7 @@ class testBind( unittest.TestCase ):
             self.net.sendline( '%s rm %s' % ( host, path ) )
             self.net.expect( self.prompt )
 
-    # TODO: need more tests
+    # TODO: need more topology_tests
 
     def tearDown( self ):
         self.net.sendline( 'exit' )

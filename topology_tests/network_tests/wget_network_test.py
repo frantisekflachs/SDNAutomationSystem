@@ -1,8 +1,8 @@
-from tests.topology_tests.network_test import NetworkTest
+from topology_tests.network_tests.network_test import NetworkTest
 import os
 
 
-class PingNetworkTest(NetworkTest):
+class WgetNetworkTest(NetworkTest):
 
     def execute(self, dstIP):
         response = os.system("ping -c 1 {}".format(dstIP))

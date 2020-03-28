@@ -3188,7 +3188,7 @@ class MiniEdit( Frame ):
 
         desc = ( "The %prog utility creates Mininet network from the\n"
                  "command line. It can create parametrized topologies,\n"
-                 "invoke the Mininet CLI, and run tests." )
+                 "invoke the Mininet CLI, and run topology_tests." )
 
         usage = ( '%prog [options]\n'
                   '(type %prog -h for details)' )

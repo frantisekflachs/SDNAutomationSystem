@@ -1,5 +1,5 @@
 ### TOPOLOGY SETUP
-# Define tests which will be applied in the system after clicked on button Test topology
+# Define topology_tests which will be applied in the system after clicked on button Test topology
 # [test_name] [expected_output]
 topologyTests:
   - ping_topology_test 10.0.0.1

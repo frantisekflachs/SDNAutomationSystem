@@ -1,4 +1,4 @@
-from tests.test_executor import TestExecutor
+from topology_tests.test_executor import TestExecutor
 
 from pubsub import *
 import time
@@ -90,7 +90,7 @@ class Controller:
         else:
             self.view.printText('Testing topology...')
             self.testExecutor = TestExecutor(self.loadedSDNController)
-            testsResults = self.testExecutor.run(self.loadedTests)
+            testsResults = self.testExecutor.run(self.topologyTests)
 
             self.view.printText(testsResults)
 

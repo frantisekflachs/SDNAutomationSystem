@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
 """
-This example shows how to create a network and run multiple tests.
+This example shows how to create a network and run multiple topology_tests.
 For a more complicated test example, see udpbwtest.py.
 """
 

@@ -7,7 +7,7 @@ import types
 # Create a new loglevel, 'CLI info', which enables a Mininet user to see only
 # the output of the commands they execute, plus any errors or warnings.  This
 # level is in between info and warning.  CLI info-level commands should not be
-# printed during regression tests.
+# printed during regression topology_tests.
 OUTPUT = 25
 
 LEVELS = { 'debug': logging.DEBUG,
@@ -17,7 +17,7 @@ LEVELS = { 'debug': logging.DEBUG,
            'error': logging.ERROR,
            'critical': logging.CRITICAL }
 
-# change this to logging.INFO to get printouts when running unit tests
+# change this to logging.INFO to get printouts when running unit topology_tests
 LOGLEVELDEFAULT = OUTPUT
 
 #default: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -29,7 +29,7 @@ class StreamHandlerNoNewline( logging.StreamHandler ):
     """StreamHandler that doesn't print newlines by default.
        Since StreamHandler automatically adds newlines, define a mod to more
        easily support interactive mode when we want it, or errors-only logging
-       for running unit tests."""
+       for running unit topology_tests."""
 
     def emit( self, record ):
         """Emit a record.

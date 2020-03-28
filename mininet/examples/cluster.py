@@ -70,7 +70,7 @@ Things to do:
 - ssh debugging/profiling
 - make connections into real objects
 - support for other tunneling schemes
-- tests and benchmarks
+- topology_tests and benchmarks
 - hifi support (e.g. delay compensation)
 """
 

@@ -74,14 +74,14 @@ even running a set of terminals to allow direct interaction with nodes.
 
 After the network is created, it can be started using start(), and a
 variety of useful tasks maybe performed, including basic connectivity
-and bandwidth tests and running the mininet CLI.
+and bandwidth topology_tests and running the mininet CLI.
 
 Once the network is up and running, test code can easily get access
 to host and switch objects which can then be used for arbitrary
 experiments, typically involving running a series of commands on the
 hosts.
 
-After all desired tests or activities have been completed, the stop()
+After all desired topology_tests or activities have been completed, the stop()
 method may be called to shut down the network.
 
 """
@@ -628,7 +628,7 @@ class Mininet( object ):
                 yield None, None
 
     # XXX These test methods should be moved out of this class.
-    # Probably we should create a tests.py for them
+    # Probably we should create a topology_tests.py for them
 
     @staticmethod
     def _parsePing( pingOutput ):

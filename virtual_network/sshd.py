@@ -26,8 +26,8 @@ from mininet.topo import SingleSwitchTopo
 from mininet.topolib import TreeTopo
 from mininet.util import waitListening
 
-from network_templates.network1 import Topology1
-from network_templates.network2 import Topology2
+from network_templates.network1 import Network1
+from network_templates.network2 import Network2
 
 
 def TreeNet(depth=1, fanout=2):
@@ -37,8 +37,8 @@ def TreeNet(depth=1, fanout=2):
     return Mininet(topo)
 
 
-def ClassicNet(hosts=2):
-    topo = Topology2()
+def MyNetwork():
+    topo = Network1()
     return Mininet(topo, controller=lambda name: RemoteController(name, ip='127.0.0.1'))
 
 
@@ -102,7 +102,7 @@ if __name__ == '__main__':
     lg.setLogLevel('info')
 
     # net = TreeNet(depth=1, fanout=4)
-    net = ClassicNet()
+    net = MyNetwork()
 
     # get sshd args from the command line or use default args
     # useDNS=no -u0 to avoid reverse DNS lookup timeout

@@ -18,7 +18,7 @@ In addition to testing the bandwidth across varying numbers
 of switches, this example demonstrates:
 
 - creating a custom topology, LinearTestTopo
-- using the ping() and iperf() tests from Mininet()
+- using the ping() and iperf() topology_tests from Mininet()
 - testing both the kernel and user switches
 
 """

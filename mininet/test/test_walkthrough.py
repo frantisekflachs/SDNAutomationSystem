@@ -180,7 +180,7 @@ class testWalkthrough( unittest.TestCase ):
 
     # PART 2
     def testRegressionRun( self ):
-        "Test pingpair (0% drop) and iperf (bw > 0) regression tests"
+        "Test pingpair (0% drop) and iperf (bw > 0) regression topology_tests"
         # test pingpair
         p = pexpect.spawn( 'mn --test pingpair' )
         p.expect( '0% dropped' )

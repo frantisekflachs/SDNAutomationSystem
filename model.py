@@ -39,7 +39,7 @@ class Model:
         networkSetup: parameters for virtual network """
 
         mvt = MininetVirtualTopology(networkTemplate, networkSetup)
-        mvt.run()
+        mvt.run2()
 
     def showSDNControllerGui(self, SDNController):
         """Show SDN Controller GUI

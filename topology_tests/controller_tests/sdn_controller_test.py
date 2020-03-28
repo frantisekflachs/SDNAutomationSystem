@@ -1,5 +1,5 @@
 from abc import abstractmethod
-from tests.topology_test import TopologyTest
+from topology_tests.topology_test import TopologyTest
 
 
 class SDNControllerTest(TopologyTest):

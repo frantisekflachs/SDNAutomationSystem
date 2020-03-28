@@ -131,7 +131,7 @@ class View:
         data: data to write to console, GUI and to file"""
 
         if type(data) is dict:
-            print('slovnik')
+            print('is dictionary')
 
             for test, testResult in data.items():
                 timeNow = datetime.datetime.now().strftime("%H:%M:%S")
@@ -145,6 +145,23 @@ class View:
                 # save to log file
                 timeNow = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
                 self.f.write('{} {}: {} \n'.format(timeNow, test, testResult))
+                self.f.flush()
+
+        elif type(data) is list:
+            print('is list')
+
+            for testResult in data:
+                timeNow = datetime.datetime.now().strftime("%H:%M:%S")
+
+                # print to console
+                print('{} {}'.format(timeNow, testResult))
+
+                # print to text field
+                self.txtLogger.insert(END, '{} {} \n'.format(timeNow, testResult))
+
+                # save to log file
+                timeNow = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+                self.f.write('{} {} \n'.format(timeNow, testResult))
                 self.f.flush()
 
         else:

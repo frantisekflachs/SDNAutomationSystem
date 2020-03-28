@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
 """
-Run all mininet.examples tests
+Run all mininet.examples topology_tests
  -v : verbose output
- -quick : skip tests that take more than ~30 seconds
+ -quick : skip topology_tests that take more than ~30 seconds
 """
 
 import unittest
@@ -25,18 +25,18 @@ class MininetTestRunner( unittest.TextTestRunner ):
         return MininetTestResult( self.stream, self.descriptions, self.verbosity )
 
 def runTests( testDir, verbosity=1 ):
-    "discover and run all tests in testDir"
-    # ensure root and cleanup before starting tests
+    "discover and run all topology_tests in testDir"
+    # ensure root and cleanup before starting topology_tests
     ensureRoot()
     cleanup()
-    # discover all tests in testDir
+    # discover all topology_tests in testDir
     testSuite = unittest.defaultTestLoader.discover( testDir )
-    # run tests
+    # run topology_tests
     success = MininetTestRunner( verbosity=verbosity ).run( testSuite ).wasSuccessful()
     sys.exit( 0 if success else 1 )
 
 if __name__ == '__main__':
-    # get the directory containing example tests
+    # get the directory containing example topology_tests
     testDir = os.path.dirname( os.path.realpath( __file__ ) )
     verbosity = 2 if '-v' in sys.argv else 1
     runTests( testDir, verbosity )

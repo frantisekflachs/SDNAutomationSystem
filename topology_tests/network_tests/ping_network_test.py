@@ -8,7 +8,7 @@ import paramiko
 class PingNetworkTest(NetworkTest):
 
     def execute(self, params):
-        """Execute ping network test witk parameters
+        """Execute ping network test with parameters
         params[0]: repeat count
         params[1]: source IP - host that will execute the command
         parames[2]: destination IP - address that will be tried to ping"""

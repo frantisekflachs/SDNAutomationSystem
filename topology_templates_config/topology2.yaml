@@ -2,9 +2,11 @@
 # Define topology_tests which will be applied in the system after clicked on button Test topology
 # [test_name] [expected_output]
 topologyTests:
-  - ping_topology_test 10.0.0.1
-  - ping_topology_test 10.0.0.2
-  - username_test pepa
+  # network tests
+  - ping_network_test 1 10.0.0.1 10.0.0.2 # test_name repeat_count srcIP dstIP
+  - ping_network_test 1 10.0.0.2 10.0.0.1
+  # SDN controller tests
+#  - username_test pepa
 
 ### VIRTUAL NETWORK SETUP
 networkTemplate: network1 # network templates in network_template folder

@@ -1,13 +1,39 @@
-from topology_tests.network_tests.network_test import NetworkTest
-import os
+import paramiko
 
+from topology_tests.network_tests.network_test import NetworkTest
 
 class WgetNetworkTest(NetworkTest):
 
-    def execute(self, dstIP):
-        response = os.system("ping -c 1 {}".format(dstIP))
+    def execute(self, params):
+        """Execute Wget network test with parameters
+        params[0]: host IP - host that will execute the command
+        parames[1]: server IP - address that will be tried to wget something"""
 
-        if response == 0:
-            return True
-        else:
+        try:
+            print(params)
+            srcIP = params[0]
+            dstIP = params[1]
+
+            host = {"username": "user",
+                    "password": "user",
+                    "hostname": srcIP}
+
+            command = "wget -O – {}".format(dstIP)
+
+            sshClient = paramiko.SSHClient()
+            sshClient.load_system_host_keys()
+            sshClient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            sshClient.connect(**host)
+
+            chan = sshClient.get_transport().open_session()
+            chan.exec_command(command)
+            response = chan.recv_exit_status()
+            print(response)
+
+            if response == 0:
+                return True
+            else:
+                return False
+
+        except:
             return False

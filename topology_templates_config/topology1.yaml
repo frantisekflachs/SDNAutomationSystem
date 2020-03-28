@@ -8,6 +8,7 @@ topologyTests:
   # network tests
   - ping_network_test 1 10.0.0.1 10.0.0.2 # test_name repeat_count srcIP dstIP
   - ping_network_test 1 10.0.0.2 10.0.0.1
+  - wget_network_test 10.0.0.1 10.0.0.2 # test_name hostIP serverIP
   # SDN controller tests
 #  - username_test pepa
 

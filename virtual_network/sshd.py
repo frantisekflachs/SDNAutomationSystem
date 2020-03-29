@@ -17,17 +17,19 @@ demonstrates:
 """
 
 import sys
+from functools import partial
 
 from mininet.net import Mininet
 from mininet.cli import CLI
 from mininet.log import lg, info
-from mininet.node import Node, RemoteController
+from mininet.node import Node, RemoteController, OVSKernelSwitch, OVSSwitch
 from mininet.topo import SingleSwitchTopo
 from mininet.topolib import TreeTopo
 from mininet.util import waitListening
 
 from network_templates.network1 import Network1
 from network_templates.network2 import Network2
+from network_templates.network3 import Network3
 
 
 def TreeNet(depth=1, fanout=2):
@@ -38,8 +40,9 @@ def TreeNet(depth=1, fanout=2):
 
 
 def MyNetwork():
-    topo = Network1()
-    return Mininet(topo, controller=lambda name: RemoteController(name, ip='127.0.0.1'))
+    topo = Network3()
+    switch = partial(OVSKernelSwitch, protocols='OpenFlow13')
+    return Mininet(topo, controller=lambda name: RemoteController(name, ip='127.0.0.1'), switch=switch)
 
 
 def connectToRootNS(network, switch, ip, routes):

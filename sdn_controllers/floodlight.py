@@ -1,7 +1,7 @@
 import subprocess
 
 from sdn_controllers.sdnController import SDNController
-import config
+
 import os
 import http.client
 import json
@@ -13,8 +13,7 @@ class Floodlight(SDNController):
         """Run SDN controller in new terminal window"""
         # os.system('gnome-terminal -- bash -c "cd {}/floodlight && java -jar target/floodlight.jar && bash"'.format(
         #     config.SDNControllersPath))
-        proc = subprocess.Popen(["gnome-terminal", "-e", "bash -c \"cd {}/floodlight && java -jar target/floodlight.jar; /bin/bash -i\"".format(
-            config.SDNControllersPath)])
+        proc = subprocess.Popen(["gnome-terminal", "-e", "bash -c \"cd /home/user/PycharmProjects/SDNControllers/floodlight && java -jar target/floodlight.jar; /bin/bash -i\""])
         pid = proc.pid
         print(pid)
 
@@ -82,7 +81,7 @@ class Floodlight(SDNController):
             'Content-type': 'application/json',
             'Accept': 'application/json',
         }
-        conn = http.client.HTTPConnection(config.SDNControllerIP, 8080)
+        conn = http.client.HTTPConnection('localhost', 8080)
         conn.request(action, path, body, headers)
         response = conn.getresponse()
         ret = (response.status, response.reason, response.read())
@@ -102,6 +101,15 @@ class Floodlight(SDNController):
         ret = self.restCall('/wm/firewall/rules/json', {'ruleid': data}, 'DELETE')
         return json.loads(ret[2])
 
+    def firewallClearRules(self):
+        """Clear all firewall rules on SDN Controller"""
+        rules = self.firewallListRules()
+        ret = []
+        for rule in rules:
+            retRule = self.restCall('/wm/firewall/rules/json', {'ruleid': rule['ruleid']}, 'DELETE')
+            ret.append(json.loads(retRule[2]))
+        return ret
+
     def firewallListRules(self):
         """List firewall rules"""
         ret = self.restCall('/wm/firewall/rules/json', {}, 'GET')
@@ -117,7 +125,7 @@ class Floodlight(SDNController):
             'Accept': 'application/json',
         }
         body = json.dumps(data)
-        conn = http.client.HTTPConnection(config.SDNControllerIP, 8080)
+        conn = http.client.HTTPConnection('localhost', 8080)
         conn.request(action, path, body, headers)
         response = conn.getresponse()
         ret = (response.status, response.reason, response.read())
@@ -135,7 +143,7 @@ if __name__ == "__main__":
         "priority": "32768",
         "in_port": "1",
         "active": "true",
-        "actions": "output=flood"
+        "actions": "output=controller"
     }
 
     flow2 = {
@@ -145,26 +153,93 @@ if __name__ == "__main__":
         "priority": "32768",
         "in_port": "2",
         "active": "true",
-        "actions": "output=flood"
+        "actions": "output=3"
+    }
+
+    flow3 = {
+        'switch': "00:00:00:00:00:00:00:01",
+        "name": "flow_mod_3",
+        "cookie": "0",
+        "priority": "32768",
+        "in_port": "3",
+        "active": "true",
+        "actions": "output=2"
+    }
+
+    flow4 = {
+        'switch': "00:00:00:00:00:00:00:01",
+        "name": "flow_mod_4",
+        "cookie": "0",
+        "priority": "32768",
+        "in_port": "-1",
+        "active": "true",
+        "actions": "output=controller"
     }
 
     objType = {"name": "flow_mod_2"}
-
-    print(pusher.addFlow(flow1))
-    print(pusher.addFlow(flow2))
-    #
-    print(pusher.listFlowTable('all'))
-    #
     pusher.clearFlowTable('all')
-    print(pusher.deleteFlow(objType))
-    #
-    #
-    print(pusher.listFlowTable('all'))
 
-    print(pusher.firewallStatus())
+    # print(pusher.addFlow(flow1))
+
+    # print(pusher.addFlow(flow2))
+    # print(pusher.addFlow(flow3))
+    # # print(pusher.addFlow(flow4))
+    # #
+    # print(pusher.listFlowTable('all'))
+    # # #
+    # pusher.clearFlowTable('all')
+    # print(pusher.deleteFlow(objType))
+    #
+    #
+    # print(pusher.listFlowTable('all'))
+
+    # print(pusher.firewallStatus())
+    # print(pusher.firewallSetStatus('enable'))
+    # print(pusher.firewallStatus())
+    #
+    # print(pusher.firewallAddRule({"switchid": "00:00:00:00:00:00:00:01"}))
+    # print(pusher.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.0.0.3/32"}))
+    # print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.1/32"}))
+
+    print(pusher.firewallClearRules())
+
     print(pusher.firewallSetStatus('enable'))
     print(pusher.firewallStatus())
 
-    print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.7/32"}))
-    print(pusher.firewallListRules())
-    print(pusher.firewallDeleteRule('481861876'))
+    # print(pusher.firewallAddRule({"dl-type": "ARP"}))
+    print(pusher.firewallAddRule({"src-ip": "10.123.123.1/32", "dst-ip": "10.0.0.1/32"}))
+    print(pusher.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.123.123.1/32"}))
+
+    print(pusher.firewallAddRule({"src-ip": "10.123.123.1/32", "dst-ip": "10.0.0.2/32"}))
+    print(pusher.firewallAddRule({"src-ip": "10.0.0.2/32", "dst-ip": "10.123.123.1/32"}))
+
+    # print(pusher.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.123.123.1//32", "nw-proto": "ICMP"}))
+    # print(pusher.firewallAddRule({"src-ip": "10.123.123.1//32", "dst-ip": "10.0.0.1/32", "nw-proto": "ICMP"}))
+
+    print(pusher.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.0.0.3/32", "dl-type": "ARP"}))
+    print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.1/32", "dl-type": "ARP"}))
+
+    print(pusher.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.0.0.3/32", "nw-proto": "ICMP"}))
+    print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.1/32", "nw-proto": "ICMP"}))
+
+    print(pusher.firewallAddRule({"src-ip": "10.0.0.2/32", "dst-ip": "10.0.0.3/32", "nw-proto": "ICMP"}))
+    print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.2/32", "nw-proto": "ICMP"}))
+
+    print(pusher.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.0.0.3/32", "nw-proto": "TCP", "tp-dst": "80", "action": "ALLOW"}))
+    print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.1/32", "nw-proto": "TCP", "tp-src": "80", "action": "ALLOW"}))
+
+    # print(pusher.firewallAddRule({"src-ip": "10.0.0.2/32", "dst-ip": "10.0.0.3/32", "dl-type": "ARP"}))
+    # print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.2/32", "dl-type": "ARP"}))
+
+    print(pusher.firewallAddRule({"src-ip": "10.0.0.2/32", "dst-ip": "10.0.0.3/32", "nw-proto": "TCP", "tp-dst": "80", "action": "DENY"}))
+    print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.2/32", "nw-proto": "TCP", "tp-dst": "80", "action": "DENY"}))
+
+    # print(pusher.firewallAddRule({"src-ip": "10.0.0.2/32", "dst-ip": "10.0.0.3/32", "nw-proto": "TCP", "tp-dst": "80", "action": "ALLOW"}))
+    # print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.2/32", "nw-proto": "TCP", "tp-src": "80", "action": "ALLOW"}))
+
+
+
+
+    # print(pusher.firewallListRules())
+    # print(pusher.firewallDeleteRule('481861876'))
+

@@ -1,3 +1,5 @@
+from time import sleep
+
 import yaml
 
 import config
@@ -29,6 +31,9 @@ class TestExecutor:
             if testName not in self.implementedTests.keys():
                 testsResults.append(str(testName) + ': Test is not implemented.')
             else:
+                # wait for convergence of the network
+                sleep(5)
+
                 returnValue = self.implementedTests[testName].execute(testParams)
                 testsResults.append(str(testName) + ': ' + str(returnValue))
 
@@ -38,7 +43,7 @@ if __name__ == "__main__":
     SDNController = Floodlight()
     te = TestExecutor(SDNController)
 
-    stream = open('../topology_templates_config/topology1.yaml', 'r')
+    stream = open('../topology_templates_config/topology2.yaml', 'r')
     loadedTopologyConfig = yaml.load(stream, Loader=yaml.FullLoader)
 
     tt = loadedTopologyConfig["topologyTests"]

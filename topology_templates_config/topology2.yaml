@@ -3,13 +3,15 @@
 # [test_name] [expected_output]
 topologyTests:
   # network tests
-  - ping_network_test 1 10.0.0.1 10.0.0.2 # test_name repeat_count srcIP dstIP
-  - ping_network_test 1 10.0.0.2 10.0.0.1
+  - ping_network_test 1 10.0.0.1 10.0.0.3 # test_name repeat_count srcIP dstIP
+  - ping_network_test 1 10.0.0.2 10.0.0.3
+  - wget_network_test 10.0.0.1 10.0.0.3 # test_name hostIP serverIP
+  - wget_network_test 10.0.0.2 10.0.0.3
   # SDN controller tests
 #  - username_test pepa
 
 ### VIRTUAL NETWORK SETUP
-networkTemplate: network1 # network templates in network_template folder
+networkTemplate: network3 # network templates in network_template folder
 
 # Mininet switches
 networkSetup:
@@ -24,6 +26,7 @@ networkSetup:
 ### SDN CONTROLLERS SETUP (SWITCHES AND PACKAGES)
 # run options for Floodlight SDN Controller
 Floodlight:
+  # first is controller path
 
 # run options for Onos SDN Controller
 Onos:

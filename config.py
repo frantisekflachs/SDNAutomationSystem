@@ -35,7 +35,7 @@ topologyTemplatesConfigPath = '/home/user/PycharmProjects/SDNAutomationSystem/to
 # Topology templates
 implementedTopologyTemplates = {
     'Topology 1 - OF 1.0, network1': 'topology1',
-    'Topology 2 - OF 1.3, network1': 'topology2',
+    'Topology 2 - OF 1.3, network3': 'topology2',
     'Topology 3 - OF 1.4, network2': 'topology3',
     'Topology 4 - OF 1.4, network3': 'topology3',
     'Topology 5 - OF 1.5, network3': 'topology3'

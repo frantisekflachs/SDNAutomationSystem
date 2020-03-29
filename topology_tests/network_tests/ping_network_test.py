@@ -14,12 +14,9 @@ class PingNetworkTest(NetworkTest):
         parames[2]: destination IP - address that will be tried to ping"""
 
         try:
-            # print(params)
             repeat = params[0]
             srcIP = params[1]
             dstIP = params[2]
-
-            # response = os.system("ping -c {} {}".format(repeat, dstIP))
 
             host = {"username": "user",
                     "password": "user",
@@ -30,12 +27,11 @@ class PingNetworkTest(NetworkTest):
             sshClient = paramiko.SSHClient()
             sshClient.load_system_host_keys()
             sshClient.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            sshClient.connect(**host)
+            sshClient.connect(**host, timeout=3)
 
             chan = sshClient.get_transport().open_session()
             chan.exec_command(command)
             response = chan.recv_exit_status()
-            # print(response)
 
             if response == 0:
                 return True

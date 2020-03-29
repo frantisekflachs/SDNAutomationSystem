@@ -1,11 +1,8 @@
-from _ast import expr
 from time import sleep
-
 import yaml
 
 import config
 from sdn_controllers.floodlight import Floodlight
-from sdn_controllers.opendaylight import Opendaylight
 from topology_tests.network_tests.ping_network_test import PingNetworkTest
 from topology_tests.network_tests.wget_network_test import WgetNetworkTest
 

@@ -2,8 +2,9 @@ import tkinter as tk
 from tkinter import *
 from tkinter import ttk
 from pubsub import pub
-import config
 import datetime
+
+import config
 
 
 class View:
@@ -80,21 +81,33 @@ class View:
         self.btnRunTopology.pack()
         self.btnRunTopology.place(x=380, y=220)
 
+        # run SDN Controller button
+        self.btnRunSDNController = tk.Button(self.container, text='Run SDN Controller', width=20, command=self.runSDNController)
+        self.btnRunSDNController.pack()
+        self.btnRunSDNController.place(x=380, y=260)
+
+        # run Virtual Network button
+        self.btnRunVirtualNetwork = tk.Button(self.container, text='Run virtual network', width=20, command=self.runVirtualNetwork)
+        self.btnRunVirtualNetwork.pack()
+        self.btnRunVirtualNetwork.place(x=380, y=300)
+
         # end topology button
         self.btnEndTopology = tk.Button(self.container, text='End topology', width=20, command=self.endTopology)
         self.btnEndTopology.pack()
-        self.btnEndTopology.place(x=380, y=260)
+        self.btnEndTopology.place(x=380, y=340)
 
         # open SDN Controller GUI button
         self.btnSDNControllerGui = tk.Button(self.container, text='Open SDN Controller GUI', width=20,
                                              command=self.openSDNControllerGui)
         self.btnSDNControllerGui.pack()
-        self.btnSDNControllerGui.place(x=380, y=300)
+        self.btnSDNControllerGui.place(x=380, y=380)
+
+
 
         # test topology button
         self.btnTestTopology = tk.Button(self.container, text='Test topology', width=20, command=self.testTopology)
         self.btnTestTopology.pack()
-        self.btnTestTopology.place(x=380, y=340)
+        self.btnTestTopology.place(x=380, y=500)
 
         # log panel
         self.frameLog = Frame(self.container)
@@ -215,6 +228,16 @@ class View:
 
         pub.sendMessage("btnRunTopology_Pressed")
 
+    def runSDNController(self):
+        """Button run SDN Controller pressed"""
+
+        pub.sendMessage("btnRunSDNController_Pressed")
+
+    def runVirtualNetwork(self):
+        """Button run virtul network pressed"""
+
+        pub.sendMessage("btnRunVirtualNetwork_Pressed")
+
     def endTopology(self):
         """Button end topology pressed"""
 
@@ -245,15 +268,15 @@ if __name__ == "__main__":
     # Gets the requested values of the height and widht.
     windowWidth = root.winfo_reqwidth()
     windowHeight = root.winfo_reqheight()
-    print("Width", windowWidth, "Height", windowHeight)
+    # print("Width", windowWidth, "Height", windowHeight)
 
     # Gets both half the screen width/height and window width/height
     positionRight = int((root.winfo_screenwidth() - windowWidth) / 2.5)
-    positionDown = int(root.winfo_screenheight() / 4 - windowHeight / 2)
+    positionDown = int(root.winfo_screenheight() / 5 - windowHeight / 2)
 
     # Positions the window in the center of the page.
     root.geometry("+{}+{}".format(positionRight, positionDown))
 
     root.mainloop()
 
-    print(view.getXTerm())
+    # print(view.getXTerm())

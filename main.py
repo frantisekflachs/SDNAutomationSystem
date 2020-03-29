@@ -23,11 +23,11 @@ if __name__ == '__main__':
     # Gets the requested values of the height and widht.
     windowWidth = root.winfo_reqwidth()
     windowHeight = root.winfo_reqheight()
-    print("Width", windowWidth, "Height", windowHeight)
+    # print("Width", windowWidth, "Height", windowHeight)
 
     # Gets both half the screen width/height and window width/height
     positionRight = int((root.winfo_screenwidth() - windowWidth) / 2.5)
-    positionDown = int(root.winfo_screenheight() / 4 - windowHeight / 2)
+    positionDown = int(root.winfo_screenheight() / 5 - windowHeight / 2)
 
     # Positions the window in the center of the page.
     root.geometry("+{}+{}".format(positionRight, positionDown))

@@ -20,8 +20,9 @@ class Model:
             nt = loadedTopologyConfig["networkTemplate"]
             ns = loadedTopologyConfig['networkSetup']
             sdns = loadedTopologyConfig[config.implementedSDNControllersNames[config.implementedSDNControllersClasses.index(SDNController)]]
+            pc = loadedTopologyConfig['sdnControllersPostConfig']
 
-            return tt, nt, ns, sdns
+            return tt, nt, ns, sdns, pc
 
         except:
             return None
@@ -40,6 +41,11 @@ class Model:
 
         mvt = MininetVirtualTopology(networkTemplate, networkSetup)
         mvt.run2()
+
+    def runPostConfigScript(self, postConfigScript):
+        """Run script after controller and virtual network is started"""
+        ret = postConfigScript.run()
+        return ret
 
     def showSDNControllerGui(self, SDNController):
         """Show SDN Controller GUI

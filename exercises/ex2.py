@@ -41,9 +41,3 @@ if __name__ == '__main__':
 
 
     print(sdnc.firewallListRules())
-
-    print(sdnc.firewallSetStatus('disable'))
-    print(sdnc.firewallStatus())
-
-    # clear firewall rules
-    print(sdnc.firewallClearRules())

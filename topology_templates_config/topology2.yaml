@@ -42,3 +42,6 @@ Ryu:
   - --observe-links
   - ryu/app/gui_topology/gui_topology.py
   - ryu/app/simple_switch_13.py
+
+# SDN CONTROLLERS POST CONFIGURATION
+sdnControllersPostConfig: topology2PostConfig.py

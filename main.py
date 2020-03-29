@@ -12,7 +12,7 @@ if __name__ == '__main__':
     SDNAutomationSystem = Controller(model, view, root)
 
     # print('Application starting...')
-    SDNAutomationSystem.view.printText('SDN Automation System is running.')
+    SDNAutomationSystem.view.printTextLog('SDN Automation System is running.')
 
     WIDTH = 600
     HEIGHT = 700

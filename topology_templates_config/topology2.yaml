@@ -1,12 +1,11 @@
 ### TOPOLOGY SETUP
 # Define topology_tests which will be applied in the system after clicked on button Test topology
-# [test_name] [expected_output]
+# [test_name] [params] [expected_output]
 topologyTests:
-  # network tests
-  - ping_network_test 1 10.0.0.1 10.0.0.3 # test_name repeat_count srcIP dstIP
-  - ping_network_test 1 10.0.0.2 10.0.0.3
-  - wget_network_test 10.0.0.1 10.0.0.3 # test_name hostIP serverIP
-  - wget_network_test 10.0.0.2 10.0.0.3
+  # network tests:
+  - ping_network_test 1 10.0.0.1 10.0.0.3 True # test_name repeat_count srcIP dstIP expectedReturnValue
+  - ping_network_test 1 10.0.0.2 10.0.0.3 True # test_name repeat_count srcIP dstIP expectedReturnValue
+  - wget_network_test 10.0.0.1 10.0.0.3 True # test_name hostIP serverIP expectedReturnValue
   # SDN controller tests
 #  - username_test pepa
 

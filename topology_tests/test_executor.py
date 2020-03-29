@@ -1,3 +1,4 @@
+from _ast import expr
 from time import sleep
 
 import yaml
@@ -27,6 +28,10 @@ class TestExecutor:
             testNameParam = test.split()
             testName = testNameParam[0]
             testParams = testNameParam[1:]
+            expectedResult = testNameParam[-1]
+
+            # print(expectedResult)
+
 
             if testName not in self.implementedTests.keys():
                 testsResults.append(str(testName) + ': Test is not implemented.')
@@ -35,7 +40,8 @@ class TestExecutor:
                 sleep(5)
 
                 returnValue = self.implementedTests[testName].execute(testParams)
-                testsResults.append(str(testName) + ': ' + str(returnValue))
+                # testsResults.append(str(testName) + ': ' + str(returnValue))
+                testsResults.append('Test ' + str(testsFromConfig.index(test)+1) + ' - ' + str(testName) + str(': OK' if (str(returnValue) == str(expectedResult)) else ': ---'))
 
         return testsResults
 
@@ -52,4 +58,3 @@ if __name__ == "__main__":
     sdns = loadedTopologyConfig[config.implementedSDNControllersNames[config.implementedSDNControllersClasses.index(Floodlight)]]
 
     print(te.run(tt))
-

@@ -61,6 +61,20 @@ class View:
         self.chbtnXTerm.pack()
         self.chbtnXTerm.place(x=20, y=260)
 
+        # list topology tests
+        self.lblTopologyTests = Label(self.container, text='Topology tests')
+        self.lblTopologyTests.pack()
+        self.lblTopologyTests.place(x=20, y=300)
+
+        self.frameTopologyTests= Frame(self.container)
+        self.txtTopologyTestsScroll = Scrollbar(self.frameTopologyTests)
+        self.txtTopologyTests = Text(self.frameTopologyTests, width=37, height=12)
+        self.txtTopologyTestsScroll.pack(side=RIGHT, fill=tk.Y)
+        self.txtTopologyTests.pack(side=LEFT, fill=tk.Y)
+        self.txtTopologyTestsScroll.config(command=self.txtTopologyTests.yview)
+        self.txtTopologyTests.configure(yscrollcommand=self.txtTopologyTestsScroll.set)
+        self.frameTopologyTests.place(x=20, y=320)
+
         # run topology button
         self.btnRunTopology = tk.Button(self.container, text='Run topology', width=20, command=self.runTopology)
         self.btnRunTopology.pack()
@@ -111,6 +125,14 @@ class View:
         for c in controllers:
             self.cmbSDNController['values'] = (*self.cmbSDNController['values'], c)
 
+    def loadImplementedTopologyTests(self, topologyTests):
+        """Load implemented topology tests"""
+
+        for tc in topologyTests:
+            testNameParam = tc.split()
+            testName = testNameParam[0]
+            self.txtTopologyTests.insert(END, 'Test ' + str(topologyTests.index(tc) + 1) + ' - ' + str(testName) + ': --- \n')
+
     def getSelectedSDNController(self):
         """Returns name of selected controller"""
 
@@ -126,12 +148,12 @@ class View:
 
         return self.hostsXTerm.get()
 
-    def printText(self, data):
+    def printTextLog(self, data):
         """Print text to console, file and to log window.
         data: data to write to console, GUI and to file"""
 
         if type(data) is dict:
-            print('is dictionary')
+            # print('is dictionary')
 
             for test, testResult in data.items():
                 timeNow = datetime.datetime.now().strftime("%H:%M:%S")
@@ -141,6 +163,7 @@ class View:
 
                 # print to text field
                 self.txtLogger.insert(END, '{} {}: {} \n'.format(timeNow, test, testResult))
+                self.txtLogger.see("end")
 
                 # save to log file
                 timeNow = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -148,7 +171,7 @@ class View:
                 self.f.flush()
 
         elif type(data) is list:
-            print('is list')
+            # print('is list')
 
             for testResult in data:
                 timeNow = datetime.datetime.now().strftime("%H:%M:%S")
@@ -158,6 +181,7 @@ class View:
 
                 # print to text field
                 self.txtLogger.insert(END, '{} {} \n'.format(timeNow, testResult))
+                self.txtLogger.see("end")
 
                 # save to log file
                 timeNow = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -177,6 +201,14 @@ class View:
             timeNow = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
             self.f.write(timeNow + " " + data + '\n')
             self.f.flush()
+
+    def printTextTopologyTests(self, data):
+        """Print text to text field with Tests Results"""
+
+        self.txtTopologyTests.delete('1.0', END)
+
+        for test in data:
+            self.txtTopologyTests.insert(END, test + '\n')
 
     def runTopology(self):
         """Button run topology pressed"""

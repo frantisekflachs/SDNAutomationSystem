@@ -1,7 +1,4 @@
 from sdn_controllers.floodlight import Floodlight
-from sdn_controllers.sdnController import SDNController
-from network_templates.network1 import Network1
-import config
 
 if __name__ == '__main__':
 
@@ -44,3 +41,9 @@ if __name__ == '__main__':
 
 
     print(sdnc.firewallListRules())
+
+    print(sdnc.firewallSetStatus('disable'))
+    print(sdnc.firewallStatus())
+
+    # clear firewall rules
+    print(sdnc.firewallClearRules())

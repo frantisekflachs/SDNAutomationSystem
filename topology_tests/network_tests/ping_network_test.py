@@ -18,6 +18,8 @@ class PingNetworkTest(NetworkTest):
             srcIP = params[1]
             dstIP = params[2]
 
+            # print(params)
+
             host = {"username": "user",
                     "password": "user",
                     "hostname": srcIP}

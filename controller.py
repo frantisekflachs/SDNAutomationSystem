@@ -33,28 +33,28 @@ class Controller:
         # load SDN controller
         self.loadedSDNController = self.loadSDNController()
         if self.loadedSDNController is None:
-            self.view.printText("Error reading SDN Controller.")
+            self.view.printTextLog("Error reading SDN Controller.")
             return
-        self.view.printText("SDN Controller loaded.")
+        self.view.printTextLog("SDN Controller loaded.")
 
         # load topology
         self.loadedTopologyTemplate = self.loadTopology()
         if self.loadedTopologyTemplate is None:
-            self.view.printText("Topology template not selected.")
+            self.view.printTextLog("Topology template not selected.")
             return
-        self.view.printText("Topology template yaml loaded.")
+        self.view.printTextLog("Topology template yaml loaded.")
 
         # load settings from yaml file
         self.topologyTests, self.networkTemplate, self.networkSetup, self.SDNControllerSetup = self.model.loadTopologyConfig("topology_templates_config/{}.yaml".format(self.loadedTopologyTemplate), self.loadedSDNController)
 
         if (self.topologyTests or self.networkTemplate or self.networkSetup or self.SDNControllerSetup) is None:
-            self.view.printText("Error reading topology config file.")
+            self.view.printTextLog("Error reading topology config file.")
             return
-        self.view.printText("Topology settings from yaml loaded.")
+        self.view.printTextLog("Topology settings from yaml loaded.")
 
         # run SDN controller
         self.model.runSDNController(self.loadedSDNController, self.SDNControllerSetup)
-        self.view.printText("SDN Controller started.")
+        self.view.printTextLog("SDN Controller started.")
 
         # sleep for 6 sec
         time.sleep(6)
@@ -67,8 +67,12 @@ class Controller:
         self.model.runVirtualNetwork(self.networkTemplate, self.networkSetup)
 
         self.topologyState = "RUNNING"
-        self.view.printText("Virtual network is running.")
-        self.view.printText("Topology is running.")
+        self.view.printTextLog("Virtual network is running.")
+        self.view.printTextLog("Topology is running.")
+
+        # load topology tests to GUI lists
+        self.view.loadImplementedTopologyTests(self.topologyTests)
+
 
     def endTopology(self):
         """End all created instances"""
@@ -81,23 +85,23 @@ class Controller:
         c = self.loadSDNController()
 
         if c is not None:
-            self.view.printText('Opening SDN GUI')
+            self.view.printTextLog('Opening SDN GUI')
             self.model.showSDNControllerGui(c)
         else:
-            self.view.printText('No SDN Controller for GUI choosed.')
+            self.view.printTextLog('No SDN Controller for GUI choosed.')
 
     def testTopology(self):
         """Testing topology"""
 
         if self.topologyState is "STOPPED":
-            self.view.printText('Topology not started.')
+            self.view.printTextLog('Topology not started.')
         else:
-            self.view.printText('Testing topology... wait ' + str(len(self.topologyTests)*5) + ' sec')
+            self.view.printTextLog('Testing topology... ' + str(len(self.topologyTests) * 6) + ' sec')
 
             self.testExecutor = TestExecutor(self.loadedSDNController)
             testsResults = self.testExecutor.run(self.topologyTests)
 
-            self.view.printText(testsResults)
+            self.view.printTextTopologyTests(testsResults)
 
     def loadSDNController(self):
         """"Load SDN Controller from View"""

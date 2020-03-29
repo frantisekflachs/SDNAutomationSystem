@@ -36,6 +36,10 @@ class MininetVirtualTopology(VirtualNetwork):
         """Create network"""
         # os.system('gnome-terminal -- bash -c "python3.7 /home/user/PycharmProjects/SDNAutomationSystem/sshd.py && bash"')
 
-        proc = subprocess.Popen(["gnome-terminal", "-e",
-                                 "bash -c \"python3.7 /home/user/PycharmProjects/SDNAutomationSystem/sshd.py; /bin/bash -i\""])
-        print(proc)
+        # subprocess.Popen(["gnome-terminal", "-e",
+        #                          "bash -c \"sudo mn --clean\""])
+
+        subprocess.Popen(["gnome-terminal", "-e",
+                                 "bash -c \"sudo mn --clean && python3.7 /home/user/PycharmProjects/SDNAutomationSystem/sshd.py; /bin/bash -i\""])
+
+

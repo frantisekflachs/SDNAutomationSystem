@@ -1,4 +1,6 @@
+import signal
 import subprocess
+import time
 
 from sdn_controllers.sdnController import SDNController
 
@@ -13,11 +15,8 @@ class Floodlight(SDNController):
         """Run SDN controller in new terminal window"""
         # os.system('gnome-terminal -- bash -c "cd {}/floodlight && java -jar target/floodlight.jar && bash"'.format(
         #     config.SDNControllersPath))
-        proc = subprocess.Popen(["gnome-terminal", "-e", "bash -c \"cd /home/user/PycharmProjects/SDNControllers/floodlight && java -jar target/floodlight.jar; /bin/bash -i\""])
-        pid = proc.pid
-        print(pid)
 
-        # subprocess.run(["gnome-terminal", "-e", "bash -c \"/bin/ls; /bin/bash -i\""])
+        proc = subprocess.Popen(["gnome-terminal", "-e", "bash -c \"cd /home/user/PycharmProjects/SDNControllers/floodlight && java -jar target/floodlight.jar; /bin/bash -i\""])
 
     def showSDNControllerGui(self):
         os.system('gnome-terminal -- bash -c "/bin/su user /usr/bin/firefox http://localhost:8080/ui/index.html"')

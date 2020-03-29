@@ -141,6 +141,8 @@ class View:
     def loadImplementedTopologyTests(self, topologyTests):
         """Load implemented topology tests"""
 
+        self.txtTopologyTests.delete('1.0', END)
+
         for tc in topologyTests:
             testNameParam = tc.split()
             testName = testNameParam[0]

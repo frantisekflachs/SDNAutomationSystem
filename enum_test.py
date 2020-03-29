@@ -1,21 +1,31 @@
-import enum
+import time
+import subprocess, os, signal
 
-class Days(enum.Enum):
-   Sun = 1
-   Mon = 2
-   Tue = 3
-# print the enum member as a string
-print ("The enum member as a string is : ",end="")
-print (Days.Mon)
 
-# print the enum member as a repr
-print ("he enum member as a repr is : ",end="")
-print (repr(Days.Sun))
+def kill_child_processes(parent_pid, sig=signal.SIGTERM):
+   ps_command = subprocess.Popen("ps -o pid --ppid %d --noheaders" % parent_pid, shell=True, stdout=subprocess.PIPE)
+   ps_output = ps_command.stdout.read()
+   retcode = ps_command.wait()
+   assert retcode == 0, "ps command returned %d" % retcode
+   for pid_str in ps_output.split("\n")[:-1]:
+      os.kill(int(pid_str), sig)
 
-# Check type of enum member
-print ("The type of enum member is : ",end ="")
-print (type(Days.Mon))
 
-# print name of enum member
-print ("The name of enum member is : ",end ="")
-print (Days.Tue.name)
+
+
+proc = subprocess.Popen(["gnome-terminal", "-e",
+                         "bash -c \"cd /home/user/PycharmProjects/SDNControllers/floodlight && java -jar target/floodlight.jar; /bin/bash -i\""],
+                        stdout=subprocess.PIPE)
+
+pid = proc.pid
+print(pid)
+
+time.sleep(2)
+
+# ret = os.kill(pid, signal.SIGSTOP)
+# print(ret)
+
+
+kill_child_processes(pid)
+
+

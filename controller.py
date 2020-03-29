@@ -1,3 +1,5 @@
+import os
+
 from post_configurations.topology2PostConfig import Topology2PostConfig
 from topology_tests.test_executor import TestExecutor
 
@@ -75,6 +77,9 @@ class Controller:
             self.model.runSDNController(self.loadedSDNController, self.SDNControllerSetup)
             self.view.printTextLog("SDN Controller started.")
 
+            # load topology tests to GUI lists
+            self.view.loadImplementedTopologyTests(self.topologyTests)
+
         except:
             self.view.printTextLog("Error loading parameters.")
 
@@ -90,12 +95,19 @@ class Controller:
             self.model.runVirtualNetwork(self.networkTemplate, self.networkSetup)
             self.view.printTextLog("Virtual network started.")
 
+            # load topology tests to GUI lists
+            self.view.loadImplementedTopologyTests(self.topologyTests)
+
         except:
             self.view.printTextLog("Error loading parameters.")
 
     def endTopology(self):
         """End all created instances"""
-        pass
+
+        os.system("sudo kill $(ps aux | grep 'floodlight.jar' | awk '{print $2}')")
+
+        os.system("sudo mn --clean")
+
 
     def showSDNControllerGui(self):
         """Show SDN Controller GUI"""

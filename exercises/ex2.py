@@ -4,13 +4,6 @@ if __name__ == '__main__':
 
     sdnc = Floodlight()
 
-    # enable firewall
-    print(sdnc.firewallSetStatus('enable'))
-    print(sdnc.firewallStatus())
-
-    # clear firewall rules
-    print(sdnc.firewallClearRules())
-
     # add rules for communication between host h1 and root (computer)
     print(sdnc.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.123.123.1/32"}))
     print(sdnc.firewallAddRule({"src-ip": "10.123.123.1/32", "dst-ip": "10.0.0.1/32"}))
@@ -34,10 +27,6 @@ if __name__ == '__main__':
     # allow HTTP protocol on port 80 from host h1 to h3 (server)
     print(sdnc.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.0.0.3/32", "nw-proto": "TCP", "tp-dst": "80", "action": "ALLOW"}))
     print(sdnc.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.1/32", "nw-proto": "TCP", "tp-src": "80", "action": "ALLOW"}))
-
-
-    # print(sdnc.firewallAddRule({"src-ip": "10.0.0.2/32", "dst-ip": "10.0.0.3/32", "nw-proto": "TCP", "tp-dst": "80", "action": "DENY"}))
-    # print(sdnc.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.2/32", "nw-proto": "TCP", "tp-dst": "80", "action": "DENY"}))
 
 
     print(sdnc.firewallListRules())

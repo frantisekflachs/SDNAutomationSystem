@@ -3,9 +3,7 @@ from mininet.topo import Topo
 
 class Network1(Topo):
 
-    def __init__(self):
-        # Initialize network
-        Topo.__init__(self)
+    def build(self):
 
         # hosts
         host1 = self.addHost('h1')

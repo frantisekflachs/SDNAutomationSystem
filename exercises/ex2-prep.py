@@ -10,3 +10,4 @@ if __name__ == '__main__':
 
     # clear firewall rules
     print(sdnc.firewallClearRules())
+

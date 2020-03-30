@@ -8,6 +8,7 @@ from topology_tests.network_tests.wget_network_test import WgetNetworkTest
 
 
 class TestExecutor:
+    """Executor for implemented tests in the define topology"""
 
     def __init__(self, SDNController):
         self.sdnController = SDNController
@@ -18,6 +19,7 @@ class TestExecutor:
         }
 
     def run(self, testsFromConfig):
+        """Execute test by test and return all results"""
 
         testsResults = []
 

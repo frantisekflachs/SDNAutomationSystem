@@ -12,10 +12,11 @@ networkTemplate: network3 # network templates in network_template folder
 
 # Mininet switches
 networkSetup:
-  - -i 10.0.0.0/8
-  - --controller=remote,ip=localhost,port=6653 #
-  - --switch ovsk,protocols=OpenFlow15 #
-  - -v info # info, debug, output
+  - 15 # openflow version
+#  - -i 10.0.0.0/8
+#  - --controller=remote,ip=localhost,port=6653 #
+#  - --switch ovsk,protocols=OpenFlow15 #
+#  - -v info # info, debug, output
 #  - --mac # ID = MAC
 #  - --test pingall # pingall, pingpair, iperf, iperfudp
 #  - --innamespace # put hosts in their own namespaces; controllers and switches are default in theis own namespaces

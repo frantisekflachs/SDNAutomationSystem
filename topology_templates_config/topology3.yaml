@@ -12,10 +12,11 @@ networkTemplate: network2 # network templates in network_template folder
 
 # Mininet switches
 networkSetup:
-  - -i 10.0.0.0/8
-  - --controller=remote,ip=localhost,port=6653 #
-  - --switch ovsk,protocols=OpenFlow14 #
-  - -v info # info, debug, output
+  - 14 # openflow version
+#  - -i 10.0.0.0/8
+#  - --controller=remote,ip=localhost,port=6653 #
+#  - --switch ovsk,protocols=OpenFlow14 #
+#  - -v info # info, debug, output
 #  - --mac # ID = MAC
 #  - --test pingall # pingall, pingpair, iperf, iperfudp
 #  - --innamespace # put hosts in their own namespaces; controllers and switches are default in theis own namespaces
@@ -39,3 +40,6 @@ Ryu:
   - --observe-links
   - ryu/app/gui_topology/gui_topology.py
   - ryu/app/simple_switch_14.py
+
+# SDN CONTROLLERS POST CONFIGURATION
+sdnControllersPostConfig: topology3PostConfig.py

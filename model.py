@@ -40,7 +40,8 @@ class Model:
         networkSetup: parameters for virtual network """
 
         mvt = MininetVirtualTopology(networkTemplate, networkSetup)
-        mvt.run2()
+        mvt.run()
+
 
     def runPostConfigScript(self, postConfigScript):
         """Run script after controller and virtual network is started"""

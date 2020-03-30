@@ -1,5 +1,7 @@
 """Configuration file for the SDN Automation System"""
-
+from network_templates.network1 import Network1
+from network_templates.network2 import Network2
+from network_templates.network3 import Network3
 from sdn_controllers.opendaylight import Opendaylight
 from sdn_controllers.floodlight import Floodlight
 from sdn_controllers.onos import Onos
@@ -39,4 +41,10 @@ implementedTopologyTemplates = {
     'Topology 3 - OF 1.4, network2': 'topology3',
     'Topology 4 - OF 1.4, network3': 'topology3',
     'Topology 5 - OF 1.5, network3': 'topology3'
+}
+
+implementedVirtualNetworks = {
+    'network1': Network1(),
+    'network2': Network2(),
+    'network3': Network3(),
 }

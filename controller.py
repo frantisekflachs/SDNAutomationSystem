@@ -1,6 +1,4 @@
 import os
-
-from post_configurations.topology2PostConfig import Topology2PostConfig
 from topology_tests.test_executor import TestExecutor
 
 from pubsub import *
@@ -45,11 +43,6 @@ class Controller:
             # sleep for 6 sec
             time.sleep(6)
 
-            # check xterm enable in GUI
-            self.xtermEnable = self.loadXTermEnable()
-            if self.xtermEnable:
-                self.networkSetup.append('-x')
-
             # run virtual network
             self.runVirtualNetwork()
 
@@ -63,7 +56,7 @@ class Controller:
             # self.runPostConfigSetup(self.postConfig)
 
         except:
-            self.view.printTextLog("Error loading parameters.")
+            self.view.printTextLog("Error running topology.")
 
     def runSDNController(self):
         """Run SDN Controller
@@ -81,7 +74,7 @@ class Controller:
             self.view.loadImplementedTopologyTests(self.topologyTests)
 
         except:
-            self.view.printTextLog("Error loading parameters.")
+            self.view.printTextLog("Error running SDN controller.")
 
     def runVirtualNetwork(self):
         """Run virtual network
@@ -99,7 +92,7 @@ class Controller:
             self.view.loadImplementedTopologyTests(self.topologyTests)
 
         except:
-            self.view.printTextLog("Error loading parameters.")
+            self.view.printTextLog("Error running virtual network.")
 
     def endTopology(self):
         """End all created instances"""
@@ -147,23 +140,30 @@ class Controller:
         if self.loadedSDNController is None:
             self.view.printTextLog("Error reading SDN Controller.")
             return
-        self.view.printTextLog("SDN Controller loaded.")
+        self.view.printTextLog("SDN Controller {} loaded.".format(self.loadedSDNController))
 
         # load topology
         self.loadedTopologyTemplate = self.loadTopology()
         if self.loadedTopologyTemplate is None:
             self.view.printTextLog("Topology template not selected.")
             return
-        self.view.printTextLog("Topology template yaml loaded.")
+        self.view.printTextLog("Topology {} template yaml loaded.".format(self.loadedTopologyTemplate))
 
         # load settings from yaml file
         self.topologyTests, self.networkTemplate, self.networkSetup, self.SDNControllerSetup, self.postConfig = self.model.loadTopologyConfig(
             "topology_templates_config/{}.yaml".format(self.loadedTopologyTemplate), self.loadedSDNController)
 
         if (self.topologyTests or self.networkTemplate or self.networkSetup or self.SDNControllerSetup) is None:
-            self.view.printTextLog("Error reading topology config file.")
+            self.view.printTextLog("Error reading topology {} config file.".format(self.loadedTopologyTemplate))
             return
-        self.view.printTextLog("Topology settings from yaml loaded.")
+        self.view.printTextLog("Topology settings from {}.yaml loaded.".format(self.loadedTopologyTemplate))
+
+        # check xterm enable in GUI
+        self.xtermEnable = self.loadXTermEnable()
+        if self.xtermEnable:
+            # self.networkSetup.append('-x')
+            self.networkSetup.append('x')
+
 
     def loadSDNController(self):
         """"Load SDN Controller from View"""

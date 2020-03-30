@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Test for sshd.py
+Test for mininet_virtual_net_sshd.py
 """
 
 import unittest

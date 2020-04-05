@@ -30,3 +30,15 @@ if __name__ == '__main__':
 
 
     print(sdnc.firewallListRules())
+
+    flow1 = {
+        'switch': "00:00:00:00:00:00:00:01",
+        "name": "flow_mod_1",
+        "cookie": "0",
+        "priority": "32768",
+        "in_port": "1",
+        "active": "true",
+        "actions": "output=controller"
+    }
+
+    print(sdnc.addFlow(flow1))

@@ -102,7 +102,16 @@ class View:
         self.btnSDNControllerGui.pack()
         self.btnSDNControllerGui.place(x=380, y=380)
 
+        # run script
+        self.txtScriptName = Text(self.container, height=1, width=23)
+        self.txtScriptName.pack()
+        self.txtScriptName.place(x=380, y=430)
+        self.txtScriptName.insert('1.0', 'script1.py')
 
+        self.btnRunScript = tk.Button(self.container, text='Run script', width=20,
+                                             command=self.runScript)
+        self.btnRunScript.pack()
+        self.btnRunScript.place(x=380, y=460)
 
         # test topology button
         self.btnTestTopology = tk.Button(self.container, text='Test topology', width=20, command=self.testTopology)
@@ -211,6 +220,7 @@ class View:
 
             # print to text field
             self.txtLogger.insert(END, timeNow + " " + data + '\n')
+            self.txtLogger.see("end")
 
             # save to log file
             timeNow = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -250,6 +260,11 @@ class View:
 
         pub.sendMessage("btnSDNControllerGui_Pressed")
 
+    def runScript(self):
+        """Run created python script"""
+
+        pub.sendMessage("btnRunScript_Pressed")
+
     def testTopology(self):
         """Test configured topology"""
 
@@ -262,7 +277,7 @@ if __name__ == "__main__":
     WIDTH = 600
     HEIGHT = 700
     root.geometry("%sx%s" % (WIDTH, HEIGHT))
-    root.title("SDN automation system")
+    root.title("SDN Automation System")
     view = View(root)
 
     root.resizable(width=False, height=False)

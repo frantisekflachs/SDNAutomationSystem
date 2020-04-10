@@ -1,5 +1,4 @@
 import datetime
-from distutils.command.config import config
 from tkinter import *
 from tkinter import messagebox
 from tkinter.ttk import Frame

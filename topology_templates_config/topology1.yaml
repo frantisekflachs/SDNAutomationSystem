@@ -1,5 +1,7 @@
 ### Topology description ###
 # using Open Flow protocol version 1.0
+topologyDescription: "Topology 1 - OF 1.0, network1"
+topolofyOFVersion: "OpenFlow 1.0"
 
 ### TOPOLOGY SETUP
 # Define topology_tests which will be applied in the system after clicked on button Test topology

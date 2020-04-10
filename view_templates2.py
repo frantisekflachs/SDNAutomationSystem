@@ -1,21 +1,21 @@
 import datetime
 from distutils.command.config import config
 from tkinter import *
-from tkinter import messagebox
 from tkinter.ttk import Frame
 import tkinter as tk
 import os
 
 import yaml
+
 import config
 
 
 class ViewTemplates:
-    """GUI for editing topology templates"""
 
     def __init__(self, parent):
         self.container = parent
         self.initialize()
+
         self.loadExistingTemplates()
 
     def initialize(self):
@@ -34,6 +34,7 @@ class ViewTemplates:
         self.scrollTopologyTemplates.config(command=self.txtTopologyTemplates.yview)
         self.txtTopologyTemplates.configure(yscrollcommand=self.scrollTopologyTemplates.set)
         self.frameTopologyTemplates.place(x=20, y=40)
+
 
         # button edit template
         self.btnEditTemplate = tk.Button(self.container, text='Edit template', width=36, command=self.editTemplate)
@@ -95,10 +96,15 @@ class ViewTemplates:
     def editTemplate(self):
         """Edit template button pressed"""
         try:
+
             self.txtTemplateName.config(state=NORMAL)
             self.txtTemplateName.delete(0, END)
+
+
             self.txtTemplateInfo.config(state=NORMAL)
             self.txtTemplateInfo.delete('1.0', END)
+
+
             self.txtTemplateSetting.delete('1.0', END)
 
             selTopo = self.txtTopologyTemplates.get(ACTIVE)
@@ -108,44 +114,38 @@ class ViewTemplates:
 
             for entry in entries:
                 if ("yaml" in entry) and ("Template" not in entry):
+                    # print(config.topologyTemplatesConfigPath + "/" + entry)
                     stream = open(config.topologyTemplatesConfigPath + "/" + entry, 'r')
                     loadedTopologyConfig = yaml.load(stream, Loader=yaml.FullLoader)
 
+                    # topologyName = loadedTopologyConfig["topologyName"]
+
                     if entry == selTopo:
+
                         topologyDescription = loadedTopologyConfig["topologyDescription"]
                         topolofyOFVersion = loadedTopologyConfig["topolofyOFVersion"]
+
                         self.txtTemplateName.insert(0, entry)
                         self.txtTemplateName.config(state=DISABLED)
-                        if not topologyDescription == None: self.txtTemplateInfo.insert(END, "Description: " + str(topologyDescription) + '\n')
-                        if not topolofyOFVersion == None: self.txtTemplateInfo.insert(END, "OF Version: " + str(topolofyOFVersion) + '\n')
+                        if not topologyDescription == None: self.txtTemplateInfo.insert(END, str(topologyDescription) + '\n')
+                        if not topolofyOFVersion == None: self.txtTemplateInfo.insert(END, str(topolofyOFVersion) + '\n')
                         self.txtTemplateInfo.config(state=DISABLED)
+
 
                         f = open(config.topologyTemplatesConfigPath + "/" + entry, "r")
                         if f.mode == 'r':
                             content = f.read()
                             self.txtTemplateSetting.insert("1.0", content)
                         f.close()
+
                         break
+
         except Exception as e:
             print("Something went wrong " + str(e))
-            self.txtTemplateInfo.insert("1.0", "Template error.")
 
     def deleteTemplate(self):
         """Delete template button pressed"""
-        selTopo = self.txtTopologyTemplates.get(ACTIVE)
-
-        try:
-            MsgBox = messagebox.askquestion('Deleting template', 'Are you sure you want to delete ' + selTopo + ' template?',
-                                               icon='warning')
-            if MsgBox == 'yes':
-                os.remove(config.topologyTemplatesConfigPath + '/' + selTopo)
-                print("File " + selTopo + " deleted.")
-                self.loadExistingTemplates()
-
-        except Exception as e:
-            print("Something went wrong " + str(e))
-            print("Error while deleting file ", selTopo)
-            self.txtTemplateInfo.insert("1.0", "Template error.")
+        pass
 
     def loadDefaultTemplate(self):
         """Load default template from file to text fields in GUI"""
@@ -166,7 +166,7 @@ class ViewTemplates:
             f.close()
 
             timeNow = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-            self.txtTemplateName.insert(0, 'topology_' + timeNow)
+            self.txtTemplateName.insert(0, 'topology_' + str(timeNow))
             # self.txtTemplateName.insert('1.0', 'topo' + '\n')
 
         except Exception as e:
@@ -181,7 +181,20 @@ class ViewTemplates:
 
             for entry in entries:
                 if ("yaml" in entry) and ("Template" not in entry):
+                    # print(config.topologyTemplatesConfigPath + "/" + entry)
+                    stream = open(config.topologyTemplatesConfigPath + "/" + entry, 'r')
+                    loadedTopologyConfig = yaml.load(stream, Loader=yaml.FullLoader)
+
+                    # topologyName = loadedTopologyConfig["topologyName"]
+                    # topologyDescription = loadedTopologyConfig["topologyDescription"]
+                    # topolofyOFVersion = loadedTopologyConfig["topolofyOFVersion"]
+
+                    # print(topologyName)
+                    # print(topologyDescription)
+                    # print(topolofyOFVersion)
+
                     self.txtTopologyTemplates.insert(END, entry)
+
         except Exception as e:
             print("Something went wrong " + str(e))
 
@@ -191,16 +204,20 @@ class ViewTemplates:
             templateSetting = self.txtTemplateSetting.get('1.0', END)
             print(templateName)
 
+
             filename = ""
             if "yaml" in templateName:
                 filename = config.topologyTemplatesConfigPath + "/" + str(templateName)
             else:
                 filename = config.topologyTemplatesConfigPath + "/" + str(templateName) + ".yaml"
 
-            f = open(filename, "w")
-            f.write(templateSetting)
-            f.flush()
-            f.close()
+            # f = open('/topology_templates_config/test.yaml', "w")
+            # f.write(templateSetting)
+            # f.flush()
+            # f.close()
+
+            with open('/home/user/PycharmProjects/SDNAutomationSystem/topology_templates_config/test.yaml', 'w') as outfile:
+                yaml.dump(templateSetting, outfile, default_flow_style=False)
 
             self.loadExistingTemplates()
 

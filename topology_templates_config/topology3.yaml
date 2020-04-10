@@ -1,4 +1,9 @@
-### TOPOLOGY SETUP'Topology 3 - OF 1.4, network2': 'topology3'
+### Topology description ###
+# using Open Flow protocol version 1.4
+topologyDescription: "Topology 3 - OF 1.4, network2"
+topolofyOFVersion: "OpenFlow 1.4"
+
+### TOPOLOGY SETUP
 # Define topology_tests which will be applied in the system after clicked on button Test topology
 # [test_name] [params] [expected_output]
 topologyTests:

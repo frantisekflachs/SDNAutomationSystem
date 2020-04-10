@@ -29,7 +29,7 @@ class ViewHelp:
         if f.mode == 'r':
             content = f.read()
             self.txtHelp.insert("1.0", content)
-
+        f.close()
 
 
 if __name__ == "__main__":

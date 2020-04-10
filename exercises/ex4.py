@@ -4,7 +4,7 @@ if __name__ == '__main__':
 
     sdnc = Floodlight()
 
-    print(sdnc.firewallClearRules())
+    # print(sdnc.firewallClearRules())
 
     # allow ARP between host h1 and h3
     # print(sdnc.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.0.0.3/32", "dl-type": "ARP"}))

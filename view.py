@@ -5,6 +5,7 @@ from pubsub import pub
 import datetime
 
 import config
+from view_templates import ViewTemplates
 
 
 class View:
@@ -33,7 +34,7 @@ class View:
         # menu
         menubar = Menu(self.container)
         menubar.add_command(label="Topology", command="")
-        menubar.add_command(label="Templates", command="")
+        menubar.add_command(label="Templates", command=self.openTemplatesView)
         menubar.add_command(label="Help", command="")
         self.container.config(menu=menubar)
 
@@ -235,6 +236,31 @@ class View:
         for test in data:
             self.txtTopologyTests.insert(END, test + '\n')
 
+    def openTemplatesView(self):
+        """Open GUI for editing templates"""
+        parrent2 = Toplevel(self.container)
+
+
+        WIDTH = 1200
+        HEIGHT = 800
+        parrent2.geometry("%sx%s" % (WIDTH, HEIGHT))
+        parrent2.title("Edit topology templates")
+        templatesGUI = ViewTemplates(parrent2)
+
+        parrent2.resizable(width=False, height=False)
+
+        # Gets the requested values of the height and widht.
+        windowWidth = parrent2.winfo_reqwidth()
+        windowHeight = parrent2.winfo_reqheight()
+        # print("Width", windowWidth, "Height", windowHeight)
+
+        # Gets both half the screen width/height and window width/height
+        positionRight = int((parrent2.winfo_screenwidth() - windowWidth) / 4.5)
+        positionDown = int(parrent2.winfo_screenheight() / 5 - windowHeight / 2)
+
+        # Positions the window in the center of the page.
+        parrent2.geometry("+{}+{}".format(positionRight, positionDown))
+
     def runTopology(self):
         """Button run topology pressed"""
 
@@ -295,5 +321,3 @@ if __name__ == "__main__":
     root.geometry("+{}+{}".format(positionRight, positionDown))
 
     root.mainloop()
-
-    # print(view.getXTerm())

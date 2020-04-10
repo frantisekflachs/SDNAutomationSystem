@@ -11,6 +11,9 @@ from sdn_controllers.ryu import Ryu
 # log setup
 logsPath = '/home/user/PycharmProjects/SDNAutomationSystem/Logs'
 
+# help setup
+readme = '/home/user/PycharmProjects/SDNAutomationSystem/README.md'
+
 # SDN Controllers setup
 SDNControllersPath = '/home/user/PycharmProjects/SDNControllers'
 FloodlightSDNControllerPath = ''

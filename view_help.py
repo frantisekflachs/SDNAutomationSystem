@@ -2,12 +2,16 @@ from tkinter import *
 from tkinter.ttk import Frame
 import tkinter as tk
 
+import config
+
 
 class ViewHelp:
 
     def __init__(self, parent):
         self.container = parent
         self.initialize()
+
+        self.loadHelpData()
 
     def initialize(self):
 
@@ -19,6 +23,13 @@ class ViewHelp:
         self.scrollHelp.config(command=self.txtHelp.yview)
         self.txtHelp.configure(yscrollcommand=self.scrollHelp.set)
         self.frameHelp.place(x=0, y=0)
+
+    def loadHelpData(self):
+        f = open(config.readme, "r")
+        if f.mode == 'r':
+            content = f.read()
+            self.txtHelp.insert("1.0", content)
+
 
 
 if __name__ == "__main__":

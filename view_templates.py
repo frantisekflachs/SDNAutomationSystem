@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter.ttk import Frame, Button, Style
+from tkinter.ttk import Frame
 import tkinter as tk
 
 

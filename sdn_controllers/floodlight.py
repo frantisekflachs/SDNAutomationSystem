@@ -19,6 +19,7 @@ class Floodlight(SDNController):
         proc = subprocess.Popen(["gnome-terminal", "-e", "bash -c \"cd /home/user/PycharmProjects/SDNControllers/floodlight && java -jar target/floodlight.jar; /bin/bash -i\""])
 
     def showSDNControllerGui(self):
+        """Show SDN Controller GUI in web browser"""
         os.system('gnome-terminal -- bash -c "/bin/su user /usr/bin/firefox http://localhost:8080/ui/index.html"')
 
     def addFlow(self, data):

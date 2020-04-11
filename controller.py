@@ -1,8 +1,7 @@
 import os
-from topology_tests.test_executor import TestExecutor
-
 from pubsub import *
 import time
+
 import config
 
 
@@ -19,7 +18,7 @@ class Controller:
         self.model = model
         self.view = view
 
-        self.testExecutor = None
+        # self.testExecutor = None
         self.topologyState = "STOPPED"
 
         # binding listeners on buttons
@@ -120,10 +119,7 @@ class Controller:
             self.view.printTextLog('Topology not started.')
         else:
             self.view.printTextLog('Testing topology... ' + str(len(self.topologyTests) * 6) + ' sec')
-
-            self.testExecutor = TestExecutor(self.loadedSDNController)
-            testsResults = self.testExecutor.run(self.topologyTests)
-
+            testsResults = self.model.testTopology(self.loadedSDNController, self.topologyTests)
             self.view.printTextTopologyTests(testsResults)
 
     def runPostConfigSetup(self, postConfig):

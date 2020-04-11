@@ -37,7 +37,7 @@ class View:
 
         # menu
         menubar = Menu(self.container)
-        menubar.add_command(label="Topology", command="")
+        menubar.add_command(label="Topology", command=self.loadTopologyTemplates)
         menubar.add_command(label="Templates", command=self.openTemplatesView)
         menubar.add_command(label="Help", command=self.openHelpView)
         self.container.config(menu=menubar)
@@ -142,6 +142,8 @@ class View:
 
     def loadTopologyTemplates(self):
         """Load topology templates from path file"""
+
+        print("updated")
 
         try:
             self.lstTopologyTemplate.delete(0, END)

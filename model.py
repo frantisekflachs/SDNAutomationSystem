@@ -1,3 +1,4 @@
+from topology_tests.test_executor import TestExecutor
 from virtual_network.mininetVirtualNetwork import MininetVirtualTopology
 import config
 import yaml
@@ -11,7 +12,6 @@ class Model:
         topologyTemplateConfigPath: path where to find yaml config file
         SDNController: defined SDN Controller - config will be loaded only for this SDN Controller not others"""
 
-        # TODO except missing parameters
         try:
             stream = open(topologyTemplateConfigPath, 'r')
             loadedTopologyConfig = yaml.load(stream, Loader=yaml.FullLoader)
@@ -24,8 +24,8 @@ class Model:
 
             return tt, nt, ns, sdns, pc
 
-        except:
-            return None
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def runSDNController(self, SDNController, SDNControllerSetup):
         """Run SDN Controller
@@ -53,3 +53,10 @@ class Model:
         SDNController: run GUI for defined SDN Controller"""
 
         SDNController.showSDNControllerGui(self)
+
+    def testTopology(self, loadedSDNController, topologyTests):
+        """Testing topology"""
+
+        testExecutor = TestExecutor(loadedSDNController)
+        testsResults = testExecutor.run(topologyTests)
+        return testsResults

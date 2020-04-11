@@ -45,6 +45,8 @@ Pox:
   - samples.pretty_log
   - forwarding.l2_learning
   - openflow.of_01 --port=6653
+  - web.webcore
+  - openflow.webservice
 
 # run options for Ryu SDN Controller
 Ryu:

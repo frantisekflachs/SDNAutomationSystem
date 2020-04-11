@@ -1,6 +1,8 @@
 ### Topology description ###
 # using Open Flow protocol version 1.4
 topologyDescription: "Topology 5 - OF 1.5, network3"
+topologyAuthor: "John Doe"
+topologyVersion: "v2.0"
 topolofyOFVersion: "OpenFlow 1.5"
 
 ### TOPOLOGY SETUP

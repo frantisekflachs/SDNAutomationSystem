@@ -112,11 +112,17 @@ class ViewTemplates:
 
                     if entry == selTopo:
                         topologyDescription = loadedTopologyConfig["topologyDescription"]
+                        topologyAuthor = loadedTopologyConfig["topologyAuthor"]
+                        topologyVersion = loadedTopologyConfig["topologyVersion"]
                         topolofyOFVersion = loadedTopologyConfig["topolofyOFVersion"]
                         self.txtTemplateName.insert(0, entry)
                         self.txtTemplateName.config(state=DISABLED)
+
                         if not topologyDescription == None: self.txtTemplateInfo.insert(END, "Description: " + str(topologyDescription) + '\n')
+                        if not topologyAuthor == None: self.txtTemplateInfo.insert(END, "Author: " + str(topologyAuthor) + '\n')
+                        if not topologyVersion == None: self.txtTemplateInfo.insert(END, "Version: " + str(topologyVersion) + '\n')
                         if not topolofyOFVersion == None: self.txtTemplateInfo.insert(END, "OF Version: " + str(topolofyOFVersion) + '\n')
+
                         self.txtTemplateInfo.config(state=DISABLED)
 
                         f = open(config.topologyTemplatesConfigPath + "/" + entry, "r")

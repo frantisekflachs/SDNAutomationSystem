@@ -151,7 +151,7 @@ class Controller:
 
         # load settings from yaml file
         self.topologyTests, self.networkTemplate, self.networkSetup, self.SDNControllerSetup, self.postConfig = self.model.loadTopologyConfig(
-            "topology_templates_config/{}.yaml".format(self.loadedTopologyTemplate), self.loadedSDNController)
+            "topology_templates_config/{}".format(self.loadedTopologyTemplate), self.loadedSDNController)
 
         if (self.topologyTests or self.networkTemplate or self.networkSetup or self.SDNControllerSetup) is None:
             self.view.printTextLog("Error reading topology {} config file.".format(self.loadedTopologyTemplate))
@@ -180,8 +180,8 @@ class Controller:
 
         try:
             selectedTopologyTemplate = self.view.getSelectedTopologyTemplate()
-            topology = config.implementedTopologyTemplates[selectedTopologyTemplate]
-            return topology
+            # topology = config.implementedTopologyTemplates[selectedTopologyTemplate]
+            return selectedTopologyTemplate
         except:
             return None
 

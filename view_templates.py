@@ -27,7 +27,7 @@ class ViewTemplates:
 
         self.frameTopologyTemplates = Frame(self.container)
         self.scrollTopologyTemplates = Scrollbar(self.frameTopologyTemplates)
-        self.txtTopologyTemplates = Listbox(self.frameTopologyTemplates, width=37, height=38)
+        self.txtTopologyTemplates = Listbox(self.frameTopologyTemplates, width=37, height=36)
         self.scrollTopologyTemplates.pack(side=RIGHT, fill=tk.Y)
         self.txtTopologyTemplates.pack(side=LEFT, fill=tk.Y)
         self.scrollTopologyTemplates.config(command=self.txtTopologyTemplates.yview)
@@ -106,7 +106,7 @@ class ViewTemplates:
             entries.sort()
 
             for entry in entries:
-                if ("yaml" in entry) and ("Template" not in entry):
+                if ("yaml" in entry) and ("topologyTemplate" not in entry):
                     stream = open(config.topologyTemplatesConfigPath + "/" + entry, 'r')
                     loadedTopologyConfig = yaml.load(stream, Loader=yaml.FullLoader)
 

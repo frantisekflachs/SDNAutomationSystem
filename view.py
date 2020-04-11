@@ -1,6 +1,9 @@
+import os
 import tkinter as tk
 from tkinter import *
 from tkinter import ttk
+
+import yaml
 from pubsub import pub
 import datetime
 
@@ -26,7 +29,7 @@ class View:
         self.f = self.logInit(config.logsPath)
 
         # load methods
-        self.loadTopologyTemplates(config.implementedTopologyTemplates)
+        self.loadTopologyTemplates()
         self.loadImplementedSDNControllers(config.implementedSDNControllers)
 
     def initGUI(self):
@@ -137,11 +140,22 @@ class View:
         f = open(path + "/" + timeNow + ".txt", "a")
         return f
 
-    def loadTopologyTemplates(self, templates):
+    def loadTopologyTemplates(self):
         """Load topology templates from path file"""
 
-        for t in templates:
-            self.lstTopologyTemplate.insert(END, t)
+        try:
+            self.lstTopologyTemplate.delete(0, END)
+            entries = os.listdir(config.topologyTemplatesConfigPath)
+            entries.sort()
+
+            for entry in entries:
+                if ("yaml" in entry) and ("topologyTemplate" not in entry):
+                    stream = open(config.topologyTemplatesConfigPath + "/" + entry, 'r')
+                    loadedTopologyConfig = yaml.load(stream, Loader=yaml.FullLoader)
+                    topologyDescription = loadedTopologyConfig["topologyDescription"]
+                    self.lstTopologyTemplate.insert(END, entry + ': ' + topologyDescription)
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def loadImplementedSDNControllers(self, controllers):
         """Load implemented controllers"""
@@ -167,7 +181,9 @@ class View:
     def getSelectedTopologyTemplate(self):
         """Return name of selected topology"""
 
-        return self.lstTopologyTemplate.get(ACTIVE)
+        activeTopoTemplate = self.lstTopologyTemplate.get(ACTIVE).split(":")
+        # return only topo "name.yaml"
+        return activeTopoTemplate[0]
 
     def getXTerm(self):
         """Return if run with XTerm for all hosts"""

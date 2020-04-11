@@ -41,5 +41,7 @@ class MininetVirtualTopology(VirtualNetwork):
         for i in self.networkSetup:
             params += ' ' + str(i)
 
+        print(params)
+
         subprocess.Popen(["gnome-terminal", "-e", "bash -c \"sudo mn --clean && python3.7 /home/user/PycharmProjects/SDNAutomationSystem/mininet_virtual_net_sshd.py {}; /bin/bash -i\"".format(params)])
 

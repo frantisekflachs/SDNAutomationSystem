@@ -1,6 +1,6 @@
 ### Topology description ###
 # using Open Flow protocol version 1.4
-topologyDescription: "Topology 4 - OF 1.4, network3"
+topologyDescription: "HTTP server a firewall"
 topologyAuthor: "John Doe"
 topologyVersion: "v2.0"
 topolofyOFVersion: "OpenFlow 1.4"

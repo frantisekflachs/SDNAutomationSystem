@@ -37,15 +37,6 @@ implementedSDNControllersClasses = list(implementedSDNControllers.values())
 topologyTemplatesPath = '/home/user/PycharmProjects/SDNAutomationSystem/network_templates'
 topologyTemplatesConfigPath = '/home/user/PycharmProjects/SDNAutomationSystem/topology_templates_config'
 
-# Topology templates
-implementedTopologyTemplates = {
-    'Topology 1 - OF 1.0, network1': 'topology1',
-    'Topology 2 - OF 1.3, network3': 'topology2',
-    'Topology 3 - OF 1.4, network2': 'topology3',
-    'Topology 4 - OF 1.4, network3': 'topology3',
-    'Topology 5 - OF 1.5, network3': 'topology3'
-}
-
 implementedVirtualNetworks = {
     'network1': Network1(),
     'network2': Network2(),

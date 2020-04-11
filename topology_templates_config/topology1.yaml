@@ -1,6 +1,6 @@
 ### Topology description ###
 # using Open Flow protocol version 1.0
-topologyDescription: "Topology 1 - OF 1.0, network1"
+topologyDescription: "OpenFlow protokol a jeho zpravy"
 topologyAuthor: "John Doe"
 topologyVersion: "v2.0"
 topolofyOFVersion: "OpenFlow 1.0"

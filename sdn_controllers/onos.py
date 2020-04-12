@@ -1,3 +1,5 @@
+import time
+
 from sdn_controllers.sdnController import SDNController
 import config
 import os
@@ -6,10 +8,12 @@ import os
 class Onos(SDNController):
 
     def run(self, SDNControllerSetup):
-        os.system('gnome-terminal -- bash -c "{}/onos/bin/onos-service start && bash"'.format(config.SDNControllersPath))
+        os.system('gnome-terminal -- bash -c "export TERM=xterm-color && {}/onos/bin/onos-service start && bash"'.format(config.SDNControllersPath))
+        # time.sleep(20)
 
     def showSDNControllerGui(self):
-        pass
+        """Show SDN Controller GUI in web browser"""
+        os.system('gnome-terminal -- bash -c "/bin/su user /usr/bin/firefox http://127.0.0.1:8181/onos/ui/login.html"')
 
     def addFlow(self, data):
         pass

@@ -21,7 +21,7 @@ This thesis deals with the design and implementation of an automated system for 
 ### Verified environments
   - [Ubuntu 18.04 LTS](https://www.ubuntu.cz/)
   - [Python 3.7](https://www.python.org/)
-  - [Onos xx](https://wiki.onosproject.org/)
+  - [Onos 1.15.0](https://wiki.onosproject.org/)
   - [OpenDaylight xx](https://www.opendaylight.org/)
   - [Floodlight 1.2](https://floodlight.atlassian.net/wiki/spaces/floodlightcontroller/overview)
   - [Pox eel](https://noxrepo.github.io/pox-doc/html/)

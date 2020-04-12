@@ -39,8 +39,8 @@ class Controller:
             # run SDN controller
             self.runSDNController()
 
-            # sleep for 6 sec
-            time.sleep(6)
+            # sleep for 8 sec
+            time.sleep(8)
 
             # run virtual network
             self.runVirtualNetwork()

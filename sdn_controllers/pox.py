@@ -1,93 +1,91 @@
-import requests
-
 from sdn_controllers.sdnController import SDNController
 
+import requests
 import config
 import os
-import http.client
 import json
-from urllib.parse import urlencode
-import pycurl
-import subprocess
 
 
 class Pox(SDNController):
+    """POX SDN Controller"""
 
     def run(self, SDNControllerSetup):
+        """Run SDN controller in new terminal window"""
 
-        if not SDNControllerSetup:
-            os.system(
-                'gnome-terminal -- bash -c "{}/pox/pox.py --verbose py samples.pretty_log forwarding.l2_learning '
-                'openflow.of_01 --port=6653 && bash"'.format(config.SDNControllersPath))
-        else:
-            runOptions = ''
-            for o in SDNControllerSetup:
-                runOptions += ' ' + o
-            print('gnome-terminal -- bash -c "{}/pox/pox.py {} && bash"'.format(config.SDNControllersPath,
-                                                                                runOptions))
-            os.system('gnome-terminal -- bash -c "{}/pox/pox.py {} && bash"'.format(config.SDNControllersPath,
+        try:
+            if not SDNControllerSetup:
+                os.system(
+                    'gnome-terminal -- bash -c "{}/pox/pox.py --verbose py samples.pretty_log forwarding.l2_learning '
+                    'openflow.of_01 --port=6653 && bash"'.format(config.SDNControllersPath))
+            else:
+                runOptions = ''
+                for o in SDNControllerSetup:
+                    runOptions += ' ' + o
+                print('gnome-terminal -- bash -c "{}/pox/pox.py {} && bash"'.format(config.SDNControllersPath,
                                                                                     runOptions))
+                os.system('gnome-terminal -- bash -c "{}/pox/pox.py {} && bash"'.format(config.SDNControllersPath,
+                                                                                        runOptions))
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def showSDNControllerGui(self):
         """Show SDN Controller GUI in web browser"""
 
-        os.system('gnome-terminal -- bash -c "/bin/su user /usr/bin/firefox http://127.0.0.1:8000/"')
+        try:
+            os.system('gnome-terminal -- bash -c "/bin/su user /usr/bin/firefox http://127.0.0.1:8000/"')
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def addFlow(self, data):
         """Insert a static entry
-        data: JSON string"""
+            data: JSON string"""
 
-        ret = self.restCall('/OF/', {"method": "set_table", "params": data, "id": 0})
-        return ret
+        try:
+            ret = self.restCall('/OF/', {"method": "set_table", "params": data, "id": 0})
+            return ret
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def deleteFlow(self, data):
+        """Delete a static entry
+            data: JSON string"""
+
         print("Not implemented.")
-        pass
 
     def listFlowTable(self, device):
         """Get a list of all static entries
         device:
             switch_ID - static flows on a per-switch basis"""
 
-        ret = self.restCall('/OF/pretty/', {"method": "get_flow_stats", "params": {"dpid": device}, "id": 0})
-        return ret
+        try:
+            ret = self.restCall('/OF/pretty/', {"method": "get_flow_stats", "params": {"dpid": device}, "id": 0})
+            return ret
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def clearFlowTable(self, device):
-        print("Not implemented.")
-        pass
+        """Clear a table of all static entries
+        device:
+            switch_ID - static flows on a per-switch basis"""
 
-    def firewallStatus(self):
         print("Not implemented.")
-        pass
 
-    def firewallSetStatus(self, status):
-        print("Not implemented.")
-        pass
-
-    def firewallAddRule(self, data):
-        print("Not implemented.")
-        pass
-
-    def firewallDeleteRule(self, data):
-        print("Not implemented.")
-        pass
-
-    def firewallListRules(self):
-        print("Not implemented.")
-        pass
-
-    def restCall(self, path, data):
+    def restCall(self, path, data, action):
         """Rest Call for SDN controller
-        path: path for rest call
-        data: JSON string"""
+            path: REST CALL URL
+            data: JSON string
+            action: GET|POST|DELETE"""
 
-        header = {
-            'Content-type': 'application/json',
-            'Accept': 'application/json',
-        }
+        try:
+            header = {
+                'Content-type': 'application/json',
+                'Accept': 'application/json',
+            }
 
-        ret = requests.post('http://127.0.0.1:8000' + path, data=json.dumps(data), headers=header)
-        return ret.text
+            ret = requests.post('http://127.0.0.1:8000' + path, data=json.dumps(data), headers=header)
+            return ret.text
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
 
 if __name__ == "__main__":

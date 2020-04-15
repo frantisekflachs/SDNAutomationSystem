@@ -89,7 +89,7 @@ class Floodlight(SDNController):
 
         try:
             if status == 'enable':
-                print('Enabling firewal...')
+                print('Enabling firewall...')
                 path = '/wm/firewall/module/enable/json'
 
             elif status == 'disable':

@@ -12,7 +12,7 @@ The SDN Automation System installs the required SDN controller of choice in the 
 This thesis deals with the design and implementation of an automated system for networkdevice configuration. The system consists of several main components, which are interfacesfor communicating with SDN controllers, interfaces for communicating with a virtual ne-twork, and a set of network device configuration tests, including a tool that performs them.The automated system is based on a model-view-controller software architecture. Scalabi-lity is provided by adding instances of SDN controllers that can then be linked to a virtualnetwork. The system is designed for network education academies to teach software-definednetworks. For learning purposes, the system is designed to automatically run the requirednetwork controller, virtual network with defined parameters, including the OpenFlow proto-col version, and to run a set of defined tests on a selected topology. After running the tests,the student receives feedback to correct or change the configuration.
 
 ### Documentation
-
+Documentation is available at https://github.com/frantisekflachs/sdnautomationsystem/wiki
 ### Installation
 
 ### Launch

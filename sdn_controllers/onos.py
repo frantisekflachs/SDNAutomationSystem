@@ -30,24 +30,26 @@ class Onos(SDNController):
         except Exception as e:
             print("Something went wrong " + str(e))
 
-    def addFlow(self, data):
+    def addFlow(self, data, path='/onos/v1/flows?appId=666'):
         """Insert a static entry
             data: JSON string"""
 
         try:
-            ret = self.restCall('/onos/v1/flows?appId=666', data, 'POST')
+            ret = self.restCall(path, data, 'POST')
             return ret[0] == 200
         except Exception as e:
             print("Something went wrong " + str(e))
 
-    def deleteFlow(self, data):
+    def deleteFlow(self, data, path='http://localhost:8181/onos/v1/flows/of:0000000000000001/1'):
         """Delete a static entry
             data: JSON string"""
 
         try:
-            deviceId = data['deviceId']
-            flowId = data['flowId']
-            ret = self.restCall('http://localhost:8181/onos/v1/flows/{}/{}'.format(deviceId, flowId), {}, 'DELETE')
+            if data:
+                deviceId = data['deviceId']
+                flowId = data['flowId']
+                path = 'http://localhost:8181/onos/v1/flows/{}/{}'.format(deviceId, flowId)
+            ret = self.restCall(path, {}, 'DELETE')
             return ret[0] == 204
         except Exception as e:
             print("Something went wrong " + str(e))
@@ -189,7 +191,7 @@ if __name__ == "__main__":
                     "criteria": [
                         {
                             "type": "ETH_TYPE",
-                            "ethType": "0x88cc"
+                            "ethType": "0x88cc"'/wm/staticentrypusher/json'
                         }
                     ]
                 }
@@ -202,7 +204,10 @@ if __name__ == "__main__":
     print(pusher.addFlow(flow3))
     print(pusher.addFlow(flow4))
     print(pusher.listFlowTable('of:0000000000000001'))
+
     print(pusher.deleteFlow(flow1))
+    print(pusher.deleteFlow(path='http://localhost:8181/onos/v1/flows/of:0000000000000001/52917299094404191'))
+
     print(pusher.listFlowTable('of:0000000000000001'))
 
     print(pusher.clearFlowTable('of:0000000000000001'))

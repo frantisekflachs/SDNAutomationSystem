@@ -12,11 +12,11 @@ class SDNController(ABC):
         pass
 
     @abstractmethod
-    def addFlow(self, data):
+    def addFlow(self, data, path):
         pass
 
     @abstractmethod
-    def deleteFlow(self, data):
+    def deleteFlow(self, data, path):
         pass
 
     @abstractmethod

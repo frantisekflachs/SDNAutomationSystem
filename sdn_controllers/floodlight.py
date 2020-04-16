@@ -28,22 +28,22 @@ class Floodlight(SDNController):
         except Exception as e:
             print("Something went wrong " + str(e))
 
-    def addFlow(self, data):
+    def addFlow(self, data, path='/wm/staticentrypusher/json'):
         """Insert a static entry
             data: JSON string"""
 
         try:
-            ret = self.restCall('/wm/staticentrypusher/json', data, 'POST')
+            ret = self.restCall(path, data, 'POST')
             return ret[0] == 200
         except Exception as e:
             print("Something went wrong " + str(e))
 
-    def deleteFlow(self, data):
+    def deleteFlow(self, data, path='/wm/staticentrypusher/json'):
         """Delete a static entry
             data: JSON string"""
 
         try:
-            ret = self.restCall('/wm/staticentrypusher/json', data, 'DELETE')
+            ret = self.restCall(path, data, 'DELETE')
             return ret[0] == 200
         except Exception as e:
             print("Something went wrong " + str(e))

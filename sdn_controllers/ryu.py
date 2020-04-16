@@ -33,22 +33,22 @@ class Ryu(SDNController):
         except Exception as e:
             print("Something went wrong " + str(e))
 
-    def addFlow(self, data):
+    def addFlow(self, data, path='/stats/flowentry/add'):
         """Insert a static entry
             data: JSON string"""
 
         try:
-            ret = self.restCall('/stats/flowentry/add', data, 'POST')
+            ret = self.restCall(path, data, 'POST')
             return ret[0] == 200
         except Exception as e:
             print("Something went wrong " + str(e))
 
-    def deleteFlow(self, data):
+    def deleteFlow(self, data, path='/stats/flowentry/delete'):
         """Delete a static entry
             data: JSON string"""
 
         try:
-            ret = self.restCall('/stats/flowentry/delete', data, 'POST')
+            ret = self.restCall(path, data, 'POST')
             return ret[0] == 200
         except Exception as e:
             print("Something went wrong " + str(e))

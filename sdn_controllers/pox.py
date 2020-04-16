@@ -36,17 +36,17 @@ class Pox(SDNController):
         except Exception as e:
             print("Something went wrong " + str(e))
 
-    def addFlow(self, data):
+    def addFlow(self, data, path='/OF/'):
         """Insert a static entry
             data: JSON string"""
 
         try:
-            ret = self.restCall('/OF/', {"method": "set_table", "params": data, "id": 0})
+            ret = self.restCall(path, {"method": "set_table", "params": data, "id": 0})
             return ret
         except Exception as e:
             print("Something went wrong " + str(e))
 
-    def deleteFlow(self, data):
+    def deleteFlow(self, data, path):
         """Delete a static entry
             data: JSON string"""
 

@@ -1,6 +1,8 @@
 import http
 import json
 import os
+from base64 import b64encode
+import objectpath
 
 from sdn_controllers.sdnController import SDNController
 import config
@@ -27,31 +29,76 @@ class Opendaylight(SDNController):
         except Exception as e:
             print("Something went wrong " + str(e))
 
-    def addFlow(self, data):
+    def addFlow(self, data, path='/restconf/config/opendaylight-inventory:nodes/node/openflow:1/table/0/flow/666'):
         """Insert a static entry
             data: JSON string"""
 
-        pass
+        try:
+            ret = self.restCall(path, data, 'PUT')
+            return ret[0] == 200 or ret[0] == 201
+            # return ret
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
-    def deleteFlow(self, data):
+    def deleteFlow(self, data, path='/restconf/config/opendaylight-inventory:nodes/node/openflow:1/table/0/flow/1'):
         """Delete a static entry
             data: JSON string"""
 
-        pass
+        try:
+            ret = self.restCall(path, data, 'DELETE')
+            return ret[0] == 200
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def listFlowTable(self, device):
         """Get a list of all static entries
         device:
             switch_ID - static flows on a per-switch basis"""
 
-        pass
+        try:
+            ret = self.restCall('/restconf/operational/opendaylight-inventory:nodes/node/{}'.format(device), {}, 'GET')
+            return json.loads(ret[2])
+            # return ret
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def clearFlowTable(self, device):
         """Clear a table of all static entries
         device:
             switch_ID - static flows on a per-switch basis"""
 
-        pass
+        idsToDelete = {}
+        data = self.listFlowTable('openflow:1')
+        data1 = data['node'][0]['flow-node-inventory:table']
+
+        for flows in data1:
+            tmp = flows['opendaylight-flow-table-statistics:flow-table-statistics']
+            if tmp['active-flows'] is not 0:
+                tableIdWithFlows = flows['id']
+                if flows['id'] is tableIdWithFlows:
+                    flws = flows['flow']
+                    for f in flws:
+                        print(f['id'])
+                        if tableIdWithFlows not in idsToDelete.keys():
+                            values = []
+                            values.append(f['id'])
+                            idsToDelete[tableIdWithFlows] = values
+                        else:
+                            values = idsToDelete[tableIdWithFlows]
+                            values.append(f['id'])
+                            idsToDelete[tableIdWithFlows] = values
+
+        print(idsToDelete)
+
+        for tableId, flowIds in idsToDelete.items():
+            for flowId in flowIds:
+                data = {"id": flowId}
+                ret = self.deleteFlow(data, path='/restconf/config/opendaylight-inventory:nodes/node/{}/table/{}/flow/{}'.format(device, tableId, flowId))
+                print(ret)
+
+        # jsonnn_tree = objectpath.Tree(data1['node'])
+        # result_tuple = tuple(jsonnn_tree.execute('$..id'))
+        # print(result_tuple)
 
     def restCall(self, path, data, action):
         """Rest Call for SDN controller
@@ -60,9 +107,11 @@ class Opendaylight(SDNController):
             action: GET|POST|DELETE"""
 
         try:
+            userAndPass = b64encode(b"admin:admin").decode("ascii")
             headers = {
-                'Content-type': 'application/json',
                 'Accept': 'application/json',
+                'Content-type': 'application/json',
+                'Authorization': 'Basic {}'.format(userAndPass),
             }
             body = json.dumps(data)
             conn = http.client.HTTPConnection('localhost', 8181)
@@ -76,3 +125,30 @@ class Opendaylight(SDNController):
 
 if __name__ == "__main__":
     pusher = Opendaylight()
+    # {"flow":[{"table_id":"0","id":"20","priority":"20","flow-name":"test","instructions":{"instruction":[{"order":0,"apply-actions":{"action":[{"order":0,"output-action":{"output-node-connector":"CONTROLLER"}},{"order":1,"output-action":{"output-node-connector":"2"}}]}}]},"hard-timeout":"0","idle-timeout":"0","installHw":"false","strict":"false"}]}
+    # http://localhost:8181/restconf/operational/opendaylight-inventory:nodes/node/openflow:1/flow-node-inventory:table/0
+
+    print(pusher.listFlowTable('openflow:1'))
+    #
+    # flow1 = {
+    #     "id": 0,
+    #     "flow": [
+    #         {
+    #             "id": "test-flow",
+    #             "cookie_mask": 0,
+    #             "priority": 5,
+    #             "table_id": 0,
+    #             "cookie": 3098476543630900000,
+    #         }
+    #     ]
+    # }
+
+    # flow2 = {"flow":[{"table_id":"0","id":"20","priority":"20","flow-name":"test","instructions":{"instruction":[{"order":0,"apply-actions":{"action":[{"order":0,"output-action":{"output-node-connector":"CONTROLLER"}},{"order":1,"output-action":{"output-node-connector":"2"}}]}}]},"hard-timeout":"0","idle-timeout":"0","installHw":"false","strict":"false"}]}
+    #
+    # flow3 = {"flow":[{"table_id":"0","id":"1","priority":"7","hard-timeout":"0","idle-timeout":"0","installHw":"false","strict":"false"}]}
+    # print(pusher.addFlow(flow3, path='/restconf/config/opendaylight-inventory:nodes/node/openflow:1/table/0/flow/1'))
+    #
+    # flow4 = {"id":"666"}
+    # print(pusher.deleteFlow(flow4, path='/restconf/config/opendaylight-inventory:nodes/node/openflow:1/table/0/flow/666'))
+
+    print(pusher.clearFlowTable('openflow:1'))

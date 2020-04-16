@@ -36,7 +36,7 @@ Floodlight:
 Onos:
 
 # run options for Opendaylight SDN Controller
-Opedaylight:
+Opendaylight:
 
 # run options for Pox SDN Controller
 Pox:

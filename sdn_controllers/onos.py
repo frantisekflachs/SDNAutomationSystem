@@ -1,7 +1,6 @@
 import http
 import json
-from base64 import encode, b64encode
-import urllib3
+from base64 import b64encode
 
 from sdn_controllers.sdnController import SDNController
 import config

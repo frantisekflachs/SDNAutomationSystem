@@ -21,7 +21,6 @@ class Model:
             ns = loadedTopologyConfig['networkSetup']
             sdns = loadedTopologyConfig[config.implementedSDNControllersNames[config.implementedSDNControllersClasses.index(SDNController)]]
             pc = loadedTopologyConfig['sdnControllersPostConfig']
-
             return tt, nt, ns, sdns, pc
 
         except Exception as e:

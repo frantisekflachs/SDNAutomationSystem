@@ -105,7 +105,6 @@ class Controller:
         """Show SDN Controller GUI"""
 
         c = self.loadSDNController()
-
         if c is not None:
             self.view.printTextLog('Opening SDN GUI')
             self.model.showSDNControllerGui(c)

@@ -25,7 +25,7 @@ RyuSDNControllerPath = ''
 implementedSDNControllers = {
     'Floodlight': Floodlight,
     'Onos': Onos,
-    'OpenDaylight': Opendaylight,
+    'Opendaylight': Opendaylight,
     'Pox': Pox,
     'Ryu': Ryu
 }

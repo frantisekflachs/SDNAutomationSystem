@@ -2,7 +2,6 @@ import http
 import json
 import os
 from base64 import b64encode
-import objectpath
 
 from sdn_controllers.sdnController import SDNController
 import config
@@ -13,7 +12,7 @@ class Opendaylight(SDNController):
 
     def run(self, SDNControllerSetup):
         """Run SDN controller in new terminal window"""
-        # os.system('gnome-terminal -- bash -c "{}/opendaylight/bin/karaf && bash"'.format(config.SDNControllersPath))
+
         try:
             os.system('gnome-terminal -- bash -c "export TERM=xterm-color && {}/opendaylight/bin/karaf && bash"'.format(
                     config.SDNControllersPath))
@@ -36,7 +35,6 @@ class Opendaylight(SDNController):
         try:
             ret = self.restCall(path, data, 'PUT')
             return ret[0] == 200 or ret[0] == 201
-            # return ret
         except Exception as e:
             print("Something went wrong " + str(e))
 

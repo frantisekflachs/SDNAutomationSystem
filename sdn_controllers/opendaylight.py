@@ -71,6 +71,7 @@ class Opendaylight(SDNController):
         data = self.listFlowTable('openflow:1')
         data1 = data['node'][0]['flow-node-inventory:table']
 
+        # parse data from listFlowTable per device
         for flows in data1:
             tmp = flows['opendaylight-flow-table-statistics:flow-table-statistics']
             if tmp['active-flows'] is not 0:
@@ -88,17 +89,12 @@ class Opendaylight(SDNController):
                             values.append(f['id'])
                             idsToDelete[tableIdWithFlows] = values
 
-        print(idsToDelete)
-
+        # delete all found flows in all found tables with flows
         for tableId, flowIds in idsToDelete.items():
             for flowId in flowIds:
                 data = {"id": flowId}
                 ret = self.deleteFlow(data, path='/restconf/config/opendaylight-inventory:nodes/node/{}/table/{}/flow/{}'.format(device, tableId, flowId))
                 print(ret)
-
-        # jsonnn_tree = objectpath.Tree(data1['node'])
-        # result_tuple = tuple(jsonnn_tree.execute('$..id'))
-        # print(result_tuple)
 
     def restCall(self, path, data, action):
         """Rest Call for SDN controller

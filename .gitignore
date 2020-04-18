@@ -209,6 +209,8 @@ venv.bak/
 pip-selfcheck.json
 
 ### My  directories ###
-/Logs
+/Logs/
+/vm/
 
 # End of https://www.gitignore.io/api/venv,python,pycharm
+

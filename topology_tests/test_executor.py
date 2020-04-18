@@ -21,28 +21,32 @@ class TestExecutor:
     def run(self, testsFromConfig):
         """Execute test by test and return all results"""
 
-        testsResults = []
+        try:
+            testsResults = []
 
-        for test in testsFromConfig:
-            testNameParam = test.split()
-            testName = testNameParam[0]
-            testParams = testNameParam[1:]
-            expectedResult = testNameParam[-1]
+            for test in testsFromConfig:
+                testNameParam = test.split()
+                testName = testNameParam[0]
+                testParams = testNameParam[1:]
+                expectedResult = testNameParam[-1]
 
-            # print(expectedResult)
+                # print(expectedResult)
 
+                if testName not in self.implementedTests.keys():
+                    testsResults.append(str(testName) + ': Test is not implemented.')
+                else:
+                    # wait for convergence of the network
+                    sleep(5)
 
-            if testName not in self.implementedTests.keys():
-                testsResults.append(str(testName) + ': Test is not implemented.')
-            else:
-                # wait for convergence of the network
-                sleep(5)
+                    returnValue = self.implementedTests[testName].execute(testParams)
+                    # testsResults.append(str(testName) + ': ' + str(returnValue))
+                    testsResults.append('Test ' + str(testsFromConfig.index(test) + 1) + ' - ' + str(testName) + str(
+                        ': OK' if (str(returnValue) == str(expectedResult)) else ': ---'))
 
-                returnValue = self.implementedTests[testName].execute(testParams)
-                # testsResults.append(str(testName) + ': ' + str(returnValue))
-                testsResults.append('Test ' + str(testsFromConfig.index(test)+1) + ' - ' + str(testName) + str(': OK' if (str(returnValue) == str(expectedResult)) else ': ---'))
+            return testsResults
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
-        return testsResults
 
 if __name__ == "__main__":
     SDNController = Floodlight()

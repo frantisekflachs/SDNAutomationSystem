@@ -7,19 +7,23 @@ from mininet.node import Node, RemoteController, OVSKernelSwitch
 from mininet.util import waitListening
 import config
 
+
 def MyNetwork(params):
     """Create My Network from loaded parameters."""
 
-    topo = config.implementedVirtualNetworks[params[0]]
-    switch = partial(OVSKernelSwitch, protocols='OpenFlow{}'.format(params[1]))
+    try:
+        topo = config.implementedVirtualNetworks[params[0]]
+        switch = partial(OVSKernelSwitch, protocols='OpenFlow{}'.format(params[1]))
 
-    # if last param is x, then run with XTerm for each host, x is loaded from GUI
-    if params[-1] == 'x':
-        x = True
-    else:
-        x = False
+        # if last param is x, then run with XTerm for each host, x is loaded from GUI
+        if params[-1] == 'x':
+            x = True
+        else:
+            x = False
 
-    return Mininet(topo, controller=lambda name: RemoteController(name, ip='127.0.0.1'), switch=switch, xterms=x)
+        return Mininet(topo, controller=lambda name: RemoteController(name, ip='127.0.0.1'), switch=switch, xterms=x)
+    except Exception as e:
+        print("Something went wrong " + str(e))
 
 
 def connectToRootNS(network, switch, ip, routes):
@@ -29,17 +33,20 @@ def connectToRootNS(network, switch, ip, routes):
       ip: IP address for root namespace node
       routes: host networks to route to"""
 
-    # Create a node in root namespace and link to switch 0
-    root = Node('root', inNamespace=False)
-    intf = network.addLink(root, switch).intf1
-    root.setIP(ip, intf=intf)
+    try:
+        # Create a node in root namespace and link to switch 0
+        root = Node('root', inNamespace=False)
+        intf = network.addLink(root, switch).intf1
+        root.setIP(ip, intf=intf)
 
-    # Start network that now includes link to root namespace
-    network.start()
+        # Start network that now includes link to root namespace
+        network.start()
 
-    # Add routes from root ns to hosts
-    for route in routes:
-        root.cmd('route add -net ' + route + ' dev ' + str(intf))
+        # Add routes from root ns to hosts
+        for route in routes:
+            root.cmd('route add -net ' + route + ' dev ' + str(intf))
+    except Exception as e:
+        print("Something went wrong " + str(e))
 
 
 def sshd(network, ip='10.123.123.1/32', routes=None, switch=None):
@@ -48,34 +55,37 @@ def sshd(network, ip='10.123.123.1/32', routes=None, switch=None):
        routes: Mininet host networks to route to (10.0/24)
        switch: Mininet switch to connect to root namespace (s1)"""
 
-    if not switch:
-        switch = network['s1']  # switch to use
+    try:
+        if not switch:
+            switch = network['s1']  # switch to use
 
-    if not routes:
-        routes = ['10.0.0.0/24']
+        if not routes:
+            routes = ['10.0.0.0/24']
 
-    connectToRootNS(network, switch, ip, routes)
+        connectToRootNS(network, switch, ip, routes)
 
-    for host in network.hosts:
-        host.cmd('/usr/sbin/sshd -D -o UseDNS=no -u0 &')
+        for host in network.hosts:
+            host.cmd('/usr/sbin/sshd -D -o UseDNS=no -u0 &')
 
-    info("*** Waiting for ssh daemons to start\n")
-    for server in network.hosts:
-        waitListening(server=server, port=22, timeout=5)
+        info("*** Waiting for ssh daemons to start\n")
+        for server in network.hosts:
+            waitListening(server=server, port=22, timeout=5)
 
-    info("\n*** Hosts are running sshd at the following addresses:\n")
-    for host in network.hosts:
-        info(host.name, host.IP(), '\n')
+        info("\n*** Hosts are running sshd at the following addresses:\n")
+        for host in network.hosts:
+            info(host.name, host.IP(), '\n')
 
-    info("\n*** Type 'exit' or control-D to shut down network\n")
+        info("\n*** Type 'exit' or control-D to shut down network\n")
 
-    CLI(network)
+        CLI(network)
 
-    info("\n*** Stopping sshd.\n")
-    for host in network.hosts:
-        host.cmd('kill %/usr/sbin/sshd')
+        info("\n*** Stopping sshd.\n")
+        for host in network.hosts:
+            host.cmd('kill %/usr/sbin/sshd')
 
-    network.stop()
+        network.stop()
+    except Exception as e:
+        print("Something went wrong " + str(e))
 
 
 if __name__ == '__main__':

@@ -13,19 +13,24 @@ class MininetVirtualTopology(VirtualNetwork):
     def run(self):
         """Run Mininet topology"""
 
-        params = ''
-        params += str(self.networkTemplate)
+        try:
+            params = ''
+            params += str(self.networkTemplate)
 
-        for i in self.networkSetup:
-            params += ' ' + str(i)
+            for i in self.networkSetup:
+                params += ' ' + str(i)
 
-        print(params)
+            print(params)
 
-        subprocess.Popen(["gnome-terminal", "-e", "bash -c \"sudo mn --clean && python3.7 /home/user/PycharmProjects/SDNAutomationSystem/mininet_virtual_net_sshd.py {}; /bin/bash -i\"".format(params)])
+            subprocess.Popen(["gnome-terminal", "-e",
+                              "bash -c \"sudo mn --clean && python3.7 /home/user/PycharmProjects/SDNAutomationSystem/mininet_virtual_net_sshd.py {}; /bin/bash -i\"".format(
+                                  params)])
 
-        # os.system('gnome-terminal -- bash -c '
-        #           '"mn --custom network_templates/{}.py --topo {} '
-        #           '--controller=remote,ip=localhost,port=6653 '
-        #           '--switch ovsk,protocols=OpenFlow10 '
-        #           '&& bash"'.format(self.networkTemplate,
-        #                             self.networkTemplate))
+            # os.system('gnome-terminal -- bash -c '
+            #           '"mn --custom network_templates/{}.py --topo {} '
+            #           '--controller=remote,ip=localhost,port=6653 '
+            #           '--switch ovsk,protocols=OpenFlow10 '
+            #           '&& bash"'.format(self.networkTemplate,
+            #                             self.networkTemplate))
+        except Exception as e:
+            print("Something went wrong " + str(e))

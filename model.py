@@ -31,31 +31,46 @@ class Model:
         SDNController: Implemented SDN Controllers in the system
         SDNControllerSetup: parameters for SDN Controller"""
 
-        SDNController.run(self, SDNControllerSetup)
+        try:
+            SDNController.run(self, SDNControllerSetup)
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def runVirtualNetwork(self, networkTemplate, networkSetup):
         """Run Network Topology
         networkTemplate: pre-defined netwrok template
         networkSetup: parameters for virtual network """
 
-        mvt = MininetVirtualTopology(networkTemplate, networkSetup)
-        mvt.run()
-
+        try:
+            mvt = MininetVirtualTopology(networkTemplate, networkSetup)
+            mvt.run()
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def runPostConfigScript(self, postConfigScript):
         """Run script after controller and virtual network is started"""
-        ret = postConfigScript.run()
-        return ret
+
+        try:
+            ret = postConfigScript.run()
+            return ret
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def showSDNControllerGui(self, SDNController):
         """Show SDN Controller GUI
         SDNController: run GUI for defined SDN Controller"""
 
-        SDNController.showSDNControllerGui(self)
+        try:
+            SDNController.showSDNControllerGui(self)
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def testTopology(self, loadedSDNController, topologyTests):
         """Testing topology"""
 
-        testExecutor = TestExecutor(loadedSDNController)
-        testsResults = testExecutor.run(topologyTests)
-        return testsResults
+        try:
+            testExecutor = TestExecutor(loadedSDNController)
+            testsResults = testExecutor.run(topologyTests)
+            return testsResults
+        except Exception as e:
+            print("Something went wrong " + str(e))

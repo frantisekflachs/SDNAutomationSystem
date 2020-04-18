@@ -33,5 +33,6 @@ class WgetNetworkTest(NetworkTest):
             else:
                 return False
 
-        except:
+        except Exception as e:
+            print("Something went wrong " + str(e))
             return False

@@ -17,24 +17,28 @@ class PostConfigExecutor:
         # }
 
     def run(self, postScriptsFromConfig):
+        """"""
 
-        postConfigResults = []
+        try:
+            postConfigResults = []
 
-        for script in postScriptsFromConfig:
-            testNameParam = script.split()
-            testName = testNameParam[0]
-            testParams = testNameParam[1:]
+            for script in postScriptsFromConfig:
+                testNameParam = script.split()
+                testName = testNameParam[0]
+                testParams = testNameParam[1:]
 
-            if testName not in self.implementedTests.keys():
-                postConfigResults.append(str(testName) + ': Method is not implemented.')
-            else:
+                if testName not in self.implementedTests.keys():
+                    postConfigResults.append(str(testName) + ': Method is not implemented.')
+                else:
 
-                returnValue = self.implementedTests[testName].execute(testParams)
+                    returnValue = self.implementedTests[testName].execute(testParams)
 
+                    postConfigResults.append(returnValue)
 
-                postConfigResults.append(returnValue)
+            return postConfigResults
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
-        return postConfigResults
 
 if __name__ == "__main__":
     SDNController = Floodlight()

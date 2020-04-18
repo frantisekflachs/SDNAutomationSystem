@@ -7,7 +7,13 @@ class Topology2PostConfig:
         self.sdnc = SDNController
 
     def run(self):
-        returnValues = []
-        returnValues.append(self.sdnc.firewallSetStatus('disabled'))
+        """"""
 
-        return returnValues
+        try:
+            returnValues = []
+            returnValues.append(self.sdnc.firewallSetStatus('disabled'))
+
+            return returnValues
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            return False

@@ -93,10 +93,22 @@ class Controller:
 
     def endTopology(self):
         """End all created instances"""
-        try:
-            os.system("sudo kill $(ps aux | grep 'floodlight.jar' | awk '{print $2}')")
 
+        # kill all implemented SDN Controllers
+        implSDNControllers = config.implementedSDNControllersNames
+        for sdnc in implSDNControllers:
+            try:
+                print('SDN Controller ' + sdnc.lower() + ' exiting')
+                os.system("sudo kill $(ps aux | grep '" + sdnc.lower() + "' | awk '{print $2}')")
+            except Exception as e:
+                print("Something went wrong " + str(e))
+
+        # clean Mininet
+        try:
+            print('Mininet exiting and cleaning')
+            os.system("sudo kill $(ps aux | grep 'sshd' | awk '{print $2}')")
             os.system("sudo mn --clean")
+            os.system("service sshd restart")
         except Exception as e:
             print("Something went wrong " + str(e))
 

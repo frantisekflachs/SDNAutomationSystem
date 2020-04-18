@@ -18,7 +18,7 @@ Documentation is available at https://github.com/frantisekflachs/sdnautomationsy
 
 `cd SDNAutomationSystem`
 
-`python 3.7 -m venv venv`
+`python3.7 -m venv venv`
 
 `source venv/bin/activate`
 

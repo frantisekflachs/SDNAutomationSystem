@@ -23,10 +23,24 @@ Documentation is available at https://github.com/frantisekflachs/sdnautomationsy
   - [Ubuntu 18.04 LTS](https://www.ubuntu.cz/)
   - [Python 3.7](https://www.python.org/)
   - [Onos 1.15.0](https://wiki.onosproject.org/)
-  - [OpenDaylight xx](https://www.opendaylight.org/)
+  - [OpenDaylight Carbon](https://www.opendaylight.org/)
   - [Floodlight 1.2](https://floodlight.atlassian.net/wiki/spaces/floodlightcontroller/overview)
   - [Pox eel](https://noxrepo.github.io/pox-doc/html/)
   - [Ryu 4.34](https://osrg.github.io/ryu/)
 
+### SDN Controllers REST API documentations
+  - [Onos 1.15.0](https://wiki.onosproject.org/display/ONOS/Appendix+B%3A+REST+API)
+  - [OpenDaylight Carbon](http://localhost:8181/index.html#/yangui/index)
+  - [Floodlight 1.2](https://floodlight.atlassian.net/wiki/spaces/floodlightcontroller/pages/1343539/Floodlight+REST+API)
+  - [Pox eel](https://noxrepo.github.io/pox-doc/html/)
+  - [Ryu 4.34](https://ryu.readthedocs.io/en/latest/app/ofctl_rest.html)
+  
+
 ### Join project
 SDN Automation System is open-source and is currently hosted at <https://github.com/frantisekflachs/SDNAutomationSystem>.  You are encouraged to download the code, examine it, modify it, and submit bug reports, bug fixes, feature requests, new features and other issues and pull requests.
+
+paramiko==2.7.1
+requests==2.23.0
+Pypubsub==4.0.3
+pubsub==0.1.2
+PyYAML==5.3.1

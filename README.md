@@ -14,7 +14,15 @@ This thesis deals with the design and implementation of an automated system for 
 ### Documentation
 Documentation is available at https://github.com/frantisekflachs/sdnautomationsystem/wiki
 ### Installation
+`git clone git://github.com/frantisekflachs/SDNAutomationSystem`
 
+`cd SDNAutomationSystem`
+
+`python 3.7 -m venv venv`
+
+`source venv/bin/activate`
+
+`pip install -r requirements.txt`
 
 ### Launch
 `python3.7 main.py`

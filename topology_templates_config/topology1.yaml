@@ -50,6 +50,10 @@ Pox:
 
 # run options for Ryu SDN Controller
 Ryu:
+  - --verbose
+  - --observe-links
+  - ryu/app/gui_topology/gui_topology.py
+  - ryu/app/simple_switch.py
 
 # SDN CONTROLLERS POST CONFIGURATION
 sdnControllersPostConfig: topology1PostConfig.py

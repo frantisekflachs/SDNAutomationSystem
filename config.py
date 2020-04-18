@@ -15,12 +15,11 @@ logsPath = '/home/user/PycharmProjects/SDNAutomationSystem/Logs'
 readme = '/home/user/PycharmProjects/SDNAutomationSystem/README.md'
 
 # SDN Controllers setup
-SDNControllersPath = '/home/user/PycharmProjects/SDNControllers'
-FloodlightSDNControllerPath = ''
-OnosSDNControllerPath = ''
-OpendaylightSDNControllerPath = ''
-PoxSDNControllerPath = ''
-RyuSDNControllerPath = ''
+FloodlightSDNControllerPath = '/home/user/PycharmProjects/SDNControllers/floodlight'
+OnosSDNControllerPath = '/home/user/PycharmProjects/SDNControllers/onos'
+OpendaylightSDNControllerPath = '/home/user/PycharmProjects/SDNControllers/opendaylight'
+PoxSDNControllerPath = '/home/user/PycharmProjects/SDNControllers/pox'
+RyuSDNControllerPath = '/home/user/PycharmProjects/SDNControllers/ryu'
 
 implementedSDNControllers = {
     'Floodlight': Floodlight,

@@ -16,8 +16,8 @@ class Onos(SDNController):
 
         try:
             os.system(
-                'gnome-terminal -- bash -c "export TERM=xterm-color && {}/onos/bin/onos-service start && bash"'.format(
-                    config.SDNControllersPath))
+                'gnome-terminal -- bash -c "export TERM=xterm-color && {}/bin/onos-service start && bash"'.format(
+                    config.OnosSDNControllerPath))
         except Exception as e:
             print("Something went wrong " + str(e))
 

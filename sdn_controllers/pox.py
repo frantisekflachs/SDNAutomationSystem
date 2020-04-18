@@ -15,15 +15,15 @@ class Pox(SDNController):
         try:
             if not SDNControllerSetup:
                 os.system(
-                    'gnome-terminal -- bash -c "{}/pox/pox.py --verbose py samples.pretty_log forwarding.l2_learning '
-                    'openflow.of_01 --port=6653 && bash"'.format(config.SDNControllersPath))
+                    'gnome-terminal -- bash -c "{}/pox.py --verbose py samples.pretty_log forwarding.l2_learning '
+                    'openflow.of_01 --port=6653 && bash"'.format(config.PoxSDNControllerPath))
             else:
                 runOptions = ''
                 for o in SDNControllerSetup:
                     runOptions += ' ' + o
-                print('gnome-terminal -- bash -c "{}/pox/pox.py {} && bash"'.format(config.SDNControllersPath,
-                                                                                    runOptions))
-                os.system('gnome-terminal -- bash -c "{}/pox/pox.py {} && bash"'.format(config.SDNControllersPath,
+                # print('gnome-terminal -- bash -c "{}/pox.py {} && bash"'.format(config.PoxSDNControllerPath,
+                #                                                                     runOptions))
+                os.system('gnome-terminal -- bash -c "{}/pox.py {} && bash"'.format(config.PoxSDNControllerPath,
                                                                                         runOptions))
         except Exception as e:
             print("Something went wrong " + str(e))

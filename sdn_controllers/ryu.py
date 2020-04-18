@@ -17,10 +17,8 @@ class Ryu(SDNController):
             for o in SDNControllerSetup:
                 runOptions += ' ' + o
 
-            print('gnome-terminal -- bash -c "cd {}/ryu && /bin/ryu-manager{} && bash"'.format(config.SDNControllersPath,
-                                                                                               runOptions))
             os.system(
-                'gnome-terminal -- bash -c "cd {}/ryu && /bin/ryu-manager{} && bash"'.format(config.SDNControllersPath,
+                'gnome-terminal -- bash -c "cd {} && /bin/ryu-manager{} && bash"'.format(config.RyuSDNControllerPath,
                                                                                  runOptions))
         except Exception as e:
             print("Something went wrong " + str(e))

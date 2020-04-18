@@ -1,3 +1,4 @@
+import config
 from sdn_controllers.sdnController import SDNController
 
 import subprocess
@@ -13,10 +14,7 @@ class Floodlight(SDNController):
         """Run SDN controller in new terminal window"""
 
         try:
-            # os.system('gnome-terminal -- bash -c "cd {}/floodlight && java -jar target/floodlight.jar && bash"'.format(
-            #     config.SDNControllersPath))
-
-            proc = subprocess.Popen(["gnome-terminal", "-e", "bash -c \"cd /home/user/PycharmProjects/SDNControllers/floodlight && java -jar target/floodlight.jar; /bin/bash -i\""])
+           proc = subprocess.Popen(["gnome-terminal", "-e", "bash -c \"cd {} && java -jar target/floodlight.jar; /bin/bash -i\"".format(config.FloodlightSDNControllerPath)])
         except Exception as e:
             print("Something went wrong " + str(e))
 

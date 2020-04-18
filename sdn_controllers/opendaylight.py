@@ -14,8 +14,8 @@ class Opendaylight(SDNController):
         """Run SDN controller in new terminal window"""
 
         try:
-            os.system('gnome-terminal -- bash -c "export TERM=xterm-color && {}/opendaylight/bin/karaf && bash"'.format(
-                    config.SDNControllersPath))
+            os.system('gnome-terminal -- bash -c "export TERM=xterm-color && {}/bin/karaf && bash"'.format(
+                    config.OpendaylightSDNControllerPath))
         except Exception as e:
             print("Something went wrong " + str(e))
 

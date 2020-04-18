@@ -32,7 +32,7 @@ class Model:
         SDNControllerSetup: parameters for SDN Controller"""
 
         try:
-            SDNController.run(self, SDNControllerSetup)
+            SDNController.run(SDNControllerSetup)
         except Exception as e:
             print("Something went wrong " + str(e))
 
@@ -61,7 +61,7 @@ class Model:
         SDNController: run GUI for defined SDN Controller"""
 
         try:
-            SDNController.showSDNControllerGui(self)
+            SDNController.showSDNControllerGui()
         except Exception as e:
             print("Something went wrong " + str(e))
 

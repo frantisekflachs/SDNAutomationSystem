@@ -2,9 +2,13 @@ from abc import ABC, abstractmethod
 
 
 class SDNController(ABC):
-
+    
     @abstractmethod
     def run(self, SDNControllerSetup):
+        pass
+
+    @abstractmethod
+    def isRunning(self):
         pass
 
     @abstractmethod

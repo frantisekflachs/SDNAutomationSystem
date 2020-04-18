@@ -10,14 +10,25 @@ import config
 class Opendaylight(SDNController):
     """OpenDaylight SDN Controller"""
 
+    def __init__(self):
+        self.opendaylightSDNControllerPath = '/home/user/PycharmProjects/SDNControllers/opendaylight'
+
     def run(self, SDNControllerSetup):
         """Run SDN controller in new terminal window"""
 
         try:
             os.system('gnome-terminal -- bash -c "export TERM=xterm-color && {}/bin/karaf && bash"'.format(
-                    config.OpendaylightSDNControllerPath))
+                    self.opendaylightSDNControllerPath))
         except Exception as e:
             print("Something went wrong " + str(e))
+
+    def isRunning(self):
+        """Returns state of SDN Controller: True/False"""
+        try:
+            return True
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            return False
 
     def showSDNControllerGui(self):
         """Show SDN Controller GUI and OpenFlow App GUI in web browser"""

@@ -1,4 +1,4 @@
-import config
+# import config
 from sdn_controllers.sdnController import SDNController
 
 import subprocess
@@ -10,13 +10,33 @@ import json
 class Floodlight(SDNController):
     """Floodlight SDN Controller"""
 
+    def __init__(self):
+        self.floodlightSDNControllerPath = '/home/user/PycharmProjects/SDNControllers/floodlight'
+
     def run(self, SDNControllerSetup):
         """Run SDN controller in new terminal window"""
 
         try:
-           proc = subprocess.Popen(["gnome-terminal", "-e", "bash -c \"cd {} && java -jar target/floodlight.jar; /bin/bash -i\"".format(config.FloodlightSDNControllerPath)])
+            proc = subprocess.Popen(["gnome-terminal", "-e", "bash -c \"cd {} && java -jar target/floodlight.jar; /bin/bash -i\"".format(self.floodlightSDNControllerPath)])
+            pass
         except Exception as e:
             print("Something went wrong " + str(e))
+
+    def isRunning(self):
+        """Returns state of SDN Controller: True/False"""
+
+        try:
+            health = self.isHealth()
+            return json.loads(health[2])["healthy"]
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            return False
+
+    def isHealth(self):
+        """Returns status/health of REST API"""
+
+        health = self.restCall('/wm/core/health/json', {}, 'GET')
+        return health
 
     def showSDNControllerGui(self):
         """Show SDN Controller GUI in web browser"""
@@ -180,6 +200,7 @@ class Floodlight(SDNController):
 
 if __name__ == "__main__":
     pusher = Floodlight()
+    print(pusher.isRunning())
 
     flow1 = {
         'switch': "00:00:00:00:00:00:00:01",
@@ -222,7 +243,7 @@ if __name__ == "__main__":
     }
 
     objType = {"name": "flow_mod_2"}
-    pusher.clearFlowTable('all')
+    # pusher.clearFlowTable('all')
 
     # print(pusher.addFlow(flow1))
 
@@ -246,38 +267,38 @@ if __name__ == "__main__":
     # print(pusher.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.0.0.3/32"}))
     # print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.1/32"}))
 
-    print(pusher.firewallClearRules())
-
-    print(pusher.firewallSetStatus('enable'))
-    print(pusher.firewallStatus())
+    # print(pusher.firewallClearRules())
+    #
+    # print(pusher.firewallSetStatus('enable'))
+    # print(pusher.firewallStatus())
 
     # print(pusher.firewallAddRule({"dl-type": "ARP"}))
-    print(pusher.firewallAddRule({"src-ip": "10.123.123.1/32", "dst-ip": "10.0.0.1/32"}))
-    print(pusher.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.123.123.1/32"}))
-
-    print(pusher.firewallAddRule({"src-ip": "10.123.123.1/32", "dst-ip": "10.0.0.2/32"}))
-    print(pusher.firewallAddRule({"src-ip": "10.0.0.2/32", "dst-ip": "10.123.123.1/32"}))
+    # print(pusher.firewallAddRule({"src-ip": "10.123.123.1/32", "dst-ip": "10.0.0.1/32"}))
+    # print(pusher.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.123.123.1/32"}))
+    #
+    # print(pusher.firewallAddRule({"src-ip": "10.123.123.1/32", "dst-ip": "10.0.0.2/32"}))
+    # print(pusher.firewallAddRule({"src-ip": "10.0.0.2/32", "dst-ip": "10.123.123.1/32"}))
 
     # print(pusher.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.123.123.1//32", "nw-proto": "ICMP"}))
     # print(pusher.firewallAddRule({"src-ip": "10.123.123.1//32", "dst-ip": "10.0.0.1/32", "nw-proto": "ICMP"}))
 
-    print(pusher.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.0.0.3/32", "dl-type": "ARP"}))
-    print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.1/32", "dl-type": "ARP"}))
-
-    print(pusher.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.0.0.3/32", "nw-proto": "ICMP"}))
-    print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.1/32", "nw-proto": "ICMP"}))
-
-    print(pusher.firewallAddRule({"src-ip": "10.0.0.2/32", "dst-ip": "10.0.0.3/32", "nw-proto": "ICMP"}))
-    print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.2/32", "nw-proto": "ICMP"}))
-
-    print(pusher.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.0.0.3/32", "nw-proto": "TCP", "tp-dst": "80", "action": "ALLOW"}))
-    print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.1/32", "nw-proto": "TCP", "tp-src": "80", "action": "ALLOW"}))
+    # print(pusher.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.0.0.3/32", "dl-type": "ARP"}))
+    # print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.1/32", "dl-type": "ARP"}))
+    #
+    # print(pusher.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.0.0.3/32", "nw-proto": "ICMP"}))
+    # print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.1/32", "nw-proto": "ICMP"}))
+    #
+    # print(pusher.firewallAddRule({"src-ip": "10.0.0.2/32", "dst-ip": "10.0.0.3/32", "nw-proto": "ICMP"}))
+    # print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.2/32", "nw-proto": "ICMP"}))
+    #
+    # print(pusher.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.0.0.3/32", "nw-proto": "TCP", "tp-dst": "80", "action": "ALLOW"}))
+    # print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.1/32", "nw-proto": "TCP", "tp-src": "80", "action": "ALLOW"}))
 
     # print(pusher.firewallAddRule({"src-ip": "10.0.0.2/32", "dst-ip": "10.0.0.3/32", "dl-type": "ARP"}))
     # print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.2/32", "dl-type": "ARP"}))
 
-    print(pusher.firewallAddRule({"src-ip": "10.0.0.2/32", "dst-ip": "10.0.0.3/32", "nw-proto": "TCP", "tp-dst": "80", "action": "DENY"}))
-    print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.2/32", "nw-proto": "TCP", "tp-dst": "80", "action": "DENY"}))
+    # print(pusher.firewallAddRule({"src-ip": "10.0.0.2/32", "dst-ip": "10.0.0.3/32", "nw-proto": "TCP", "tp-dst": "80", "action": "DENY"}))
+    # print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.2/32", "nw-proto": "TCP", "tp-dst": "80", "action": "DENY"}))
 
     # print(pusher.firewallAddRule({"src-ip": "10.0.0.2/32", "dst-ip": "10.0.0.3/32", "nw-proto": "TCP", "tp-dst": "80", "action": "ALLOW"}))
     # print(pusher.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.2/32", "nw-proto": "TCP", "tp-src": "80", "action": "ALLOW"}))

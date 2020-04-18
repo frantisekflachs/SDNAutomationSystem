@@ -3,6 +3,7 @@ from pubsub import *
 import time
 
 import config
+from post_configurations.post_config_executor import PostConfigExecutor
 
 
 class Controller:
@@ -51,8 +52,12 @@ class Controller:
             # load topology tests to GUI lists
             self.view.loadImplementedTopologyTests(self.topologyTests)
 
+            # sleep for 8 sec
+            time.sleep(8)
+
             # post config topology
-            # self.runPostConfigSetup(self.postConfig)
+            self.runPostConfigSetup(self.postConfig, self.loadedSDNController)
+
         except Exception as e:
             print("Something went wrong " + str(e))
 
@@ -71,6 +76,12 @@ class Controller:
             # load topology tests to GUI lists
             self.view.loadImplementedTopologyTests(self.topologyTests)
 
+            # sleep for 8 sec
+            time.sleep(8)
+
+            # post config topology
+            self.runPostConfigSetup(self.postConfig, self.loadedSDNController)
+
         except Exception as e:
             print("Something went wrong " + str(e))
 
@@ -88,6 +99,10 @@ class Controller:
 
             # load topology tests to GUI lists
             self.view.loadImplementedTopologyTests(self.topologyTests)
+
+            # post config topology
+            self.runPostConfigSetup(self.postConfig, self.loadedSDNController)
+
         except Exception as e:
             print("Something went wrong " + str(e))
 
@@ -107,8 +122,9 @@ class Controller:
         try:
             print('Mininet exiting and cleaning')
             os.system("sudo kill $(ps aux | grep 'sshd' | awk '{print $2}')")
-            os.system("sudo mn --clean")
+            os.system("sudo kill $(ps aux | grep 'xterm' | awk '{print $2}')")
             os.system("service sshd restart")
+            os.system("sudo mn --clean")
         except Exception as e:
             print("Something went wrong " + str(e))
 
@@ -138,12 +154,15 @@ class Controller:
         except Exception as e:
             print("Something went wrong " + str(e))
 
-    def runPostConfigSetup(self, postConfig):
-        # topologyPost = postConfig(self.loadedSDNController)
-        # ret = topologyPost.run()
-        # self.view.printTextLog(ret)
+    def runPostConfigSetup(self, postConfig, sdnc):
+        """"""
+
         try:
-            pass
+            # print(postConfig)
+            pce = PostConfigExecutor(sdnc)
+            ret = pce.run(postConfig)
+            print(ret)
+            # self.view.printTextLog(ret)
         except Exception as e:
             print("Something went wrong " + str(e))
 
@@ -163,7 +182,7 @@ class Controller:
             if self.loadedTopologyTemplate is None:
                 self.view.printTextLog("Topology template not selected.")
                 return
-            self.view.printTextLog("Topology {} template yaml loaded.".format(self.loadedTopologyTemplate))
+            self.view.printTextLog("Topology {} template loaded.".format(self.loadedTopologyTemplate))
 
             # load settings from yaml file
             self.topologyTests, self.networkTemplate, self.networkSetup, self.SDNControllerSetup, self.postConfig = self.model.loadTopologyConfig(
@@ -172,7 +191,7 @@ class Controller:
             if (self.topologyTests or self.networkTemplate or self.networkSetup or self.SDNControllerSetup) is None:
                 self.view.printTextLog("Error reading topology {} config file.".format(self.loadedTopologyTemplate))
                 return
-            self.view.printTextLog("Topology settings from {}.yaml loaded.".format(self.loadedTopologyTemplate))
+            self.view.printTextLog("Topology settings from {} loaded.".format(self.loadedTopologyTemplate))
 
             # check xterm enable in GUI
             self.xtermEnable = self.loadXTermEnable()

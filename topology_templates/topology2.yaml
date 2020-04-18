@@ -12,7 +12,6 @@ topologyTests:
   # network tests:
   - ping_network_test 1 10.0.0.1 10.0.0.3 True # test_name repeat_count srcIP dstIP expectedReturnValue
   - ping_network_test 1 10.0.0.2 10.0.0.3 True # test_name repeat_count srcIP dstIP expectedReturnValue
-  - wget_network_test 10.0.0.1 10.0.0.3 True # test_name hostIP serverIP expectedReturnValue
   # SDN controller tests
 #  - username_test pepa
 
@@ -45,4 +44,4 @@ Ryu:
   - ryu/app/simple_switch_13.py
 
 # SDN CONTROLLERS POST CONFIGURATION
-sdnControllersPostConfig: topology2PostConfig.py
+sdnControllersPostConfig: "topology2PostConfig"

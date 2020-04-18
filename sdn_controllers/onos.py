@@ -11,15 +11,26 @@ import os
 class Onos(SDNController):
     """ONOS SDN Controller"""
 
+    def __init__(self):
+        self.onosSDNControllerPath = '/home/user/PycharmProjects/SDNControllers/onos'
+
     def run(self, SDNControllerSetup):
         """Run SDN controller in new terminal window"""
 
         try:
             os.system(
                 'gnome-terminal -- bash -c "export TERM=xterm-color && {}/bin/onos-service start && bash"'.format(
-                    config.OnosSDNControllerPath))
+                    self.onosSDNControllerPath))
         except Exception as e:
             print("Something went wrong " + str(e))
+
+    def isRunning(self):
+        """Returns state of SDN Controller: True/False"""
+        try:
+            return True
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            return False
 
     def showSDNControllerGui(self):
         """Show SDN Controller GUI in web browser"""

@@ -39,5 +39,8 @@ if __name__ == '__main__':
         # Positions the window in the center of the page.
         root.geometry("+{}+{}".format(positionRight, positionDown))
         root.mainloop()
+
+        SDNAutomationSystem.endTopology()
+        print('SDN Automation System has ended.')
     except Exception as e:
         print("Something went wrong " + str(e))

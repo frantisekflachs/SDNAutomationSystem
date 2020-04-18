@@ -9,6 +9,9 @@ import json
 class Pox(SDNController):
     """POX SDN Controller"""
 
+    def __init__(self):
+        self.poxSDNControllerPath = '/home/user/PycharmProjects/SDNControllers/pox'
+
     def run(self, SDNControllerSetup):
         """Run SDN controller in new terminal window"""
 
@@ -16,7 +19,7 @@ class Pox(SDNController):
             if not SDNControllerSetup:
                 os.system(
                     'gnome-terminal -- bash -c "{}/pox.py --verbose py samples.pretty_log forwarding.l2_learning '
-                    'openflow.of_01 --port=6653 && bash"'.format(config.PoxSDNControllerPath))
+                    'openflow.of_01 --port=6653 && bash"'.format(self.poxSDNControllerPath))
             else:
                 runOptions = ''
                 for o in SDNControllerSetup:
@@ -27,6 +30,14 @@ class Pox(SDNController):
                                                                                         runOptions))
         except Exception as e:
             print("Something went wrong " + str(e))
+
+    def isRunning(self):
+        """Returns state of SDN Controller: True/False"""
+        try:
+            return True
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            return False
 
     def showSDNControllerGui(self):
         """Show SDN Controller GUI in web browser"""

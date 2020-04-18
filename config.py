@@ -15,18 +15,12 @@ logsPath = '/home/user/PycharmProjects/SDNAutomationSystem/Logs'
 readme = '/home/user/PycharmProjects/SDNAutomationSystem/README.md'
 
 # SDN Controllers setup
-FloodlightSDNControllerPath = '/home/user/PycharmProjects/SDNControllers/floodlight'
-OnosSDNControllerPath = '/home/user/PycharmProjects/SDNControllers/onos'
-OpendaylightSDNControllerPath = '/home/user/PycharmProjects/SDNControllers/opendaylight'
-PoxSDNControllerPath = '/home/user/PycharmProjects/SDNControllers/pox'
-RyuSDNControllerPath = '/home/user/PycharmProjects/SDNControllers/ryu'
-
 implementedSDNControllers = {
-    'Floodlight': Floodlight,
-    'Onos': Onos,
-    'Opendaylight': Opendaylight,
-    'Pox': Pox,
-    'Ryu': Ryu
+    'Floodlight': Floodlight(),
+    'Onos': Onos(),
+    'Opendaylight': Opendaylight(),
+    'Pox': Pox(),
+    'Ryu': Ryu()
 }
 
 implementedSDNControllersNames = list(implementedSDNControllers.keys())

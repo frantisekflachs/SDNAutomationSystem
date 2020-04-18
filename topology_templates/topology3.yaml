@@ -50,4 +50,4 @@ Ryu:
   - ryu/app/simple_switch_14.py
 
 # SDN CONTROLLERS POST CONFIGURATION
-sdnControllersPostConfig: topology3PostConfig.py
+sdnControllersPostConfig: "topology3PostConfig"

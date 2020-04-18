@@ -1,4 +1,4 @@
-class Topology2PostConfig:
+class Topology1PostConfig:
     """"""
 
     def execute(self, sdnc):

@@ -8,7 +8,7 @@ class Network3(Topo):
         # hosts
         host1 = self.addHost('h1')
         host2 = self.addHost('h2')
-        host3 = self.addHost('h3')
+        host3 = self.addHost('server')
 
         # switches
         switch1 = self.addSwitch('s1')

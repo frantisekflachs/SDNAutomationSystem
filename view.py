@@ -236,15 +236,15 @@ class View:
             timeNow = datetime.datetime.now().strftime("%H:%M:%S")
 
             # print to console
-            print(timeNow + " " + data)
+            print(timeNow + " " + str(data))
 
             # print to text field
-            self.txtLogger.insert(END, timeNow + " " + data + '\n')
+            self.txtLogger.insert(END, timeNow + " " + str(data) + '\n')
             self.txtLogger.see("end")
 
             # save to log file
             timeNow = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-            self.f.write(timeNow + " " + data + '\n')
+            self.f.write(timeNow + " " + str(data) + '\n')
             self.f.flush()
 
     def printTextTopologyTests(self, data):

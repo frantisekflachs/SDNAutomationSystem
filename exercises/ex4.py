@@ -6,10 +6,6 @@ if __name__ == '__main__':
 
     # print(sdnc.firewallClearRules())
 
-    # allow ARP between host h1 and h3
-    # print(sdnc.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.0.0.3/32", "dl-type": "ARP"}))
-    # print(sdnc.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.1/32", "dl-type": "ARP"}))
-
     print(sdnc.firewallAddRule({"dl-type": "ARP"}))
 
     # allow ICMP between host h1 and h3
@@ -23,6 +19,5 @@ if __name__ == '__main__':
     # allow HTTP protocol on port 80 from host h1 to h3 (server)
     print(sdnc.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.0.0.3/32", "nw-proto": "TCP", "tp-dst": "80", "action": "ALLOW"}))
     print(sdnc.firewallAddRule({"src-ip": "10.0.0.3/32", "dst-ip": "10.0.0.1/32", "nw-proto": "TCP", "tp-src": "80", "action": "ALLOW"}))
-
 
     print(sdnc.firewallListRules())

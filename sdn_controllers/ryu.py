@@ -9,6 +9,9 @@ import json
 class Ryu(SDNController):
     """Ryu SDN Controller"""
 
+    def __init__(self):
+        self.ryuSDNControllerPath = '/home/user/PycharmProjects/SDNControllers/ryu'
+
     def run(self, SDNControllerSetup):
         """Run SDN controller in new terminal window"""
 
@@ -18,10 +21,18 @@ class Ryu(SDNController):
                 runOptions += ' ' + o
 
             os.system(
-                'gnome-terminal -- bash -c "cd {} && /bin/ryu-manager{} && bash"'.format(config.RyuSDNControllerPath,
+                'gnome-terminal -- bash -c "cd {} && /bin/ryu-manager{} && bash"'.format(self.ryuSDNControllerPath,
                                                                                  runOptions))
         except Exception as e:
             print("Something went wrong " + str(e))
+
+    def isRunning(self):
+        """Returns state of SDN Controller: True/False"""
+        try:
+            return True
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            return False
 
     def showSDNControllerGui(self):
         """Show SDN Controller GUI in web browser"""

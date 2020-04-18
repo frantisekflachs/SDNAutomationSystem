@@ -38,9 +38,3 @@ Documentation is available at https://github.com/frantisekflachs/sdnautomationsy
 
 ### Join project
 SDN Automation System is open-source and is currently hosted at <https://github.com/frantisekflachs/SDNAutomationSystem>.  You are encouraged to download the code, examine it, modify it, and submit bug reports, bug fixes, feature requests, new features and other issues and pull requests.
-
-paramiko==2.7.1
-requests==2.23.0
-Pypubsub==4.0.3
-pubsub==0.1.2
-PyYAML==5.3.1

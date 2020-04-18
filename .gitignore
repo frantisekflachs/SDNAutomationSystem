@@ -210,7 +210,7 @@ pip-selfcheck.json
 
 ### My  directories ###
 /Logs/
-/vm/
+
 
 # End of https://www.gitignore.io/api/venv,python,pycharm
 

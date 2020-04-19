@@ -14,6 +14,9 @@ logsPath = '/home/user/PycharmProjects/SDNAutomationSystem/Logs'
 # help setup
 readme = '/home/user/PycharmProjects/SDNAutomationSystem/README.md'
 
+# self script for exercises
+pathExercises = '/home/user/PycharmProjects/SDNAutomationSystem/exercises'
+
 # SDN Controllers setup
 implementedSDNControllers = {
     'Floodlight': Floodlight(),

@@ -111,7 +111,7 @@ class View:
         self.txtScriptName = Text(self.container, height=1, width=23)
         self.txtScriptName.pack()
         self.txtScriptName.place(x=380, y=430)
-        self.txtScriptName.insert('1.0', 'script1.py')
+        self.txtScriptName.insert('1.0', 'exampleScript')
 
         self.btnRunScript = tk.Button(self.container, text='Run script', width=20,
                                              command=self.runScript)
@@ -304,6 +304,11 @@ class View:
 
         # Positions the window in the center of the page.
         parrent3.geometry("+{}+{}".format(positionRight, positionDown))
+
+    def getScriptName(self):
+        """Return self defined script name"""
+
+        return self.txtScriptName.get("1.0", END)
 
     def runTopology(self):
         """Button run topology pressed"""

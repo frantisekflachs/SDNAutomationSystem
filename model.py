@@ -1,3 +1,6 @@
+import os
+import subprocess
+
 from topology_tests.test_executor import TestExecutor
 from virtual_network.mininetVirtualNetwork import MininetVirtualTopology
 import config
@@ -19,7 +22,8 @@ class Model:
             tt = loadedTopologyConfig["topologyTests"]
             nt = loadedTopologyConfig["networkTemplate"]
             ns = loadedTopologyConfig['networkSetup']
-            sdns = loadedTopologyConfig[config.implementedSDNControllersNames[config.implementedSDNControllersClasses.index(SDNController)]]
+            sdns = loadedTopologyConfig[
+                config.implementedSDNControllersNames[config.implementedSDNControllersClasses.index(SDNController)]]
             pc = loadedTopologyConfig['sdnControllersPostConfig']
             return tt, nt, ns, sdns, pc
 
@@ -48,7 +52,8 @@ class Model:
             print("Something went wrong " + str(e))
 
     def runPostConfigScript(self, postConfigScript):
-        """Run script after controller and virtual network is started"""
+        """Run script after controller and virtual network is started
+        postConfigScript: script name that is defined in topology template"""
 
         try:
             ret = postConfigScript.run()
@@ -66,11 +71,49 @@ class Model:
             print("Something went wrong " + str(e))
 
     def testTopology(self, loadedSDNController, topologyTests):
-        """Testing topology"""
+        """Testing topology
+        loadedSDNController: SDN Controller name from the view, that was loaded
+        topologyTests: loaded tests from topology template"""
 
         try:
             testExecutor = TestExecutor(loadedSDNController)
             testsResults = testExecutor.run(topologyTests)
             return testsResults
+        except Exception as e:
+            print("Something went wrong " + str(e))
+
+    def runSelfDefinedScript(self, scriptName):
+        """Run self defined script
+        scriptName: name of the scipt that will be executed"""
+
+        print(scriptName)
+        os.system('gnome-terminal -- bash -c "sudo python3.7 {}/exampleScript.py && bash"'.format(
+                                     config.pathExercises, scriptName))
+
+    def endTopology(self):
+        """End topology that could contain SDN Controllers and virtual instances from virtul network"""
+
+        # kill all implemented SDN Controllers
+        implSDNControllers = config.implementedSDNControllersNames
+        for sdnc in implSDNControllers:
+            try:
+                print('SDN Controller ' + sdnc.lower() + ' exiting')
+                os.system("sudo kill $(ps aux | grep '" + sdnc.lower() + "' | awk '{print $2}')")
+            except Exception as e:
+                print("Something went wrong " + str(e))
+
+        # kill processes controller
+        try:
+            os.system("sudo killall controller")
+        except Exception as e:
+            print("Something went wrong " + str(e))
+
+        # clean Mininet
+        try:
+            print('Mininet exiting and cleaning')
+            os.system("sudo kill $(ps aux | grep 'sshd' | awk '{print $2}')")
+            os.system("sudo kill $(ps aux | grep 'xterm' | awk '{print $2}')")
+            os.system("service sshd restart")
+            os.system("sudo mn --clean")
         except Exception as e:
             print("Something went wrong " + str(e))

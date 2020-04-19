@@ -18,7 +18,6 @@ class Floodlight(SDNController):
 
         try:
             proc = subprocess.Popen(["gnome-terminal", "-e", "bash -c \"cd {} && java -jar target/floodlight.jar; /bin/bash -i\"".format(self.floodlightSDNControllerPath)])
-            pass
         except Exception as e:
             print("Something went wrong " + str(e))
 

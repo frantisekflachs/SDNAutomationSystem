@@ -1,4 +1,3 @@
-import os
 from pubsub import *
 import time
 
@@ -29,6 +28,7 @@ class Controller:
         pub.subscribe(self.testTopology, "btnTestTopology_Pressed")
         pub.subscribe(self.runSDNController, "btnRunSDNController_Pressed")
         pub.subscribe(self.runVirtualNetwork, "btnRunVirtualNetwork_Pressed")
+        pub.subscribe(self.runSelfDefinedScript, "btnRunScript_Pressed")
 
     def runTopology(self):
         """Load configure and run SDN Automation System"""
@@ -109,22 +109,9 @@ class Controller:
     def endTopology(self):
         """End all created instances"""
 
-        # kill all implemented SDN Controllers
-        implSDNControllers = config.implementedSDNControllersNames
-        for sdnc in implSDNControllers:
-            try:
-                print('SDN Controller ' + sdnc.lower() + ' exiting')
-                os.system("sudo kill $(ps aux | grep '" + sdnc.lower() + "' | awk '{print $2}')")
-            except Exception as e:
-                print("Something went wrong " + str(e))
-
-        # clean Mininet
         try:
-            print('Mininet exiting and cleaning')
-            os.system("sudo kill $(ps aux | grep 'sshd' | awk '{print $2}')")
-            os.system("sudo kill $(ps aux | grep 'xterm' | awk '{print $2}')")
-            os.system("service sshd restart")
-            os.system("sudo mn --clean")
+            self.model.endTopology()
+            self.view.printTextLog("Topology was ended.")
         except Exception as e:
             print("Something went wrong " + str(e))
 
@@ -163,6 +150,15 @@ class Controller:
             ret = pce.run(postConfig)
             print(ret)
             # self.view.printTextLog(ret)
+        except Exception as e:
+            print("Something went wrong " + str(e))
+
+    def runSelfDefinedScript(self):
+        """Run script defined in gui by user"""
+
+        try:
+            scriptName = self.view.getScriptName()
+            self.model.runSelfDefinedScript(scriptName)
         except Exception as e:
             print("Something went wrong " + str(e))
 

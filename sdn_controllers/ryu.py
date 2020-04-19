@@ -28,11 +28,24 @@ class Ryu(SDNController):
 
     def isRunning(self):
         """Returns state of SDN Controller: True/False"""
+
         try:
-            return True
+            ret = self.getSwitches()
+            return ret
         except Exception as e:
             print("Something went wrong " + str(e))
             return False
+
+    def getSwitches(self):
+        """Get the list of all switches which connected to the controller."""
+
+        try:
+            ret = self.restCall('/stats/switches', {}, 'GET')
+            return ret[0] == 200
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            return False
+
 
     def showSDNControllerGui(self):
         """Show SDN Controller GUI in web browser"""
@@ -108,9 +121,9 @@ class Ryu(SDNController):
 
 if __name__ == "__main__":
     pusher = Ryu()
-    print(pusher.listFlowTable('1'))
-    print(pusher.clearFlowTable('1'))
-    print(pusher.listFlowTable('1'))
+    # print(pusher.listFlowTable('1'))
+    # print(pusher.clearFlowTable('1'))
+    # print(pusher.listFlowTable('1'))
 
     data = {
         'dpid': 1,
@@ -127,7 +140,9 @@ if __name__ == "__main__":
         'table_id': 0
     }
 
-    print(pusher.deleteFlow(data))
-    print(pusher.listFlowTable('1'))
-    print(pusher.addFlow(data))
-    print(pusher.listFlowTable('1'))
+    # print(pusher.deleteFlow(data))
+    # print(pusher.listFlowTable('1'))
+    # print(pusher.addFlow(data))
+    # print(pusher.listFlowTable('1'))
+
+    print(pusher.isRunning())

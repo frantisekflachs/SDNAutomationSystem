@@ -26,11 +26,26 @@ class Onos(SDNController):
 
     def isRunning(self):
         """Returns state of SDN Controller: True/False"""
+
         try:
-            return True
+            ret = self.systemInfo()
+            if ret is not None:
+                return True
+            else:
+                return False
         except Exception as e:
             print("Something went wrong " + str(e))
             return False
+
+    def systemInfo(self):
+        """Returns system informations"""
+
+        try:
+            ret = self.restCall('/onos/v1/system', {}, 'GET')
+            return json.loads(ret[2])
+        except Exception as e:
+            print("Something went wrong " + str(e))
+
 
     def showSDNControllerGui(self):
         """Show SDN Controller GUI in web browser"""
@@ -209,17 +224,19 @@ if __name__ == "__main__":
             }
         ]
     }
+    #
+    # print(pusher.listFlowTable('of:0000000000000001'))
+    # print(pusher.addFlow(flow2))
+    # print(pusher.addFlow(flow3))
+    # print(pusher.addFlow(flow4))
+    # print(pusher.listFlowTable('of:0000000000000001'))
+    #
+    # print(pusher.deleteFlow(flow1))
+    # print(pusher.deleteFlow(path='http://localhost:8181/onos/v1/flows/of:0000000000000001/52917299094404191'))
+    #
+    # print(pusher.listFlowTable('of:0000000000000001'))
+    #
+    # print(pusher.clearFlowTable('of:0000000000000001'))
+    # print(pusher.listFlowTable('of:0000000000000001'))
 
-    print(pusher.listFlowTable('of:0000000000000001'))
-    print(pusher.addFlow(flow2))
-    print(pusher.addFlow(flow3))
-    print(pusher.addFlow(flow4))
-    print(pusher.listFlowTable('of:0000000000000001'))
-
-    print(pusher.deleteFlow(flow1))
-    print(pusher.deleteFlow(path='http://localhost:8181/onos/v1/flows/of:0000000000000001/52917299094404191'))
-
-    print(pusher.listFlowTable('of:0000000000000001'))
-
-    print(pusher.clearFlowTable('of:0000000000000001'))
-    print(pusher.listFlowTable('of:0000000000000001'))
+    print(pusher.isRunning())

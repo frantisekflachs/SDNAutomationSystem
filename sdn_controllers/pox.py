@@ -1,7 +1,6 @@
 from sdn_controllers.sdnController import SDNController
 
 import requests
-import config
 import os
 import json
 
@@ -26,18 +25,31 @@ class Pox(SDNController):
                     runOptions += ' ' + o
                 # print('gnome-terminal -- bash -c "{}/pox.py {} && bash"'.format(config.PoxSDNControllerPath,
                 #                                                                     runOptions))
-                os.system('gnome-terminal -- bash -c "{}/pox.py {} && bash"'.format(config.PoxSDNControllerPath,
-                                                                                        runOptions))
+                os.system('gnome-terminal -- bash -c "{}/pox.py {} && bash"'.format(self.poxSDNControllerPath,
+                                                                                    runOptions))
         except Exception as e:
             print("Something went wrong " + str(e))
 
     def isRunning(self):
         """Returns state of SDN Controller: True/False"""
         try:
-            return True
+            ret = self.getNodes()
+            if ret is not None:
+                return True
+            else:
+                return False
         except Exception as e:
             print("Something went wrong " + str(e))
             return False
+
+    def getNodes(self):
+        """Returns connected nodes to POX controller"""
+
+        try:
+            ret = self.restCall('/OF/pretty', {"method": "get_switches", "id": 0}, 'POST')
+            return ret
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def showSDNControllerGui(self):
         """Show SDN Controller GUI in web browser"""
@@ -111,6 +123,9 @@ if __name__ == "__main__":
     # curl -i -X POST -d '{"method":"set_table","params":{"dpid":"00-00-00-00-00-01","flows":[{"actions": [{"type":"OFPAT_OUTPUT","port":2}],"match": {"dl_type": "IP","nw_dst":"192.168.42.0/255.255.255.0" }}]}}' http://127.0.0.1:8000/OF/
     # curl -i -X POST -d '{"method":"set_table","params":{"dpid":"00-00-00-00-00-01","flows":[{"actions":[{"type":"OFPAT_OUTPUT","port":"OFPP_ALL"}],"match":{}}]},"id":0}' http://127.0.0.1:8000/OF/
 
-    print(pusher.listFlowTable('00-00-00-00-00-01'))
-    print(pusher.addFlow({"dpid": "00-00-00-00-00-01", "flows": [{"actions": [{"type": "OFPAT_OUTPUT", "port": 1}], "match": {"dl_type": "IP", "in_port": 1}}]}))
-    print(pusher.listFlowTable('00-00-00-00-00-01'))
+    # print(pusher.listFlowTable('00-00-00-00-00-01'))
+    # print(pusher.addFlow({"dpid": "00-00-00-00-00-01", "flows": [
+    #     {"actions": [{"type": "OFPAT_OUTPUT", "port": 1}], "match": {"dl_type": "IP", "in_port": 1}}]}))
+    # print(pusher.listFlowTable('00-00-00-00-00-01'))
+
+    print(pusher.isRunning())

@@ -25,10 +25,23 @@ class Opendaylight(SDNController):
     def isRunning(self):
         """Returns state of SDN Controller: True/False"""
         try:
-            return True
+            ret = self.getNodes()
+            if ret is not None:
+                return True
+            else:
+                return False
         except Exception as e:
             print("Something went wrong " + str(e))
             return False
+
+    def getNodes(self):
+        """Return connected nodes to controller"""
+
+        try:
+            ret = self.restCall('/restconf/config/opendaylight-inventory:nodes', {}, 'GET')
+            return json.loads(ret[2])
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def showSDNControllerGui(self):
         """Show SDN Controller GUI and OpenFlow App GUI in web browser"""
@@ -67,7 +80,6 @@ class Opendaylight(SDNController):
         try:
             ret = self.restCall('/restconf/operational/opendaylight-inventory:nodes/node/{}'.format(device), {}, 'GET')
             return json.loads(ret[2])
-            # return ret
         except Exception as e:
             print("Something went wrong " + str(e))
 
@@ -133,7 +145,7 @@ if __name__ == "__main__":
     # {"flow":[{"table_id":"0","id":"20","priority":"20","flow-name":"test","instructions":{"instruction":[{"order":0,"apply-actions":{"action":[{"order":0,"output-action":{"output-node-connector":"CONTROLLER"}},{"order":1,"output-action":{"output-node-connector":"2"}}]}}]},"hard-timeout":"0","idle-timeout":"0","installHw":"false","strict":"false"}]}
     # http://localhost:8181/restconf/operational/opendaylight-inventory:nodes/node/openflow:1/flow-node-inventory:table/0
 
-    print(pusher.listFlowTable('openflow:1'))
+    # print(pusher.listFlowTable('openflow:1'))
     #
     # flow1 = {
     #     "id": 0,
@@ -156,4 +168,6 @@ if __name__ == "__main__":
     # flow4 = {"id":"666"}
     # print(pusher.deleteFlow(flow4, path='/restconf/config/opendaylight-inventory:nodes/node/openflow:1/table/0/flow/666'))
 
-    print(pusher.clearFlowTable('openflow:1'))
+    # print(pusher.clearFlowTable('openflow:1'))
+
+    print(pusher.getNodes())

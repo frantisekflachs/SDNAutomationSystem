@@ -13,6 +13,7 @@ This thesis deals with the design and implementation of an automated system for 
 
 ### Documentation
 Documentation is available at https://github.com/frantisekflachs/sdnautomationsystem/wiki
+
 ### Installation
 `git clone git://github.com/frantisekflachs/SDNAutomationSystem`
 

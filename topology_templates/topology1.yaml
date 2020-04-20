@@ -47,6 +47,9 @@ Pox:
   - openflow.of_01 --port=6653
   - web.webcore
   - openflow.webservice
+  - openflow.discovery
+  - misc.gephi_topo
+  - host_tracker
 
 # run options for Ryu SDN Controller
 Ryu:

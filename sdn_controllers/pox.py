@@ -55,7 +55,7 @@ class Pox(SDNController):
         """Show SDN Controller GUI in web browser"""
 
         try:
-            os.system('gnome-terminal -- bash -c "/bin/su user /usr/bin/firefox http://127.0.0.1:8000/"')
+            os.popen('/home/user/PycharmProjects/SDNControllers/gephi-0.9.2/bin/gephi')
         except Exception as e:
             print("Something went wrong " + str(e))
 

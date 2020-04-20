@@ -1,6 +1,7 @@
 import http
 import json
 import os
+import shutil
 from base64 import b64encode
 
 from sdn_controllers.sdnController import SDNController
@@ -17,10 +18,36 @@ class Opendaylight(SDNController):
         """Run SDN controller in new terminal window"""
 
         try:
-            os.system('gnome-terminal -- bash -c "export TERM=xterm-color && {}/bin/karaf && bash"'.format(
+            # copy user defined configuration
+            ret = self.__copyConfig(SDNControllerSetup)
+            if ret:
+                print("User defined config was applied.")
+                # run SDN Controller with user defined config
+                os.system('gnome-terminal -- bash -c "export TERM=xterm-color && {}/bin/karaf && bash"'.format(
                     self.opendaylightSDNControllerPath))
+            else:
+                ret = self.__copyConfig('odl_default_config')
+                if ret:
+                    print("User defined config failed, starting with default config.")
+                    # run SDN Controller with default config
+                    os.system('gnome-terminal -- bash -c "export TERM=xterm-color && {}/bin/karaf && bash"'.format(
+                        self.opendaylightSDNControllerPath))
+                else:
+                    print("Starting failed.")
         except Exception as e:
             print("Something went wrong " + str(e))
+
+    def __copyConfig(self, SDNControllerSetup):
+        """Copy custom configuration before starting SDN controller"""
+
+        try:
+            shutil.copy2('/home/user/PycharmProjects/SDNAutomationSystem/sdn_controllers/startup_config/opendaylight/{}'.format(SDNControllerSetup),
+                         '/home/user/PycharmProjects/SDNControllers/opendaylight/etc/custom.properties')
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            return False
+        else:
+            return True
 
     def isRunning(self):
         """Returns state of SDN Controller: True/False"""

@@ -24,17 +24,13 @@ networkSetup:
 
 ### SDN CONTROLLERS SETUP (SWITCHES AND PACKAGES)
 # run options for Floodlight SDN Controller
-Floodlight:
-  # first is controller path
+Floodlight: "fl_config1"
 
 # run options for Onos SDN Controller
-Onos:
+Onos: "onos_config1"
 
 # run options for Opendaylight SDN Controller
-Opendaylight:
-
-# run options for Pox SDN Controller
-Pox:
+Opendaylight: "odl_config1"
 
 # run options for Ryu SDN Controller
 Ryu:

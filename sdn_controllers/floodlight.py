@@ -1,10 +1,10 @@
-# import config
 from sdn_controllers.sdnController import SDNController
 
 import subprocess
 import os
 import http.client
 import json
+import shutil
 
 
 class Floodlight(SDNController):
@@ -17,9 +17,38 @@ class Floodlight(SDNController):
         """Run SDN controller in new terminal window"""
 
         try:
-            proc = subprocess.Popen(["gnome-terminal", "-e", "bash -c \"cd {} && java -jar target/floodlight.jar; /bin/bash -i\"".format(self.floodlightSDNControllerPath)])
+            # copy user defined configuration
+            ret = self.__copyConfig(SDNControllerSetup)
+            if ret:
+                print("User defined config was applied.")
+                # run SDN Controller with user defined config
+                proc = subprocess.Popen(["gnome-terminal", "-e", "bash -c \"cd {} && java -jar target/floodlight.jar; "
+                                                                 "/bin/bash -i\"".format(
+                                                                    self.floodlightSDNControllerPath)])
+            else:
+                ret = self.__copyConfig('fl_default_config')
+                if ret:
+                    print("User defined config failed, starting with default config.")
+                    # run SDN Controller with default config
+                    proc = subprocess.Popen(["gnome-terminal", "-e",
+                                             "bash -c \"cd {} && java -jar target/floodlight.jar; /bin/bash -i\"".format(
+                                                 self.floodlightSDNControllerPath)])
+                else:
+                    print("Starting failed.")
         except Exception as e:
             print("Something went wrong " + str(e))
+
+    def __copyConfig(self, SDNControllerSetup):
+        """Copy custom configuration before starting SDN controller"""
+
+        try:
+            shutil.copy2('/home/user/PycharmProjects/SDNAutomationSystem/sdn_controllers/startup_config/floodlight/{}'.format(SDNControllerSetup),
+                         '/home/user/PycharmProjects/SDNControllers/floodlight/src/main/resources/floodlightdefault.properties')
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            return False
+        else:
+            return True
 
     def isRunning(self):
         """Returns state of SDN Controller: True/False"""

@@ -30,6 +30,28 @@ class Model:
         except Exception as e:
             print("Something went wrong " + str(e))
 
+    def loadSDNCTopologyTemplate(self, topologyTemplateConfigPath):
+        """Load SDNC defined in yaml config file
+        topologyTemplateConfigPath: path where to find yaml config file"""
+
+        try:
+            stream = open(topologyTemplateConfigPath, 'r')
+            loadedTopologyConfig = yaml.load(stream, Loader=yaml.FullLoader)
+
+            implementedSDNC = config.implementedSDNControllersNames
+            sdncInTopologyTemplate = []
+            for implsdnc in implementedSDNC:
+                try:
+                    sdnc = loadedTopologyConfig[implsdnc]
+                    sdncInTopologyTemplate.append(implsdnc)
+                except Exception as e:
+                    print("Something went wrong " + str(e))
+
+            return sdncInTopologyTemplate
+
+        except Exception as e:
+            print("Something went wrong " + str(e))
+
     def runSDNController(self, SDNController, SDNControllerSetup):
         """Run SDN Controller
         SDNController: Implemented SDN Controllers in the system

@@ -29,6 +29,7 @@ class Controller:
         pub.subscribe(self.runSDNController, "btnRunSDNController_Pressed")
         pub.subscribe(self.runVirtualNetwork, "btnRunVirtualNetwork_Pressed")
         pub.subscribe(self.runSelfDefinedScript, "btnRunScript_Pressed")
+        pub.subscribe(self.loadSDNCTopologyTemplate, "topologyTemplate_Changed")
 
     def runTopology(self):
         """Load configure and run SDN Automation System"""
@@ -228,3 +229,9 @@ class Controller:
         except Exception as e:
             print("Something went wrong " + str(e))
             return None
+
+    def loadSDNCTopologyTemplate(self):
+        """Load SDNC in topology template and list them in view"""
+
+        sdncInTemplate = self.model.loadSDNCTopologyTemplate("topology_templates/{}".format(self.view.getSelectedTopologyTemplate()))
+        self.view.loadImplementedSDNControllers(sdncInTemplate)

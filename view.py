@@ -12,6 +12,8 @@ from view_help import ViewHelp
 from view_templates import ViewTemplates
 
 
+
+
 class View:
     """ View for the MVC architecture. """
 
@@ -30,7 +32,7 @@ class View:
 
         # load methods
         self.loadTopologyTemplates()
-        self.loadImplementedSDNControllers(config.implementedSDNControllers)
+        # self.loadImplementedSDNControllers(config.implementedSDNControllers)
 
     def initGUI(self):
         """Inicializing Graphical User Interface"""
@@ -51,6 +53,7 @@ class View:
         self.lstTopologyTemplateScroll.config(command=self.lstTopologyTemplate.yview)
         self.lstTopologyTemplate.configure(yscrollcommand=self.lstTopologyTemplateScroll.set)
         self.frameTopologyTemplate.place(x=20, y=20)
+        self.lstTopologyTemplate.bind('<<ListboxSelect>>', self.onSelectTopology)
 
         # sdn controller
         self.lblSDNController = Label(self.container, text='SDN Controller')
@@ -143,8 +146,6 @@ class View:
     def loadTopologyTemplates(self):
         """Load topology templates from path file"""
 
-        print("updated")
-
         try:
             self.lstTopologyTemplate.delete(0, END)
             entries = os.listdir(config.topologyTemplatesConfigPath)
@@ -162,6 +163,7 @@ class View:
     def loadImplementedSDNControllers(self, controllers):
         """Load implemented controllers"""
 
+        self.cmbSDNController['values'] = []
         for c in controllers:
             self.cmbSDNController['values'] = (*self.cmbSDNController['values'], c)
 
@@ -183,7 +185,9 @@ class View:
     def getSelectedTopologyTemplate(self):
         """Return name of selected topology"""
 
-        activeTopoTemplate = self.lstTopologyTemplate.get(ACTIVE).split(":")
+        clickedItem = self.lstTopologyTemplate.curselection()
+        activeTopoTemplate = self.lstTopologyTemplate.get(clickedItem).split(":")
+
         # return only topo "name.yaml"
         return activeTopoTemplate[0]
 
@@ -257,9 +261,8 @@ class View:
 
     def openTemplatesView(self):
         """Open GUI for editing templates"""
+
         parrent2 = Toplevel(self.container)
-
-
         WIDTH = 1200
         HEIGHT = 800
         parrent2.geometry("%sx%s" % (WIDTH, HEIGHT))
@@ -282,9 +285,8 @@ class View:
 
     def openHelpView(self):
         """Open GUI for help"""
+
         parrent3 = Toplevel(self.container)
-
-
         WIDTH = 700
         HEIGHT = 790
         parrent3.geometry("%sx%s" % (WIDTH, HEIGHT))
@@ -344,6 +346,11 @@ class View:
         """Test configured topology"""
 
         pub.sendMessage("btnTestTopology_Pressed")
+
+    def onSelectTopology(self, event):
+        """Update SDN controllers list on select event in template list"""
+
+        pub.sendMessage("topologyTemplate_Changed")
 
 
 # test view

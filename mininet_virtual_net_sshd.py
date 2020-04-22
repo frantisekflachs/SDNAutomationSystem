@@ -21,7 +21,7 @@ def MyNetwork(params):
         else:
             x = False
 
-        return Mininet(topo, controller=lambda name: RemoteController(name, ip='127.0.0.1'), switch=switch, xterms=x)
+        return Mininet(topo, controller=lambda name: RemoteController(name, ip='127.0.0.1'), switch=switch, xterms=x, ipBase='192.168.0.0/24', cleanup=True)
     except Exception as e:
         print("Something went wrong " + str(e))
 
@@ -34,7 +34,7 @@ def connectToRootNS(network, switch, ip, routes):
       routes: host networks to route to"""
 
     try:
-        # Create a node in root namespace and link to switch 0
+        # Create a node in root namespace and link to s1
         root = Node('root', inNamespace=False)
         intf = network.addLink(root, switch).intf1
         root.setIP(ip, intf=intf)
@@ -60,9 +60,9 @@ def sshd(network, ip='10.123.123.1/32', routes=None, switch=None):
             switch = network['s1']  # switch to use
 
         if not routes:
-            routes = ['10.0.0.0/24']
+            routes = ['10.0.0.0/8', '172.16.0.0/16', '192.168.0.0/24']
 
-        connectToRootNS(network, switch, ip, routes)
+        connectToRootNS(network, switch, '192.168.0.200/32', routes)
 
         for host in network.hosts:
             host.cmd('/usr/sbin/sshd -D -o UseDNS=no -u0 &')

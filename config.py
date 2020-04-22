@@ -2,6 +2,7 @@
 from network_templates.network1 import Network1
 from network_templates.network2 import Network2
 from network_templates.network3 import Network3
+from network_templates.network4 import Network4
 from sdn_controllers.opendaylight import Opendaylight
 from sdn_controllers.floodlight import Floodlight
 from sdn_controllers.onos import Onos
@@ -33,8 +34,15 @@ implementedSDNControllersClasses = list(implementedSDNControllers.values())
 topologyTemplatesPath = '/home/user/PycharmProjects/SDNAutomationSystem/network_templates'
 topologyTemplatesConfigPath = '/home/user/PycharmProjects/SDNAutomationSystem/topology_templates'
 
+
+class Network5(object):
+    pass
+
+
 implementedVirtualNetworks = {
     'network1': Network1(),
     'network2': Network2(),
     'network3': Network3(),
+    'network4': Network4(),
+    'network5': Network5(),
 }

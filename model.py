@@ -106,10 +106,12 @@ class Model:
     def runSelfDefinedScript(self, scriptName):
         """Run self defined script
         scriptName: name of the scipt that will be executed"""
-
-        print(scriptName)
-        os.system('gnome-terminal -- bash -c "sudo python3.7 {}/exampleScript.py && bash"'.format(
-                                     config.pathExercises, scriptName))
+        try:
+            proc = subprocess.Popen(["gnome-terminal", "-e",
+                                     "bash -c \"sudo python3.7 {}/{}.py; /bin/bash -i\"".format(
+                                         config.pathExercises, scriptName[:-1])])
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def endTopology(self):
         """End topology that could contain SDN Controllers and virtual instances from virtul network"""

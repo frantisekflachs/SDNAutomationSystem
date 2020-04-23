@@ -95,7 +95,7 @@ class Controller:
             # load parameter from GUI defined by user
             self.loadParametersFromGUI()
 
-            self.model.runVirtualNetwork(self.networkTemplate, self.networkSetup)
+            self.model.runVirtualNetwork(self.loadedTopologyTemplate, self.xtermEnable)
             self.view.printTextLog("Virtual network started.")
 
             # load topology tests to GUI lists
@@ -149,7 +149,7 @@ class Controller:
             # print(postConfig)
             pce = PostConfigExecutor(sdnc)
             ret = pce.run(postConfig)
-            print(ret)
+            # print(ret)
             # self.view.printTextLog(ret)
         except Exception as e:
             print("Something went wrong " + str(e))
@@ -182,19 +182,16 @@ class Controller:
             self.view.printTextLog("Topology {} template loaded.".format(self.loadedTopologyTemplate))
 
             # load settings from yaml file
-            self.topologyTests, self.networkTemplate, self.networkSetup, self.SDNControllerSetup, self.postConfig = self.model.loadTopologyConfig(
+            self.topologyTests, self.networkTemplate, self.SDNControllerSetup, self.postConfig = self.model.loadTopologyConfig(
                 "topology_templates/{}".format(self.loadedTopologyTemplate), self.loadedSDNController)
 
-            if (self.topologyTests or self.networkTemplate or self.networkSetup or self.SDNControllerSetup) is None:
+            if (self.topologyTests or self.networkTemplate or self.SDNControllerSetup) is None:
                 self.view.printTextLog("Error reading topology {} config file.".format(self.loadedTopologyTemplate))
                 return
             self.view.printTextLog("Topology settings from {} loaded.".format(self.loadedTopologyTemplate))
 
             # check xterm enable in GUI
             self.xtermEnable = self.loadXTermEnable()
-            if self.xtermEnable:
-                # self.networkSetup.append('-x')
-                self.networkSetup.append('x')
         except Exception as e:
             print("Something went wrong " + str(e))
 
@@ -214,7 +211,6 @@ class Controller:
 
         try:
             selectedTopologyTemplate = self.view.getSelectedTopologyTemplate()
-            # topology = config.implementedTopologyTemplates[selectedTopologyTemplate]
             return selectedTopologyTemplate
         except Exception as e:
             print("Something went wrong " + str(e))
@@ -225,10 +221,13 @@ class Controller:
 
         try:
             xterm = self.view.getXTerm()
-            return xterm
+            if xterm:
+                return 'enable'
+            else:
+                return 'disable'
         except Exception as e:
             print("Something went wrong " + str(e))
-            return None
+            return 'disable'
 
     def loadSDNCTopologyTemplate(self):
         """Load SDNC in topology template and list them in view"""

@@ -1,27 +1,111 @@
 import sys
 from functools import partial
+import yaml
 from mininet.net import Mininet
 from mininet.cli import CLI
 from mininet.log import lg, info
-from mininet.node import Node, RemoteController, OVSKernelSwitch
+from mininet.node import Node, RemoteController, OVSKernelSwitch, IVSSwitch, OVSBridge
 from mininet.util import waitListening
 import config
 
 
-def MyNetwork(params):
-    """Create My Network from loaded parameters."""
+def loadNetworkSetup(topologyTemplate):
+    """Load topology from yaml config file
+    topologyTemplate: topology file name - yaml config file"""
 
     try:
-        topo = config.implementedVirtualNetworks[params[0]]
-        switch = partial(OVSKernelSwitch, protocols='OpenFlow{}'.format(params[1]))
+        stream = open(config.topologyTemplatesConfigPath + '/' + topologyTemplate, 'r')
+        loadedTopologyConfig = yaml.load(stream, Loader=yaml.FullLoader)
+        networkSetup = loadedTopologyConfig["networkSetup"]
+        networkTemplate = loadedTopologyConfig["networkTemplate"]
+        return networkSetup, networkTemplate
+    except Exception as e:
+        print("Something went wrong " + str(e))
 
-        # if last param is x, then run with XTerm for each host, x is loaded from GUI
-        if params[-1] == 'x':
-            x = True
-        else:
-            x = False
 
-        return Mininet(topo, controller=lambda name: RemoteController(name, ip='127.0.0.1'), switch=switch, xterms=x, ipBase='192.168.0.0/24', cleanup=True)
+def virtualNetwork(networkSetup, networkTemplate):
+    """Create My Network from loaded parameters.
+    networkSetup: dict with parameters for virtual network
+    networkTemplate: network template for virtual network"""
+
+    try:
+        try:
+            switchType = networkSetup['switchType']
+            ofVersion = networkSetup['ofVersion']
+            if switchType is 'OVSSwitch':
+                switch = partial(OVSKernelSwitch, protocols='OpenFlow{}'.format(ofVersion))
+            elif switchType is 'IVSSwitch':
+                switch = partial(IVSSwitch, protocols='OpenFlow{}'.format(ofVersion))
+            elif switchType is 'OVSBridge':
+                switch = partial(OVSBridge, protocols='OpenFlow{}'.format(ofVersion))
+            else:
+                switch = partial(OVSKernelSwitch, protocols='OpenFlow13')
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            switch = partial(OVSKernelSwitch, protocols='OpenFlow13')
+
+        topo = config.implementedVirtualNetworks[networkTemplate]
+
+        # checking defined values, if not defined in template, set default
+        try:
+            sdnControllerIp = networkSetup['sdnControllerIp']
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            sdnControllerIp = '127.0.0.1'
+
+        try:
+            sdnControllerPort = networkSetup['sdnControllerPort']
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            sdnControllerPort = 6653
+
+        try:
+            ipBase = networkSetup['ipBase']
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            ipBase = '10.0.0.0/8'
+
+        try:
+            cleanUp = networkSetup['cleanUp']
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            cleanUp = False
+
+        try:
+            xterm = networkSetup['xterm']
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            xterm = False
+
+        try:
+            inNamespace = networkSetup['inNamespace']
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            inNamespace = False
+
+        try:
+            autoSetMacs = networkSetup['autoSetMacs']
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            autoSetMacs = False
+
+        try:
+            autoStaticArp = networkSetup['autoStaticArp']
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            autoStaticArp = False
+
+        return Mininet(topo,
+                       controller=lambda name: RemoteController(name, ip=sdnControllerIp, port=sdnControllerPort),
+                       switch=switch,
+                       ipBase=ipBase,
+                       cleanup=cleanUp,
+                       xterms=xterm,
+                       inNamespace=inNamespace,
+                       autoSetMacs=autoSetMacs,
+                       autoStaticArp=autoStaticArp
+                       )
+
     except Exception as e:
         print("Something went wrong " + str(e))
 
@@ -36,6 +120,7 @@ def connectToRootNS(network, switch, ip, routes):
     try:
         # Create a node in root namespace and link to s1
         root = Node('root', inNamespace=False)
+
         intf = network.addLink(root, switch).intf1
         root.setIP(ip, intf=intf)
 
@@ -49,20 +134,25 @@ def connectToRootNS(network, switch, ip, routes):
         print("Something went wrong " + str(e))
 
 
-def sshd(network, ip='10.123.123.1/32', routes=None, switch=None):
+def sshd(network, networkSetup):
     """Start a network, connect it to root ns, and run sshd on all hosts.
-       ip: root-eth0 IP address in root namespace (10.123.123.1/32)
-       routes: Mininet host networks to route to (10.0/24)
-       switch: Mininet switch to connect to root namespace (s1)"""
+       network: Mininet() network object
+       networkSetup: dict with parameters for virtual network"""
 
     try:
-        if not switch:
-            switch = network['s1']  # switch to use
+        switch = network['s1']  # switch to use
+        try:
+            rootIp = networkSetup['rootIp']
+        except:
+            print('Missing root IP')
+            rootIp = '10.0.0.200/32'
 
-        if not routes:
-            routes = ['10.0.0.0/8', '172.16.0.0/16', '192.168.0.0/24']
+        try:
+            routesRoot = networkSetup['routesRoot']
+        except:
+            routesRoot = ['10.0.0.0/8']
 
-        connectToRootNS(network, switch, '192.168.0.200/32', routes)
+        connectToRootNS(network, switch, rootIp, routesRoot)
 
         for host in network.hosts:
             host.cmd('/usr/sbin/sshd -D -o UseDNS=no -u0 &')
@@ -88,8 +178,32 @@ def sshd(network, ip='10.123.123.1/32', routes=None, switch=None):
         print("Something went wrong " + str(e))
 
 
-if __name__ == '__main__':
-    lg.setLogLevel('info')
+def run(topologyTemplate, xterm='disable'):
+    """Main function to run virtul topology
+    topologyTemplate: template for topology to run
+    xterm: param for run all hosts with xterm, loaded from GUI not from template"""
 
-    net = MyNetwork(sys.argv[1:]) # argv[1:] only params without script name
-    sshd(net)
+    try:
+        networkSetup, networkTemplate = loadNetworkSetup(topologyTemplate)
+
+        # if 'networkSetup' is not defined in template
+        if networkSetup is None:
+            networkSetup = {}
+        if xterm == 'enable':
+            networkSetup['xterm'] = True
+        else:
+            networkSetup['xterm'] = False
+
+        net = virtualNetwork(networkSetup, networkTemplate)  # argv[1:] only params without script name
+        sshd(net, networkSetup)
+    except Exception as e:
+        print("Something went wrong " + str(e))
+
+
+if __name__ == '__main__':
+
+    try:
+        lg.setLogLevel('info')
+        run(sys.argv[1], sys.argv[2])
+    except Exception as e:
+        print("Something went wrong " + str(e))

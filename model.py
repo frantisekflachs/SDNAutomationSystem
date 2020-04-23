@@ -21,11 +21,10 @@ class Model:
 
             tt = loadedTopologyConfig["topologyTests"]
             nt = loadedTopologyConfig["networkTemplate"]
-            ns = loadedTopologyConfig['networkSetup']
             sdns = loadedTopologyConfig[
                 config.implementedSDNControllersNames[config.implementedSDNControllersClasses.index(SDNController)]]
             pc = loadedTopologyConfig['sdnControllersPostConfig']
-            return tt, nt, ns, sdns, pc
+            return tt, nt, sdns, pc
 
         except Exception as e:
             print("Something went wrong " + str(e))
@@ -62,13 +61,13 @@ class Model:
         except Exception as e:
             print("Something went wrong " + str(e))
 
-    def runVirtualNetwork(self, networkTemplate, networkSetup):
+    def runVirtualNetwork(self, networkTemplate, xterm):
         """Run Network Topology
         networkTemplate: pre-defined netwrok template
-        networkSetup: parameters for virtual network """
+        xterm: True/False """
 
         try:
-            mvt = MininetVirtualTopology(networkTemplate, networkSetup)
+            mvt = MininetVirtualTopology(networkTemplate, xterm)
             mvt.run()
         except Exception as e:
             print("Something went wrong " + str(e))

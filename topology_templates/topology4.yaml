@@ -20,14 +20,21 @@ networkTemplate: network3 # network templates in network_template folder
 
 # Mininet switches
 networkSetup:
-  - 13 # openflow version
-#  - -i 10.0.0.0/8
-#  - --controller=remote,ip=localhost,port=6653 #
-#  - --switch ovsk,protocols=OpenFlow14 #
-#  - -v info # info, debug, output
-#  - --mac # ID = MAC
-#  - --test pingall # pingall, pingpair, iperf, iperfudp
-#  - --innamespace # put hosts in their own namespaces; controllers and switches are default in theis own namespaces
+  ofVersion: 13 # openflow version
+  ipBase: 10.0.0.0/8 # base IP address for hosts
+  rootIp: 10.0.0.200/32 # IP for host root
+  routesRoot: 10.0.0.0/8
+  cleanUp: True # if build now, cleanup before creating?
+  inNamespace: False # spawn switches and controller in net namespaces?
+  xTerm: True # show XTerm for each host in virtual network
+  sdnControllerIp: 127.0.0.1 # SDN controller IP
+  sdnControllerPort: 6653 # listen port that will be SDN Controller listening for OpenFlow protocol 6653, 6654
+  autoSetMacs: False # set MAC addrs automatically like IP addresses?
+  autoStaticArp: False # set all-pairs static MAC addrs?
+  switchType: OVSSwitch
+  # OVSBridge - OVSBridge is an OVSSwitch in standalone/bridge mode
+  # IVSSwitch - Indigo Virtual Switch
+  # OVSSwitch - Open vSwitch switch. Depends on ovs-vsctl, OVSSwitch = OVSKernelSwitch
 
 ### SDN CONTROLLERS SETUP (SWITCHES AND PACKAGES)
 # run options for Floodlight SDN Controller

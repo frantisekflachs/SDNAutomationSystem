@@ -1517,8 +1517,7 @@ class Ryu( Controller ):
 class RemoteController( Controller ):
     "Controller running outside of Mininet's control."
 
-    def __init__( self, name, ip='127.0.0.1',
-                  port=None, **kwargs):
+    def __init__( self, name, ip='127.0.0.1', port=None, **kwargs):
         """Init.
            name: name to give controller
            ip: the IP address where the remote controller is

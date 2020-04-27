@@ -2,6 +2,7 @@ from mininet.topo import Topo
 
 
 class Network1(Topo):
+    """ h1 --- s1 --- h2 """
 
     def build(self):
 

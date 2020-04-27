@@ -16,6 +16,9 @@ class LinuxRouter(Node):
 
 
 class Network4(Topo):
+    """ r0 --- s1 --- h1
+           --- s2 --- h2
+           --- s3 --- h3 """
 
     def build(self):
         defaultIP = '192.168.0.1/24'  # IP address for r0-eth1

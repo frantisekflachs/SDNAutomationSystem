@@ -2,6 +2,7 @@ from mininet.topo import Topo
 
 
 class Network3(Topo):
+    """ h1,h2 --- s1 --- server """
 
     def build(self):
 

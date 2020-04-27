@@ -25,7 +25,6 @@ networkSetup:
   routesRoot: 10.0.0.0/8
   cleanUp: True # if build now, cleanup before creating?
   inNamespace: False # spawn switches and controller in net namespaces?
-  xTerm: True # show XTerm for each host in virtual network
   sdnControllerIp: 127.0.0.1 # SDN controller IP
   sdnControllerPort: 6653 # listen port that will be SDN Controller listening for OpenFlow protocol 6653, 6654
   autoSetMacs: False # set MAC addrs automatically like IP addresses?

@@ -1,6 +1,6 @@
 ### Topology description ###
 # using Open Flow protocol version 1.3
-topologyDescription: "Testovaci topologie"
+topologyDescription: "Smerovani datovych toku"
 topologyAuthor: "John Doe"
 topologyVersion: "v1.0"
 topolofyOFVersion: "OpenFlow 1.3"
@@ -10,8 +10,9 @@ topolofyOFVersion: "OpenFlow 1.3"
 # [test_name] [params] [expected_output]
 topologyTests:
   # network tests:
-  - ping_network_test 1 10.0.0.1 10.0.0.2 True # test_name repeat_count srcIP dstIP expectedReturnValue
-  - ping_network_test 1 10.0.0.2 10.0.0.1 True # test_name repeat_count srcIP dstIP expectedReturnValue
+  - ping2_network_test 1 10.0.0.100 172.16.0.100 10.0.0.1 True  # test_name repeat_count srcIP dstIP routerPortIp expectedReturnValue
+  - ping2_network_test 1 172.16.0.100 172.16.0.1 172.16.0.1 True  # test_name repeat_count srcIP dstIP routerPortIp expectedReturnValue
+  - ping2_network_test 1 192.168.0.100 192.168.0.1 192.168.0.1 True  # test_name repeat_count srcIP dstIP routerPortIp expectedReturnValue
   # SDN controller tests
 
 ### VIRTUAL NETWORK SETUP

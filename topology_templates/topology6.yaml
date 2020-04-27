@@ -1,6 +1,6 @@
 ### Topology description ###
 # using Open Flow protocol version 1.4
-topologyDescription: "Smerovani datovych toku"
+topologyDescription: "Testovaci topologie"
 topologyAuthor: "John Doe"
 topologyVersion: "v2.0"
 topolofyOFVersion: "OpenFlow 1.5"

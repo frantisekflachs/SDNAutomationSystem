@@ -10,8 +10,8 @@ topolofyOFVersion: "OpenFlow 1.4"
 # [test_name] [params] [expected_output]
 topologyTests:
   # network tests:
-  - ping_network_test 1 10.0.0.1 10.0.0.2 True # test_name repeat_count srcIP dstIP expectedReturnValue
-  - ping_network_test 1 10.0.0.2 10.0.0.1 True # test_name repeat_count srcIP dstIP expectedReturnValue
+  - ping_network_test 10.0.0.1 1 10.0.0.1 10.0.0.2 True # test_name repeat_count srcIP dstIP expectedReturnValue
+  - ping_network_test 10.0.0.2 1 10.0.0.2 10.0.0.1 True # test_name repeat_count srcIP dstIP expectedReturnValue
   # SDN controller tests
 
 ### VIRTUAL NETWORK SETUP

@@ -129,7 +129,7 @@ def connectToRootNS(network, switch, ip, routes):
 
         # Add routes from root ns to hosts
         for route in routes:
-            root.cmd('route add -net ' + route + ' dev ' + str(intf))
+            root.cmd('sudo route add -net ' + route + ' dev ' + str(intf))
     except Exception as e:
         print("Something went wrong " + str(e))
 

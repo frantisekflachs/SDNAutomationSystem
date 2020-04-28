@@ -2,6 +2,9 @@ from time import sleep
 import yaml
 
 from sdn_controllers.floodlight import Floodlight
+from topology_tests.controller_tests.acl_rule_sdn_controller_test import AclRuleSDNControllerTest
+from topology_tests.network_tests.nc_tcp_2_network_test import NcTcp2NetworkTest
+from topology_tests.network_tests.nc_udp_2_network_test import NcUdp2NetworkTest
 from topology_tests.network_tests.ping2_network_test import Ping2NetworkTest
 from topology_tests.network_tests.ping_network_test import PingNetworkTest
 from topology_tests.network_tests.wget_network_test import WgetNetworkTest
@@ -16,7 +19,10 @@ class TestExecutor:
         self.implementedTests = {
             'ping_network_test': PingNetworkTest(),
             'ping2_network_test': Ping2NetworkTest(),
-            'wget_network_test': WgetNetworkTest()
+            'wget_network_test': WgetNetworkTest(),
+            'nc_tcp_2_network_test': NcTcp2NetworkTest(),
+            'nc_udp_2_network_test': NcUdp2NetworkTest(),
+            'acl_rule_sdn_controller_test': AclRuleSDNControllerTest()
         }
 
     def run(self, testsFromConfig):
@@ -28,7 +34,7 @@ class TestExecutor:
             for test in testsFromConfig:
                 testNameParam = test.split()
                 testName = testNameParam[0]
-                testParams = testNameParam[1:]
+                testParams = testNameParam[1:-1]
                 expectedResult = testNameParam[-1]
 
                 # print(expectedResult)
@@ -43,6 +49,7 @@ class TestExecutor:
                     # testsResults.append(str(testName) + ': ' + str(returnValue))
                     testsResults.append('Test ' + str(testsFromConfig.index(test) + 1) + ' - ' + str(testName) + str(
                         ': OK' if (str(returnValue) == str(expectedResult)) else ': ---'))
+                    print(testsResults[-1])
 
             return testsResults
         except Exception as e:

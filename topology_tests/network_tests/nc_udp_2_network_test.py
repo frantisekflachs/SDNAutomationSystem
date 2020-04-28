@@ -1,20 +1,21 @@
 from topology_tests.network_tests.network_test import NetworkTest
+import os
 import paramiko
 
 
-class Ping2NetworkTest(NetworkTest):
+class NcUdp2NetworkTest(NetworkTest):
 
     def execute(self, testParams):
         """Execute ping network test with parameters
-        testParams[0]: repeat count
-        testParams[1]: source IP - host that will execute the command
-        testParams[2]: destination IP - address that will be tried to ping
-        testParams[3]: router IP from that tests will be created"""
+        testParams[0]: wait for communication
+        testParams[1]: client IP address
+        testParams[2]: server IP address
+        testParams[3]: router port IP"""
 
         try:
-            repeat = testParams[0]
-            srcIP = testParams[1]
-            dstIP = testParams[2]
+            wait = testParams[0]
+            clientIp = testParams[1]
+            serverIp = testParams[2]
             routerPortIp = testParams[3]
 
             # print(params)
@@ -23,7 +24,13 @@ class Ping2NetworkTest(NetworkTest):
                     "password": "user",
                     "hostname": routerPortIp}
 
-            command = "sshpass -p {} ssh -o 'StrictHostKeyChecking no' -t {}@{} 'ping -c {} {}'".format(host["password"], host["username"], srcIP, repeat, dstIP)
+            os.system('sudo rm -f /home/user/file.in')
+            os.system('echo UDP data from IP: {} > /home/user/file.in'.format(clientIp))
+
+            command = "sshpass -p {} ssh -o 'StrictHostKeyChecking no' -t {}@{} 'sudo nc -u -w {} {} 777    < /home/user/file.in'".format(host["password"],
+                                                                                                      host["username"],
+                                                                                                      clientIp, wait,
+                                                                                                      serverIp)
 
             sshClient = paramiko.SSHClient()
             sshClient.load_system_host_keys()

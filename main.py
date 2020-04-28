@@ -17,6 +17,7 @@ if __name__ == '__main__':
         view = View(root)
 
         SDNAutomationSystem = Controller(model, view, root)
+        SDNAutomationSystem.endTopology()
 
         # print('Application starting...')
         SDNAutomationSystem.view.printTextLog('SDN Automation System is running.')

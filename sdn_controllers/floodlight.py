@@ -204,6 +204,44 @@ class Floodlight(SDNController):
         except Exception as e:
             print("Something went wrong " + str(e))
 
+    def addAclRule(self, data):
+        """Add ACL rule
+        data - ACL rule"""
+
+        try:
+            ret = self.restCall('/wm/acl/rules/json', data, 'POST')
+            return json.loads(ret[2])
+        except Exception as e:
+            print("Something went wrong " + str(e))
+
+    def deleteAclRule(self, data):
+        """Delete ACL rule by rule_ID
+        data - rule ID"""
+
+        try:
+            ret = self.restCall('/wm/acl/rules/json', {'ruleid': data}, 'DELETE')
+            return ret[0] == 200
+        except Exception as e:
+            print("Something went wrong " + str(e))
+
+    def clearAclRules(self):
+        """Clear all ACL rules on SDN Controller"""
+
+        try:
+            ret = self.restCall('/wm/acl/clear/json', {}, 'GET')
+            return ret[0] == 204
+        except Exception as e:
+            print("Something went wrong " + str(e))
+
+    def listAclRules(self):
+        """List firewall rules"""
+
+        try:
+            ret = self.restCall('/wm/acl/rules/json', {}, 'GET')
+            return json.loads(ret[2])
+        except Exception as e:
+            print("Something went wrong " + str(e))
+
     def restCall(self, path, data, action):
         """Rest Call for SDN controller
             path: REST CALL URL

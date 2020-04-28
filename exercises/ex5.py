@@ -31,6 +31,13 @@ if __name__ == '__main__':
             'action': 'ALLOW'
         }
         rule3 = {
+            'src-ip': '192.168.0.0/24',
+            'dst-ip': '172.16.0.0/16',
+            'nw-proto': 'ICMP',
+            'action': 'DENY'
+        }
+        rule31 = {
+            'src-ip': '10.0.0.0/24',
             'dst-ip': '172.16.0.0/16',
             'nw-proto': 'ICMP',
             'action': 'DENY'
@@ -39,6 +46,7 @@ if __name__ == '__main__':
         print(sdnc.addAclRule(rule1))
         print(sdnc.addAclRule(rule2))
         print(sdnc.addAclRule(rule3))
+        print(sdnc.addAclRule(rule31))
         print(sdnc.listAclRules())
 
         print('TASK 2 - TCP')
@@ -62,10 +70,10 @@ if __name__ == '__main__':
             'action': 'DENY'
         }
 
-        # print(sdnc.addAclRule(rule4))
-        # print(sdnc.addAclRule(rule5))
-        # print(sdnc.addAclRule(rule6))
-        # print(sdnc.listAclRules())
+        print(sdnc.addAclRule(rule4))
+        print(sdnc.addAclRule(rule5))
+        print(sdnc.addAclRule(rule6))
+        print(sdnc.listAclRules())
 
         print('TASK 3 - UDP')
         # TASK 3 - UDP
@@ -100,12 +108,12 @@ if __name__ == '__main__':
             'action': 'DENY'
         }
 
-        # print(sdnc.addAclRule(rule7))
-        # print(sdnc.addAclRule(rule8))
-        # print(sdnc.addAclRule(rule9))
-        # print(sdnc.addAclRule(rule10))
-        # print(sdnc.addAclRule(rule11))
-        # print(sdnc.listAclRules())
+        print(sdnc.addAclRule(rule7))
+        print(sdnc.addAclRule(rule8))
+        print(sdnc.addAclRule(rule9))
+        print(sdnc.addAclRule(rule10))
+        print(sdnc.addAclRule(rule11))
+        print(sdnc.listAclRules())
 
 
     except Exception as e:

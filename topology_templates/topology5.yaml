@@ -63,17 +63,5 @@ networkSetup:
 # run options for Floodlight SDN Controller
 Floodlight: "fl_config1"
 
-# run options for Onos SDN Controller
-Onos: "onos_config1"
-
-# run options for Opendaylight SDN Controller
-Opendaylight: "odl_config1"
-
-# run options for Ryu SDN Controller
-Ryu:
-  - --verbose
-  - --observe-links
-  - ryu/app/simple_switch_13.py
-
 # SDN CONTROLLERS POST CONFIGURATION
 sdnControllersPostConfig: "topology5PostConfig"

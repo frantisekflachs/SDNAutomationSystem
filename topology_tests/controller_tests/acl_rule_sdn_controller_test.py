@@ -27,18 +27,18 @@ class AclRuleSDNControllerTest(TopologyTest):
             # print(currentAclRule)
             for key, values in loadedParams.items():
                 if key in currentAclRule.keys():
-                    print(key)
+                    # print(key)
                     if str(loadedParams[key]) == str(currentAclRule[key]):
-                        print(loadedParams[key])
+                        # print(loadedParams[key])
                         found = True
                     else:
                         found = False
-                        return
+                        continue
                 else:
-                    return
+                    continue
             # rule by definition from template is founded in rules from SDNC
             if found:
-                print('rule founded')
+                # print('rule founded')
                 return True
         # rule was not founded
         if not found:

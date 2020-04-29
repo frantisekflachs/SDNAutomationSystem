@@ -14,31 +14,32 @@ topologyTests:
   - ping2_network_test 1 10.0.0.100 172.16.0.100 10.0.0.1 True
   - ping2_network_test 1 192.168.0.101 172.16.0.101 192.168.0.1 False
   - ping2_network_test 1 10.0.0.101 172.16.0.102 10.0.0.1 False
+  # ICMP SDN Controller test
+  - acl_rule_sdn_controller_test nw_src 192.168.0.100/32 nw_dst 172.16.0.100/32 nw_proto 1 action ALLOW True
+  - acl_rule_sdn_controller_test nw_src 10.0.0.100/32 nw_dst 172.16.0.100/32 nw_proto 1 action ALLOW True
+  - acl_rule_sdn_controller_test nw_dst 172.16.0.0/16 nw_proto 1 action DENY True
   # TCP network test
   - nc_tcp_2_network_test 3 172.16.0.101 192.168.0.101 192.168.0.1 True
   - nc_tcp_2_network_test 3 10.0.0.101 192.168.0.101 192.168.0.1 True
   - nc_tcp_2_network_test 3 172.16.0.100 192.168.0.101 192.168.0.1 False
   - nc_tcp_2_network_test 3 172.16.0.102 192.168.0.101 192.168.0.1 False
+  # TCP SDN Controller test
+  - acl_rule_sdn_controller_test nw_src 172.16.0.101/32 nw_dst 192.168.0.101/32 nw_proto 6 action ALLOW True
+  - acl_rule_sdn_controller_test nw_src 10.0.0.101/32 nw_dst 192.168.0.101/32 nw_proto 6 action ALLOW True
+  - acl_rule_sdn_controller_test nw_src 172.16.0.0/16 nw_dst 192.168.0.101/32 nw_proto 6 action DENY True
   # UDP network test
   - nc_udp_2_network_test 3 192.168.0.102 10.0.0.102 10.0.0.1 True
   - nc_udp_2_network_test 3 172.16.0.102 10.0.0.102 10.0.0.1 True
   - nc_udp_2_network_test 3 192.168.0.100 10.0.0.102 10.0.0.1 False
   - nc_udp_2_network_test 3 172.16.0.100 10.0.0.102 10.0.0.1 False
   - nc_udp_2_network_test 3 10.0.0.100 10.0.0.102 10.0.0.1 False
-  # ICMP SDN Controller test
-  - acl_rule_sdn_controller_test nw_src 192.168.0.100/32 nw_dst 172.16.0.100/32 nw_proto 1 action ALLOW True
-  - acl_rule_sdn_controller_test nw_src 10.0.0.100/32 nw_dst 172.16.0.100/32 nw_proto 1 action ALLOW True
-  - acl_rule_sdn_controller_test nw_dst 172.16.0.0/16 nw_proto 1 action DENY True
-  # TCP SDN Controller test
-  - acl_rule_sdn_controller_test nw_src 172.16.0.101/32 nw_dst 192.168.0.101/32 nw_proto 6 action ALLOW True
-  - acl_rule_sdn_controller_test nw_src 10.0.0.101/32 nw_dst 192.168.0.101/32 nw_proto 6 action ALLOW True
-  - acl_rule_sdn_controller_test nw_src 172.16.0.0/16 nw_dst 192.168.0.101/32 nw_proto 6 action DENY True
   # UDP SDN Controller test
   - acl_rule_sdn_controller_test nw_src 192.168.0.102/32 nw_dst 10.0.0.102/32 nw_proto 17 action ALLOW True
   - acl_rule_sdn_controller_test nw_src 172.16.0.102/32 nw_dst 10.0.0.102/32 nw_proto 17 action ALLOW True
   - acl_rule_sdn_controller_test nw_src 172.16.0.0/16 nw_dst 10.0.0.102/32 nw_proto 17 action DENY True
   - acl_rule_sdn_controller_test nw_src 192.168.0.0/24 nw_dst 10.0.0.102/32 nw_proto 17 action DENY True
   - acl_rule_sdn_controller_test nw_src 10.0.0.0/8 nw_dst 10.0.0.102/32 nw_proto 17 action DENY True
+
 ### VIRTUAL NETWORK SETUP
 networkTemplate: network4 # network templates in network_template folder
 

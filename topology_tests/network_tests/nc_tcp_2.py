@@ -3,7 +3,7 @@ import os
 import paramiko
 
 
-class NcTcp2NetworkTest(NetworkTest):
+class NcTcp2(NetworkTest):
 
     def execute(self, testParams):
         """Execute ping network test with parameters

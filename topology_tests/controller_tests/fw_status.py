@@ -2,7 +2,7 @@ from topology_tests.topology_test import TopologyTest
 from sdn_controllers.floodlight import Floodlight
 
 
-class FwStatusSDNControllerTest(TopologyTest):
+class FwStatus(TopologyTest):
     """Testing for SDN Controller firewall status"""
 
     def execute(self, testParams):

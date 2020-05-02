@@ -2,28 +2,26 @@ from topology_tests.network_tests.network_test import NetworkTest
 import paramiko
 
 
-class Ping2NetworkTest(NetworkTest):
+class Ping(NetworkTest):
 
-    def execute(self, testParams):
+    def execute(self, params):
         """Execute ping network test with parameters
-        testParams[0]: repeat count
-        testParams[1]: source IP - host that will execute the command
-        testParams[2]: destination IP - address that will be tried to ping
-        testParams[3]: router IP from that tests will be created"""
+        params[0]: repeat count
+        params[1]: source IP - host that will execute the command
+        parames[2]: destination IP - address that will be tried to ping"""
 
         try:
-            repeat = testParams[0]
-            srcIP = testParams[1]
-            dstIP = testParams[2]
-            routerPortIp = testParams[3]
+            repeat = params[0]
+            srcIP = params[1]
+            dstIP = params[2]
 
             # print(params)
 
             host = {"username": "user",
                     "password": "user",
-                    "hostname": routerPortIp}
+                    "hostname": srcIP}
 
-            command = "sshpass -p {} ssh -o 'StrictHostKeyChecking no' -t {}@{} 'ping -c {} {}'".format(host["password"], host["username"], srcIP, repeat, dstIP)
+            command = "ping -c {} {}".format(repeat, dstIP)
 
             sshClient = paramiko.SSHClient()
             sshClient.load_system_host_keys()
@@ -33,9 +31,6 @@ class Ping2NetworkTest(NetworkTest):
             chan = sshClient.get_transport().open_session()
             chan.exec_command(command)
             response = chan.recv_exit_status()
-            sshClient.close()
-
-            print(response)
 
             if response == 0:
                 return True

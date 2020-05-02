@@ -23,7 +23,7 @@ class MininetVirtualTopology(VirtualNetwork):
 
             subprocess.Popen(["gnome-terminal", "-e",
                               "bash -c \"sudo mn --clean && python3.7 "
-                              "/home/user/PycharmProjects/SDNAutomationSystem/mininet_virtual_net_sshd.py {}; "
+                              "/home/user/PycharmProjects/SDNAutomationSystem/virtual_network/mininet_virtual_net_sshd.py {}; "
                               "/bin/bash -i\"".format(params)])
         except Exception as e:
             print("Something went wrong " + str(e))

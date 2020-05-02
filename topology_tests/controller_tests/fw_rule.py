@@ -2,11 +2,11 @@ from topology_tests.topology_test import TopologyTest
 from sdn_controllers.floodlight import Floodlight
 
 
-class AclRuleSDNControllerTest(TopologyTest):
-    """Testing for ACL rule in active rules aplied on SDN Controller"""
+class FwRule(TopologyTest):
+    """Testing for firewall rule in active rules aplied on SDN Controller"""
 
     def execute(self, params):
-        """ Execute the test for founding ACL rule in current rules applied on SDN Controller
+        """ Execute the test for founding firewall rule in current rules applied on SDN Controller
         params: key value key value ... in template -> JSON to compare"""
 
         loadedParams = {}
@@ -17,8 +17,8 @@ class AclRuleSDNControllerTest(TopologyTest):
         # print(loadedParams)
 
         sdnc = Floodlight()
-        # get ACL rules from SDN controller
-        currentAclRules = sdnc.listAclRules()
+        # get FW rules from SDN controller
+        currentAclRules = sdnc.firewallListRules()
         # print(currentAclRules)
 
         # compare rules from SDNC and loaded from template

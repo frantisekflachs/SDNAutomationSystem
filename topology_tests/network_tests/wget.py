@@ -2,7 +2,7 @@ import paramiko
 
 from topology_tests.network_tests.network_test import NetworkTest
 
-class WgetNetworkTest(NetworkTest):
+class Wget(NetworkTest):
 
     def execute(self, params):
         """Execute Wget network test with parameters

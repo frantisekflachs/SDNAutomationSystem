@@ -2,14 +2,14 @@ from time import sleep
 import yaml
 
 from sdn_controllers.floodlight import Floodlight
-from topology_tests.controller_tests.acl_rule_sdn_controller_test import AclRuleSDNControllerTest
-from topology_tests.controller_tests.fw_rule_sdn_controller_test import FwRuleSDNControllerTest
-from topology_tests.controller_tests.fw_status_sdn_controller_test import FwStatusSDNControllerTest
-from topology_tests.network_tests.nc_tcp_2_network_test import NcTcp2NetworkTest
-from topology_tests.network_tests.nc_udp_2_network_test import NcUdp2NetworkTest
-from topology_tests.network_tests.ping2_network_test import Ping2NetworkTest
-from topology_tests.network_tests.ping_network_test import PingNetworkTest
-from topology_tests.network_tests.wget_network_test import WgetNetworkTest
+from topology_tests.controller_tests.acl_rule import AclRule
+from topology_tests.controller_tests.fw_rule import FwRule
+from topology_tests.controller_tests.fw_status import FwStatus
+from topology_tests.network_tests.nc_tcp_2 import NcTcp2
+from topology_tests.network_tests.nc_udp_2 import NcUdp2
+from topology_tests.network_tests.ping2 import Ping2
+from topology_tests.network_tests.ping import Ping
+from topology_tests.network_tests.wget import Wget
 
 
 class TestExecutor:
@@ -20,16 +20,16 @@ class TestExecutor:
 
         self.implementedTests = {
             # Network tests
-            'ping_network_test': PingNetworkTest(),
-            'ping2_network_test': Ping2NetworkTest(),
-            'wget_network_test': WgetNetworkTest(),
-            'nc_tcp_2_network_test': NcTcp2NetworkTest(),
-            'nc_udp_2_network_test': NcUdp2NetworkTest(),
+            'ping': Ping(),
+            'ping2': Ping2(),
+            'wget': Wget(),
+            'nc_tcp_2': NcTcp2(),
+            'nc_udp_2': NcUdp2(),
 
             #SDN Controller tests
-            'acl_rule_sdn_controller_test': AclRuleSDNControllerTest(),
-            'fw_status_sdn_controller_test': FwStatusSDNControllerTest(),
-            'fw_rule_sdn_controller_test': FwRuleSDNControllerTest(),
+            'acl_rule': AclRule(),
+            'fw_status': FwStatus(),
+            'fw_rule': FwRule(),
         }
 
     def run(self, testsFromConfig):

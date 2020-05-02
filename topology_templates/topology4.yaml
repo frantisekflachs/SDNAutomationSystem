@@ -6,17 +6,30 @@ topologyVersion: "v2.0"
 topolofyOFVersion: "OpenFlow 1.3"
 
 ### TOPOLOGY SETUP
-# Define topology_tests which will be applied in the system after clicked on button Test topology
-# [test_name] [params] [expected_output]
 topologyTests:
-  # network tests:
-  - ping_network_test 1 10.0.0.1 10.0.0.3 True # test_name repeat_count srcIP dstIP expectedReturnValue
-  - ping_network_test 1 10.0.0.2 10.0.0.3 True # test_name repeat_count srcIP dstIP expectedReturnValue
-  - wget_network_test 10.0.0.1 10.0.0.3 True # test_name hostIP serverIP expectedReturnValue
-  # SDN controller tests
+  # FW status - prereq
+  - fw_status_sdn_controller_test enable True
+
+  # FW ARP test - task 1
+  - fw_rule_sdn_controller_test dl_type 2054 action ALLOW True
+
+  # ICMP tests - task 2
+  - ping_network_test 1 10.0.0.1 10.0.0.3 True
+  - fw_rule_sdn_controller_test nw_src_prefix 10.0.0.1 nw_src_maskbits 32 nw_dst_prefix 10.0.0.3 nw_dst_maskbits 32 nw_proto 1 action ALLOW True
+  - fw_rule_sdn_controller_test nw_src_prefix 10.0.0.3 nw_src_maskbits 32 nw_dst_prefix 10.0.0.1 nw_dst_maskbits 32 nw_proto 1 action ALLOW True
+
+  # ICMP tests - task 3
+  - ping_network_test 1 10.0.0.2 10.0.0.3 True
+  - fw_rule_sdn_controller_test nw_src_prefix 10.0.0.2 nw_src_maskbits 32 nw_dst_prefix 10.0.0.3 nw_dst_maskbits 32 nw_proto 1 action ALLOW True
+  - fw_rule_sdn_controller_test nw_src_prefix 10.0.0.3 nw_src_maskbits 32 nw_dst_prefix 10.0.0.2 nw_dst_maskbits 32 nw_proto 1 action ALLOW True
+
+  # HTTP (TCP) communication on port 80 - task 4
+  - wget_network_test 10.0.0.1 10.0.0.3 True
+  - fw_rule_sdn_controller_test nw_src_prefix 10.0.0.1 nw_src_maskbits 32 nw_dst_prefix 10.0.0.3 nw_dst_maskbits 32 nw_proto 6 tp_dst 80 action ALLOW True
+  - fw_rule_sdn_controller_test nw_src_prefix 10.0.0.3 nw_src_maskbits 32 nw_dst_prefix 10.0.0.1 nw_dst_maskbits 32 nw_proto 6 tp_src 80 action ALLOW True
 
 ### VIRTUAL NETWORK SETUP
-networkTemplate: network3 # network templates in network_template folder
+networkTemplate: network3
 
 # Mininet switches
 networkSetup:
@@ -36,7 +49,6 @@ networkSetup:
   # OVSSwitch - Open vSwitch switch. Depends on ovs-vsctl, OVSSwitch = OVSKernelSwitch
 
 ### SDN CONTROLLERS SETUP (SWITCHES AND PACKAGES)
-# run options for Floodlight SDN Controller
 Floodlight: "fl_config1"
 
 # SDN CONTROLLERS POST CONFIGURATION

@@ -67,12 +67,12 @@ class Topology4PostConfig:
             print(sdnc.firewallClearRules())
 
             # add rules for communication between host h1 and root (computer)
-            print(sdnc.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.123.123.1/32"}))
-            print(sdnc.firewallAddRule({"src-ip": "10.123.123.1/32", "dst-ip": "10.0.0.1/32"}))
+            print(sdnc.firewallAddRule({"src-ip": "10.0.0.1/32", "dst-ip": "10.0.0.200/32"}))
+            print(sdnc.firewallAddRule({"src-ip": "10.0.0.200/32", "dst-ip": "10.0.0.1/32"}))
 
             # add rules for communication between host h2 and root (computer)
-            print(sdnc.firewallAddRule({"src-ip": "10.0.0.2/32", "dst-ip": "10.123.123.1/32"}))
-            print(sdnc.firewallAddRule({"src-ip": "10.123.123.1/32", "dst-ip": "10.0.0.2/32"}))
+            print(sdnc.firewallAddRule({"src-ip": "10.0.0.2/32", "dst-ip": "10.0.0.200/32"}))
+            print(sdnc.firewallAddRule({"src-ip": "10.0.0.200/32", "dst-ip": "10.0.0.2/32"}))
             return True
         except Exception as e:
             print("Something went wrong " + str(e))

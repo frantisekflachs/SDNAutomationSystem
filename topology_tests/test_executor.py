@@ -3,6 +3,8 @@ import yaml
 
 from sdn_controllers.floodlight import Floodlight
 from topology_tests.controller_tests.acl_rule_sdn_controller_test import AclRuleSDNControllerTest
+from topology_tests.controller_tests.fw_rule_sdn_controller_test import FwRuleSDNControllerTest
+from topology_tests.controller_tests.fw_status_sdn_controller_test import FwStatusSDNControllerTest
 from topology_tests.network_tests.nc_tcp_2_network_test import NcTcp2NetworkTest
 from topology_tests.network_tests.nc_udp_2_network_test import NcUdp2NetworkTest
 from topology_tests.network_tests.ping2_network_test import Ping2NetworkTest
@@ -17,12 +19,17 @@ class TestExecutor:
         self.sdnController = SDNController
 
         self.implementedTests = {
+            # Network tests
             'ping_network_test': PingNetworkTest(),
             'ping2_network_test': Ping2NetworkTest(),
             'wget_network_test': WgetNetworkTest(),
             'nc_tcp_2_network_test': NcTcp2NetworkTest(),
             'nc_udp_2_network_test': NcUdp2NetworkTest(),
-            'acl_rule_sdn_controller_test': AclRuleSDNControllerTest()
+
+            #SDN Controller tests
+            'acl_rule_sdn_controller_test': AclRuleSDNControllerTest(),
+            'fw_status_sdn_controller_test': FwStatusSDNControllerTest(),
+            'fw_rule_sdn_controller_test': FwRuleSDNControllerTest(),
         }
 
     def run(self, testsFromConfig):
@@ -60,7 +67,7 @@ if __name__ == "__main__":
     SDNController = Floodlight()
     te = TestExecutor(SDNController)
 
-    stream = open('../topology_templates/topology5.yaml', 'r')
+    stream = open('../topology_templates/topology4.yaml', 'r')
     loadedTopologyConfig = yaml.load(stream, Loader=yaml.FullLoader)
 
     tt = loadedTopologyConfig["topologyTests"]

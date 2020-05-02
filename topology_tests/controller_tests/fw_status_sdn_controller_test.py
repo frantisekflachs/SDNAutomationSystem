@@ -12,12 +12,12 @@ class FwStatusSDNControllerTest(TopologyTest):
         try:
             status = testParams[0]
 
-            print(testParams)
+            # print(testParams)
 
             sdnc = Floodlight()
             # get FW status from SDN controller
             currentStatus = sdnc.firewallStatus()
-            print(currentStatus['result'])
+            # print(currentStatus['result'])
             if status in currentStatus['result']:
                 return True
             else:

@@ -4,8 +4,6 @@ import shutil
 from base64 import b64encode
 
 from sdn_controllers.sdnController import SDNController
-import config
-
 import os
 
 
@@ -74,6 +72,48 @@ class Onos(SDNController):
         except Exception as e:
             print("Something went wrong " + str(e))
 
+    def listInstalledApplications(self, appName):
+        """Returns list of installed applications
+        app: all/app_name"""
+
+        try:
+            if appName is "all":
+                ret = self.restCall('/onos/v1/applications', {}, 'GET')
+                return json.loads(ret[2])
+            else:
+                ret = self.restCall('/onos/v1/applications/{}'.format(appName), {}, 'GET')
+                return json.loads(ret[2])
+        except Exception as e:
+            print("Something went wrong " + str(e))
+
+    def applicationState(self, appName):
+        """Returns application state: ACTIVE/INSTALLED"""
+
+        try:
+            ret = self.listInstalledApplications(appName)
+            return ret['state']
+        except Exception as e:
+            print("Something went wrong " + str(e))
+
+    def activateApplication(self, appName):
+        """Activate application by name
+        app: app_name"""
+
+        try:
+            ret = self.restCall('/onos/v1/applications/{}/active'.format(appName), {}, 'POST')
+            return ret
+        except Exception as e:
+            print("Something went wrong " + str(e))
+
+    def deactivateApplication(self, appName):
+        """Deactivate application by name
+        app: app_name"""
+
+        try:
+            ret = self.restCall('/onos/v1/applications/{}/active'.format(appName), {}, 'DELETE')
+            return ret
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def showSDNControllerGui(self):
         """Show SDN Controller GUI in web browser"""
@@ -156,6 +196,7 @@ class Onos(SDNController):
                 'Accept': 'application/json',
                 'Authorization': 'Basic {}'.format(userAndPass),
             }
+
             body = json.dumps(data)
             conn = http.client.HTTPConnection('localhost', 8181)
             conn.request(action, path, body, headers)
@@ -267,4 +308,15 @@ if __name__ == "__main__":
     # print(pusher.clearFlowTable('of:0000000000000001'))
     # print(pusher.listFlowTable('of:0000000000000001'))
 
-    print(pusher.isRunning())
+    print(pusher.listInstalledApplications('org.onosproject.fwd'))
+    print(pusher.activateApplication('org.onosproject.fwd'))
+    print(pusher.listInstalledApplications('org.onosproject.fwd'))
+    print(pusher.deactivateApplication('org.onosproject.fwd'))
+    print(pusher.applicationState('org.onosproject.fwd'))
+    print(pusher.listInstalledApplications('org.onosproject.fwd'))
+    print(pusher.activateApplication('org.onosproject.fwd'))
+    print(pusher.listInstalledApplications('org.onosproject.fwd'))
+
+    print(pusher.applicationState('org.onosproject.fwd'))
+
+

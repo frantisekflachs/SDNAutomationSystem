@@ -7,9 +7,10 @@ topolofyOFVersion: "OpenFlow 1.3"
 
 ### TOPOLOGY SETUP
 topologyTests:
-  - ping 1 10.0.0.1 10.0.0.3 True
-  - ping 1 10.0.0.2 10.0.0.4 True
-  - flow_rule switch 00:00:00:00:00:00:00:01 name flow_mod_1 cookie 0 priority 32768 in_port 1 active true actions output=flood
+#  - ping 1 10.0.0.1 10.0.0.3 True
+#  - ping 1 10.0.0.2 10.0.0.4 True
+  - flow_rule switch_id 00:00:00:00:00:00:00:01 name flow_mod_1 priority 32768 True
+#  - flow_rule switch_id 00:00:00:00:00:00:00:01 name flow_mod_1 priority 32768 in_port 1 actions output=flood True
 
 ### VIRTUAL NETWORK SETUP
 networkTemplate: network2 # network templates in network_template folder

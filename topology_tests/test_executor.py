@@ -6,8 +6,10 @@ from topology_tests.controller_tests.acl_rule import AclRule
 from topology_tests.controller_tests.flow_rule import FlowRule
 from topology_tests.controller_tests.fw_rule import FwRule
 from topology_tests.controller_tests.fw_status import FwStatus
+from topology_tests.controller_tests.sdn_controller_test import SDNControllerTest
 from topology_tests.network_tests.nc_tcp_2 import NcTcp2
 from topology_tests.network_tests.nc_udp_2 import NcUdp2
+from topology_tests.network_tests.network_test import NetworkTest
 from topology_tests.network_tests.ping2 import Ping2
 from topology_tests.network_tests.ping import Ping
 from topology_tests.network_tests.wget import Wget
@@ -54,11 +56,19 @@ class TestExecutor:
                     # wait for convergence of the network
                     sleep(5)
 
-                    returnValue = self.implementedTests[testName].execute(testParams)
-                    # testsResults.append(str(testName) + ': ' + str(returnValue))
-                    testsResults.append('Test ' + str(testsFromConfig.index(test) + 1) + ' - ' + str(testName) + str(
-                        ': OK' if (str(returnValue) == str(expectedResult)) else ': ---'))
-                    print(testsResults[-1])
+                    if isinstance(self.implementedTests[testName], SDNControllerTest):
+                        print('Instance of SDNC test')
+                        returnValue = self.implementedTests[testName].execute(testParams, self.sdnController)
+                        testsResults.append('Test ' + str(testsFromConfig.index(test) + 1) + ' - ' + str(testName) + str(
+                            ': OK' if (str(returnValue) == str(expectedResult)) else ': ---'))
+                        print(testsResults[-1])
+
+                    if isinstance(self.implementedTests[testName], NetworkTest):
+                        print('Instance of Network test')
+                        returnValue = self.implementedTests[testName].execute(testParams)
+                        testsResults.append('Test ' + str(testsFromConfig.index(test) + 1) + ' - ' + str(testName) + str(
+                            ': OK' if (str(returnValue) == str(expectedResult)) else ': ---'))
+                        print(testsResults[-1])
 
             return testsResults
         except Exception as e:

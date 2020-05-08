@@ -1,11 +1,11 @@
-from topology_tests.topology_test import TopologyTest
+from topology_tests.controller_tests.sdn_controller_test import SDNControllerTest
 from sdn_controllers.floodlight import Floodlight
 
 
-class AclRule(TopologyTest):
+class AclRule(SDNControllerTest):
     """Testing for ACL rule in active rules aplied on SDN Controller"""
 
-    def execute(self, params):
+    def execute(self, params, SDNController):
         """ Execute the test for founding ACL rule in current rules applied on SDN Controller
         params: key value key value ... in template -> JSON to compare"""
 

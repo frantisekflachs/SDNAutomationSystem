@@ -1,11 +1,11 @@
-from topology_tests.topology_test import TopologyTest
+from topology_tests.controller_tests.sdn_controller_test import SDNControllerTest
 from sdn_controllers.floodlight import Floodlight
 
 
-class FwRule(TopologyTest):
+class FwRule(SDNControllerTest):
     """Testing for firewall rule in active rules aplied on SDN Controller"""
 
-    def execute(self, params):
+    def execute(self, params, SDNController):
         """ Execute the test for founding firewall rule in current rules applied on SDN Controller
         params: key value key value ... in template -> JSON to compare"""
 

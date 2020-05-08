@@ -20,7 +20,7 @@ class Topology3PostConfig:
 
                 if not sdnc.isRunning():
                     print(i)
-                    if i == 1000:
+                    if i == 10000:
                         print('Controller ' + str(sdnc) + ' is not responding.')
                         return False
                     sleep(0.5)
@@ -65,17 +65,17 @@ class Topology3PostConfig:
             print("Something went wrong " + str(e))
             return False
 
-    def onosConfig(self):
+    def onosConfig(self, sdnc):
         """Configuring Onos controller after started for this example"""
 
         try:
-            # DO SOME POST CONFIG
+            sdnc.deactivateApplication('org.onosproject.fwd')
             return True
         except Exception as e:
             print("Something went wrong " + str(e))
             return False
 
-    def opendaylightConfig(self):
+    def opendaylightConfig(self, sdnc):
         """Configuring OpenDaylight controller after started for this example"""
 
         try:
@@ -85,7 +85,7 @@ class Topology3PostConfig:
             print("Something went wrong " + str(e))
             return False
 
-    def poxConfig(self):
+    def poxConfig(self, sdnc):
         """Configuring Pox controller after started for this example"""
 
         try:
@@ -95,7 +95,7 @@ class Topology3PostConfig:
             print("Something went wrong " + str(e))
             return False
 
-    def ryuConfig(self):
+    def ryuConfig(self, sdnc):
         """Configuring Ryu controller after started for this example"""
 
         try:
@@ -108,4 +108,4 @@ class Topology3PostConfig:
 
 if __name__ == "__main__":
     topo = Topology3PostConfig()
-    topo.execute(config.implementedSDNControllers['Floodlight'])
+    topo.execute(config.implementedSDNControllers['Onos'])

@@ -78,7 +78,7 @@ class Topology4PostConfig:
             print("Something went wrong " + str(e))
             return False
 
-    def onosConfig(self):
+    def onosConfig(self, sdnc):
         """Configuring Onos controller after started for this example"""
 
         try:
@@ -88,7 +88,7 @@ class Topology4PostConfig:
             print("Something went wrong " + str(e))
             return False
 
-    def opendaylightConfig(self):
+    def opendaylightConfig(self, sdnc):
         """Configuring OpenDaylight controller after started for this example"""
 
         try:
@@ -98,7 +98,7 @@ class Topology4PostConfig:
             print("Something went wrong " + str(e))
             return False
 
-    def poxConfig(self):
+    def poxConfig(self, sdnc):
         """Configuring Pox controller after started for this example"""
 
         try:
@@ -108,7 +108,7 @@ class Topology4PostConfig:
             print("Something went wrong " + str(e))
             return False
 
-    def ryuConfig(self):
+    def ryuConfig(self, sdnc):
         """Configuring Ryu controller after started for this example"""
 
         try:

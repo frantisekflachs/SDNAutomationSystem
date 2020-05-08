@@ -3,7 +3,7 @@
 topologyDescription: "Open vSwitch secure mode"
 topologyAuthor: "John Doe"
 topologyVersion: "v2.0"
-topolofyOFVersion: "OpenFlow 1.4"
+topolofyOFVersion: "OpenFlow 1.3"
 
 ### TOPOLOGY SETUP
 # Define topology_tests which will be applied in the system after clicked on button Test topology
@@ -15,11 +15,11 @@ topologyTests:
   # SDN controller tests
 
 ### VIRTUAL NETWORK SETUP
-networkTemplate: network2 # network templates in network_template folder
+networkTemplate: network1 # network templates in network_template folder
 
 # Mininet switches
 networkSetup:
-  ofVersion: 14 # openflow version
+  ofVersion: 13 # openflow version
   ipBase: 10.0.0.0/8 # base IP address for hosts
   rootIp: 10.0.0.200/32 # IP for host root
   routesRoot: 10.0.0.0/8
@@ -36,13 +36,13 @@ networkSetup:
 
 ### SDN CONTROLLERS SETUP (SWITCHES AND PACKAGES)
 # run options for Floodlight SDN Controller
-Floodlight: "fl_config1"
+Floodlight: "fl_config2"
 
 # run options for Onos SDN Controller
-Onos: "onos_config1"
+Onos: "onos_config2"
 
 # run options for Opendaylight SDN Controller
-Opendaylight: "odl_config1"
+Opendaylight: "odl_config2"
 
 # run options for Ryu SDN Controller
 Ryu:
@@ -50,7 +50,7 @@ Ryu:
   - --observe-links
   - --observe-links
   - ryu/app/gui_topology/gui_topology.py
-  - ryu/app/simple_switch_14.py
+  - ryu/app/simple_switch_13.py
 
 # SDN CONTROLLERS POST CONFIGURATION
 sdnControllersPostConfig: "topology3PostConfig"

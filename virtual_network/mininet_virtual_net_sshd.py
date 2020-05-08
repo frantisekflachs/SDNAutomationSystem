@@ -38,11 +38,12 @@ def virtualNetwork(networkSetup, networkTemplate):
         try:
             switchType = networkSetup['switchType']
             ofVersion = networkSetup['ofVersion']
-            if switchType is 'OVSSwitch':
+
+            if switchType == 'OVSSwitch':
                 switch = partial(OVSKernelSwitch, protocols='OpenFlow{}'.format(ofVersion))
-            elif switchType is 'IVSSwitch':
+            elif switchType == 'IVSSwitch':
                 switch = partial(IVSSwitch, protocols='OpenFlow{}'.format(ofVersion))
-            elif switchType is 'OVSBridge':
+            elif switchType == 'OVSBridge':
                 switch = partial(OVSBridge, protocols='OpenFlow{}'.format(ofVersion))
             else:
                 switch = partial(OVSKernelSwitch, protocols='OpenFlow13')

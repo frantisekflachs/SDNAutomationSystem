@@ -42,8 +42,9 @@ class Onos(SDNController):
         """Copy custom configuration before starting SDN controller"""
 
         try:
-            shutil.copy2('/home/user/PycharmProjects/SDNAutomationSystem/sdn_controllers/startup_config/onos/{}'.format(SDNControllerSetup),
-                         '/home/user/PycharmProjects/SDNControllers/onos/apache-karaf-3.0.8/etc/org.apache.karaf.features.cfg')
+            shutil.copy2('/home/user/PycharmProjects/SDNAutomationSystem/sdn_controllers/startup_config/onos/{}'.format(
+                SDNControllerSetup),
+                '/home/user/PycharmProjects/SDNControllers/onos/apache-karaf-3.0.8/etc/org.apache.karaf.features.cfg')
         except Exception as e:
             print("Something went wrong " + str(e))
             return False
@@ -286,7 +287,7 @@ if __name__ == "__main__":
                     "criteria": [
                         {
                             "type": "ETH_TYPE",
-                            "ethType": "0x88cc"'/wm/staticentrypusher/json'
+                            "ethType": "0x88cc"
                         }
                     ]
                 }
@@ -308,15 +309,60 @@ if __name__ == "__main__":
     # print(pusher.clearFlowTable('of:0000000000000001'))
     # print(pusher.listFlowTable('of:0000000000000001'))
 
-    print(pusher.listInstalledApplications('org.onosproject.fwd'))
-    print(pusher.activateApplication('org.onosproject.fwd'))
-    print(pusher.listInstalledApplications('org.onosproject.fwd'))
-    print(pusher.deactivateApplication('org.onosproject.fwd'))
-    print(pusher.applicationState('org.onosproject.fwd'))
-    print(pusher.listInstalledApplications('org.onosproject.fwd'))
-    print(pusher.activateApplication('org.onosproject.fwd'))
-    print(pusher.listInstalledApplications('org.onosproject.fwd'))
+    # print(pusher.listInstalledApplications('org.onosproject.fwd'))
+    # print(pusher.activateApplication('org.onosproject.fwd'))
+    # print(pusher.listInstalledApplications('org.onosproject.fwd'))
+    # print(pusher.deactivateApplication('org.onosproject.fwd'))
+    # print(pusher.applicationState('org.onosproject.fwd'))
+    # print(pusher.listInstalledApplications('org.onosproject.fwd'))
+    # print(pusher.activateApplication('org.onosproject.fwd'))
+    # print(pusher.listInstalledApplications('org.onosproject.fwd'))
 
-    print(pusher.applicationState('org.onosproject.fwd'))
+    # print(pusher.applicationState('org.onosproject.fwd'))
+    print(pusher.listFlowTable('of:0000000000000001'))
 
+    # flows = {'flows': [
+    #     {'id': '281475012051420', 'tableId': '0', 'appId': 'org.onosproject.core', 'groupId': 0, 'priority': 5,
+    #      'timeout': 0, 'isPermanent': true, 'deviceId': 'of:0000000000000001', 'state': 'ADDED', 'life': 233,
+    #      'packets': 11, 'bytes': 1248, 'liveType': 'UNKNOWN', 'lastSeen': 1588620490420,
+    #      'treatment': {'instructions': [{'type': 'OUTPUT', 'port': 'CONTROLLER'}], 'clearDeferred': true,
+    #                    'deferred': []}, 'selector': {'criteria': [{'type': 'ETH_TYPE', 'ethType': '0x800'}]}},
+    #
+    #     {'id': '281477466379610', 'tableId': '0', 'appId': 'org.onosproject.core', 'groupId': 0, 'priority': 40000,
+    #      'timeout': 0, 'isPermanent': true, 'deviceId': 'of:0000000000000001', 'state': 'ADDED', 'life': 300,
+    #      'packets': 0, 'bytes': 0, 'liveType': 'UNKNOWN', 'lastSeen': 1588620490420,
+    #      'treatment': {'instructions': [{'type': 'OUTPUT', 'port': 'CONTROLLER'}], 'clearDeferred': true,
+    #                    'deferred': []}, 'selector': {'criteria': [{'type': 'ETH_TYPE', 'ethType': '0x88cc'}]}},
+    #
+    #
+    #
+    #     {'id': '281477029321583', 'tableId': '0', 'appId': 'org.onosproject.core', 'groupId': 0, 'priority': 40000,
+    #      'timeout': 0, 'isPermanent': true, 'deviceId': 'of:0000000000000001', 'state': 'ADDED', 'life': 300,
+    #      'packets': 0, 'bytes': 0, 'liveType': 'UNKNOWN', 'lastSeen': 1588620490420,
+    #      'treatment': {'instructions': [{'type': 'OUTPUT', 'port': 'CONTROLLER'}], 'clearDeferred': true,
+    #                    'deferred': []}, 'selector': {'criteria': [{'type': 'ETH_TYPE', 'ethType': '0x8942'}]}},
+    #
+    #     {'id': '281478909873038', 'tableId': '0', 'appId': 'org.onosproject.core', 'groupId': 0, 'priority': 40000,
+    #      'timeout': 0, 'isPermanent': true, 'deviceId': 'of:0000000000000001', 'state': 'ADDED', 'life': 300,
+    #      'packets': 537, 'bytes': 22554, 'liveType': 'UNKNOWN', 'lastSeen': 1588620490420,
+    #      'treatment': {'instructions': [{'type': 'OUTPUT', 'port': 'CONTROLLER'}], 'clearDeferred': true,
+    #                    'deferred': []}, 'selector': {'criteria': [{'type': 'ETH_TYPE', 'ethType': '0x806'}]}}]}
+    #
+    # f={'flows': [
+    # {'id': '10414574617121881', 'tableId': '0', 'appId': 'org.onosproject.fwd', 'groupId': 0, 'priority': 10,
+    #  'timeout': 10, 'isPermanent': false, 'deviceId': 'of:0000000000000001', 'state': 'ADDED', 'life': 0,
+    #  'packets': 1, 'bytes': 98, 'liveType': 'UNKNOWN', 'lastSeen': 1588620490420,
+    #  'treatment': {'instructions': [{'type': 'OUTPUT', 'port': '2'}], 'deferred': []}, 'selector': {
+    #     'criteria': [{'type': 'IN_PORT', 'port': 1}, {'type': 'ETH_DST', 'mac': '96:54:62:B9:AF:CC'},
+    #                  {'type': 'ETH_SRC', 'mac': 'FA:6C:81:42:CE:36'}]}},
+    #
+    # {'id': '10414575001262020', 'tableId': '0', 'appId': 'org.onosproject.fwd', 'groupId': 0, 'priority': 10,
+    #  'timeout': 10, 'isPermanent': false, 'deviceId': 'of:0000000000000001', 'state': 'ADDED', 'life': 0,
+    #  'packets': 1, 'bytes': 98, 'liveType': 'UNKNOWN', 'lastSeen': 1588620490420,
+    #  'treatment': {'instructions': [{'type': 'OUTPUT', 'port': '1'}], 'deferred': []}, 'selector': {
+    #     'criteria': [{'type': 'IN_PORT', 'port': 2}, {'type': 'ETH_DST', 'mac': 'FA:6C:81:42:CE:36'},
+    #                  {'type': 'ETH_SRC', 'mac': '96:54:62:B9:AF:CC'}]}}
+    # ]}
+
+    print(pusher.clearFlowTable('of:0000000000000001'))
 

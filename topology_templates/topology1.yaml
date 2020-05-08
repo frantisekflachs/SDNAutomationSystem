@@ -9,10 +9,6 @@ topolofyOFVersion: "OpenFlow 1.0"
 # Define topology_tests which will be applied in the system after clicked on button Test topology
 # [test_name] [params] [expected_output]
 topologyTests:
-  # network tests:
-  - ping_network_test 1 10.0.0.1 10.0.0.2 True # test_name repeat_count srcIP dstIP expectedReturnValue
-  - ping_network_test 1 10.0.0.2 10.0.0.1 True # test_name repeat_count srcIP dstIP expectedReturnValue
-  # SDN controller tests
 
 ### VIRTUAL NETWORK SETUP
 networkTemplate: network2 # network templates in network_template folder
@@ -20,23 +16,21 @@ networkTemplate: network2 # network templates in network_template folder
 # Mininet switches
 networkSetup:
   ofVersion: 10 # openflow version
-  ipBase: 192.168.0.0/24 # base IP address for hosts
-  rootIp: 192.168.0.200/32 # IP for host root
-  routesRoot: 192.168.0.0/24
+  ipBase: 10.0.0.0/8 # base IP address for hosts
+  rootIp: 10.0.0.200/8 # IP for host root
+  routesRoot: 10.0.0.0/8
   cleanUp: True # if build now, cleanup before creating?
   inNamespace: False # spawn switches and controller in net namespaces?
   sdnControllerIp: 127.0.0.1 # SDN controller IP
   sdnControllerPort: 6653 # listen port that will be SDN Controller listening for OpenFlow protocol 6653, 6654
   autoSetMacs: False # set MAC addrs automatically like IP addresses?
   autoStaticArp: False # set all-pairs static MAC addrs?
-  switchType: OVSSwitch
+  switchType: 'OVSSwitch'
   # OVSBridge - OVSBridge is an OVSSwitch in standalone/bridge mode
   # IVSSwitch - Indigo Virtual Switch
   # OVSSwitch - Open vSwitch switch. Depends on ovs-vsctl, OVSSwitch = OVSKernelSwitch
 
 ### SDN CONTROLLERS SETUP (SWITCHES AND PACKAGES)
-# run options for Floodlight SDN Controller
-Floodlight: "fl_config1"
 
 # run options for Onos SDN Controller
 Onos: "onos_config1"

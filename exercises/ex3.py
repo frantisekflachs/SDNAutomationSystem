@@ -74,7 +74,6 @@ def floodlight():
         "actions": "output=flood"
     }
 
-    pusher.clearFlowTable('all')
     print(pusher.listFlowTable('all'))
 
     print(pusher.addFlow(flow1))
@@ -584,5 +583,5 @@ def onos():
 
 
 if __name__ == '__main__':
-    # floodlight()
-    onos()
+    floodlight()
+    # onos()

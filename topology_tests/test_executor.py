@@ -3,6 +3,7 @@ import yaml
 
 from sdn_controllers.floodlight import Floodlight
 from topology_tests.controller_tests.acl_rule import AclRule
+from topology_tests.controller_tests.flow_rule import FlowRule
 from topology_tests.controller_tests.fw_rule import FwRule
 from topology_tests.controller_tests.fw_status import FwStatus
 from topology_tests.network_tests.nc_tcp_2 import NcTcp2
@@ -30,6 +31,7 @@ class TestExecutor:
             'acl_rule': AclRule(),
             'fw_status': FwStatus(),
             'fw_rule': FwRule(),
+            'flow_rule': FlowRule(),
         }
 
     def run(self, testsFromConfig):
@@ -67,7 +69,7 @@ if __name__ == "__main__":
     SDNController = Floodlight()
     te = TestExecutor(SDNController)
 
-    stream = open('../topology_templates/topology4.yaml', 'r')
+    stream = open('../topology_templates/topology3.yaml', 'r')
     loadedTopologyConfig = yaml.load(stream, Loader=yaml.FullLoader)
 
     tt = loadedTopologyConfig["topologyTests"]

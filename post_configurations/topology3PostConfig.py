@@ -15,18 +15,12 @@ class Topology3PostConfig:
         """Execute post configuration for topology 3"""
 
         try:
-            # try 5 times to get state of SDN Controller, if not running or responding, return False
-            for i in range(0, 5):
-
-                if not sdnc.isRunning():
-                    print(i)
-                    if i == 10000:
-                        print('Controller ' + str(sdnc) + ' is not responding.')
-                        return False
-                    sleep(0.5)
-                    continue
-
-            print('Configuring Post Config for ' + str(sdnc))
+            sleep(5)
+            if not sdnc.isRunning():
+                print('SDN Controller is not running.')
+                return False
+            else:
+                print('Configuring Post Config for ' + str(sdnc))
 
             # loaded controller is Floodlight
             if isinstance(sdnc, Floodlight):
@@ -59,7 +53,18 @@ class Topology3PostConfig:
         """Configuring Floodlight controller after started for this example"""
 
         try:
-            # DO SOME POST CONFIG
+            print('configuring floodlight')
+            flow1 = {
+                'switch': "00:00:00:00:00:00:00:01",
+                "name": "flow_mod_666",
+                "cookie": "0",
+                "priority": "32768",
+                "in_port": "4",
+                "active": "true",
+                "actions": "output=flood"
+            }
+            print(sdnc.addFlow(flow1))
+            print(sdnc.listFlowTable('all'))
             return True
         except Exception as e:
             print("Something went wrong " + str(e))
@@ -108,4 +113,4 @@ class Topology3PostConfig:
 
 if __name__ == "__main__":
     topo = Topology3PostConfig()
-    topo.execute(config.implementedSDNControllers['Onos'])
+    topo.execute(config.implementedSDNControllers['Floodlight'])

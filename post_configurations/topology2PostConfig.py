@@ -15,18 +15,12 @@ class Topology2PostConfig:
         """Execute post configuration for topology 3"""
 
         try:
-            # try 5 times to get state of SDN Controller, if not running or responding, return False
-            for i in range(0, 5):
-
-                if not sdnc.isRunning():
-                    print(i)
-                    if i == 1000:
-                        print('Controller ' + str(sdnc) + ' is not responding.')
-                        return False
-                    sleep(0.5)
-                    continue
-
-            print('Configuring Post Config for ' + str(sdnc))
+            sleep(5)
+            if not sdnc.isRunning():
+                print('SDN Controller is not running.')
+                return False
+            else:
+                print('Configuring Post Config for ' + str(sdnc))
 
             # loaded controller is Floodlight
             if isinstance(sdnc, Floodlight):

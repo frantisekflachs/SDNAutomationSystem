@@ -33,6 +33,7 @@ class View:
         # load methods
         self.loadTopologyTemplates()
         # self.loadImplementedSDNControllers(config.implementedSDNControllers)
+        self.choosedTopoTemplate = None
 
     def initGUI(self):
         """Inicializing Graphical User Interface"""
@@ -164,6 +165,7 @@ class View:
         """Load implemented controllers"""
 
         self.cmbSDNController['values'] = []
+        self.cmbSDNController.set('')
         for c in controllers:
             self.cmbSDNController['values'] = (*self.cmbSDNController['values'], c)
 
@@ -185,11 +187,7 @@ class View:
     def getSelectedTopologyTemplate(self):
         """Return name of selected topology"""
 
-        clickedItem = self.lstTopologyTemplate.curselection()
-        activeTopoTemplate = self.lstTopologyTemplate.get(clickedItem).split(":")
-
-        # return only topo "name.yaml"
-        return activeTopoTemplate[0]
+        return self.choosedTopoTemplate
 
     def getXTerm(self):
         """Return if run with XTerm for all hosts"""
@@ -350,8 +348,12 @@ class View:
     def onSelectTopology(self, event):
         """Update SDN controllers list on select event in template list"""
 
-        pub.sendMessage("topologyTemplate_Changed")
-
+        try:
+            clickedItem = self.lstTopologyTemplate.curselection()
+            self.choosedTopoTemplate = self.lstTopologyTemplate.get(clickedItem).split(":")[0]
+            pub.sendMessage("topologyTemplate_Changed")
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
 # test view
 if __name__ == "__main__":

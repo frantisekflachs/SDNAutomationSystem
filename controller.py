@@ -232,5 +232,14 @@ class Controller:
     def loadSDNCTopologyTemplate(self):
         """Load SDNC in topology template and list them in view"""
 
-        sdncInTemplate = self.model.loadSDNCTopologyTemplate("topology_templates/{}".format(self.view.getSelectedTopologyTemplate()))
-        self.view.loadImplementedSDNControllers(sdncInTemplate)
+        try:
+            choosedTopoTemplate = self.view.getSelectedTopologyTemplate()
+            if choosedTopoTemplate is None:
+                self.view.printTextLog("Topology is not selected.")
+                return
+            sdncInTemplate = self.model.loadSDNCTopologyTemplate(
+                "topology_templates/{}".format(choosedTopoTemplate))
+            self.view.loadImplementedSDNControllers(sdncInTemplate)
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            return 'disable'

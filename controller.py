@@ -53,11 +53,8 @@ class Controller:
             # load topology tests to GUI lists
             self.view.loadImplementedTopologyTests(self.topologyTests)
 
-            # sleep for 8 sec
-            time.sleep(8)
-
             # post config topology
-            # self.runPostConfigSetup(self.postConfig, self.loadedSDNController)
+            self.runPostConfigSetup(self.postConfig, self.loadedSDNController)
 
         except Exception as e:
             print("Something went wrong " + str(e))
@@ -76,9 +73,6 @@ class Controller:
 
             # load topology tests to GUI lists
             self.view.loadImplementedTopologyTests(self.topologyTests)
-
-            # sleep for 8 sec
-            time.sleep(8)
 
             # post config topology
             self.runPostConfigSetup(self.postConfig, self.loadedSDNController)

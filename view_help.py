@@ -6,6 +6,7 @@ import config
 
 
 class ViewHelp:
+    """HELP GUI frame with README file data info"""
 
     def __init__(self, parent):
         self.container = parent
@@ -14,6 +15,7 @@ class ViewHelp:
         self.loadHelpData()
 
     def initialize(self):
+        """ GUI init"""
 
         self.frameHelp = Frame(self.container)
         self.scrollHelp = Scrollbar(self.frameHelp)
@@ -25,11 +27,16 @@ class ViewHelp:
         self.frameHelp.place(x=0, y=0)
 
     def loadHelpData(self):
-        f = open(config.readme, "r")
-        if f.mode == 'r':
-            content = f.read()
-            self.txtHelp.insert("1.0", content)
-        f.close()
+        """Load data from README file and display them."""
+
+        try:
+            f = open(config.readme, "r")
+            if f.mode == 'r':
+                content = f.read()
+                self.txtHelp.insert("1.0", content)
+            f.close()
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
 
 if __name__ == "__main__":

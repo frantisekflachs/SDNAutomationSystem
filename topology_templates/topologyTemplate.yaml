@@ -1,19 +1,18 @@
-### Topology DESCRIPTION ###
+### TOPOLOGY DESCRIPTION ###
 topologyDescription:
 topologyAuthor:
 topologyVersion:
 topolofyOFVersion:
 
-### TOPOLOGY SETUP
+### TOPOLOGY SETUP ###
 topologyTests:
 
-### VIRTUAL NETWORK SETUP
+### VIRTUAL NETWORK SETUP ###
 networkTemplate:
 
-# Mininet switches
 networkSetup:
 
-### SDN CONTROLLERS SETUP
+### SDN CONTROLLERS SETUP ###
 Floodlight:
 
 Onos:
@@ -24,5 +23,5 @@ Pox:
 
 Ryu:
 
-# SDN CONTROLLERS POST CONFIGURATION
+### SDN CONTROLLERS POST CONFIGURATION ###
 sdnControllersPostConfig:

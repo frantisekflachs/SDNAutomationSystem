@@ -1,13 +1,11 @@
-### Topology description ###
+### TOPOLOGY DESCRIPTION ###
 # using Open Flow protocol version 1.3
 topologyDescription: "Smerovani datovych toku"
 topologyAuthor: "John Doe"
 topologyVersion: "v3.3.1"
 topolofyOFVersion: "OpenFlow 1.3"
 
-### TOPOLOGY SETUP
-# Define topology_tests which will be applied in the system after clicked on button Test topology
-# [test_name] [params] [expected_output]
+### TOPOLOGY SETUP ###
 topologyTests:
   # ICMP network test
   - ping2 1 192.168.0.100 172.16.0.100 192.168.0.1 True # test_name repeat_count srcIP dstIP routerPortIp expectedReturnValue
@@ -40,10 +38,9 @@ topologyTests:
   - acl_rule nw_src 192.168.0.0/24 nw_dst 10.0.0.102/32 nw_proto 17 action DENY True
   - acl_rule nw_src 10.0.0.0/8 nw_dst 10.0.0.102/32 nw_proto 17 action DENY True
 
-### VIRTUAL NETWORK SETUP
+### VIRTUAL NETWORK SETUP ###
 networkTemplate: network4 # network templates in network_template folder
 
-# Mininet switches
 networkSetup:
   ofVersion: 13 # openflow version
   ipBase: 192.168.0.0/24 # base IP address for hosts
@@ -60,9 +57,8 @@ networkSetup:
   # IVSSwitch - Indigo Virtual Switch
   # OVSSwitch - Open vSwitch switch. Depends on ovs-vsctl, OVSSwitch = OVSKernelSwitch
 
-### SDN CONTROLLERS SETUP (SWITCHES AND PACKAGES)
-# run options for Floodlight SDN Controller
+### SDN CONTROLLERS SETUP ###
 Floodlight: "fl_config1"
 
-# SDN CONTROLLERS POST CONFIGURATION
+### SDN CONTROLLERS POST CONFIGURATION ###
 sdnControllersPostConfig: "topology5PostConfig"

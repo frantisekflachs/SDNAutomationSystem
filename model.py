@@ -106,6 +106,7 @@ class Model:
     def runSelfDefinedScript(self, scriptName):
         """Run self defined script
         scriptName: name of the scipt that will be executed"""
+
         try:
             proc = subprocess.Popen(["gnome-terminal", "-e",
                                      "bash -c \"sudo python3.7 {}/{}.py; /bin/bash -i\"".format(

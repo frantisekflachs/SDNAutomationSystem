@@ -1,11 +1,11 @@
-### Topology description ###
+### TOPOLOGY DESCRIPTION ###
 # using Open Flow protocol version 1.3
 topologyDescription: "HTTP server a firewall"
 topologyAuthor: "John Doe"
 topologyVersion: "v2.0"
 topolofyOFVersion: "OpenFlow 1.3"
 
-### TOPOLOGY SETUP
+### TOPOLOGY SETUP ###
 topologyTests:
   # FW status - prereq
   - fw_status enable True
@@ -28,10 +28,9 @@ topologyTests:
   - fw_rule nw_src_prefix 10.0.0.1 nw_src_maskbits 32 nw_dst_prefix 10.0.0.3 nw_dst_maskbits 32 nw_proto 6 tp_dst 80 action ALLOW True
   - fw_rule nw_src_prefix 10.0.0.3 nw_src_maskbits 32 nw_dst_prefix 10.0.0.1 nw_dst_maskbits 32 nw_proto 6 tp_src 80 action ALLOW True
 
-### VIRTUAL NETWORK SETUP
+### VIRTUAL NETWORK SETUP ###
 networkTemplate: network3
 
-# Mininet switches
 networkSetup:
   ofVersion: 13 # openflow version
   ipBase: 10.0.0.0/8 # base IP address for hosts
@@ -48,8 +47,8 @@ networkSetup:
   # IVSSwitch - Indigo Virtual Switch
   # OVSSwitch - Open vSwitch switch. Depends on ovs-vsctl, OVSSwitch = OVSKernelSwitch
 
-### SDN CONTROLLERS SETUP (SWITCHES AND PACKAGES)
+### SDN CONTROLLERS SETUP ###
 Floodlight: "fl_config1"
 
-# SDN CONTROLLERS POST CONFIGURATION
+### SDN CONTROLLERS POST CONFIGURATION ###
 sdnControllersPostConfig: "topology4PostConfig"

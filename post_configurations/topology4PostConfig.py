@@ -15,7 +15,14 @@ class Topology4PostConfig:
         """Execute post configuration for topology 4"""
 
         try:
-            sleep(5)
+            # try if sdnc is running for 90 sec
+            for i in range(0, 90):
+                if not sdnc.isRunning():
+                    print("SDN Controller not running yet: " + str(i))
+                    sleep(1)
+                else:
+                    break
+
             if not sdnc.isRunning():
                 print('SDN Controller is not running.')
                 return False

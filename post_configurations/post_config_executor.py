@@ -19,7 +19,8 @@ class PostConfigExecutor:
         }
 
     def run(self, postConfigFromTemplate):
-        """Run choosen topology post configuration"""
+        """Run choosen topology post configuration
+        postConfigFromTemplate: loaded post config from topology template"""
 
         try:
             conf = self.implementedPostConfigs[postConfigFromTemplate]

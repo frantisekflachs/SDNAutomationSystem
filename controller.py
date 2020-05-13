@@ -60,9 +60,7 @@ class Controller:
             print("Something went wrong " + str(e))
 
     def runSDNController(self):
-        """Run SDN Controller
-        loadedSDNController: SDN Controller which was loaded via GUI
-        SDNControllerSetup: additional parameters/switches for SDN Controller"""
+        """Run choosen SDN Controller"""
 
         try:
             # load parameter from GUI defined by user
@@ -81,9 +79,7 @@ class Controller:
             print("Something went wrong " + str(e))
 
     def runVirtualNetwork(self):
-        """Run virtual network
-        networkTemplate: template of the network
-        networkSetup: additional parameters/switches for virtual network"""
+        """Run choosen virtual network"""
 
         try:
             # load parameter from GUI defined by user
@@ -102,7 +98,7 @@ class Controller:
             print("Something went wrong " + str(e))
 
     def endTopology(self):
-        """End all created instances"""
+        """End all created instances for SDN Controller nad virtual network"""
 
         try:
             self.model.endTopology()
@@ -124,7 +120,7 @@ class Controller:
             print("Something went wrong " + str(e))
 
     def testTopology(self):
-        """Testing topology"""
+        """Test choosen topology with loaded tests"""
 
         try:
             if self.topologyState is "STOPPED":
@@ -137,14 +133,14 @@ class Controller:
             print("Something went wrong " + str(e))
 
     def runPostConfigSetup(self, postConfig, sdnc):
-        """"""
+        """Run SDN Controller post config setup
+        postConfig: loaded post configuration for choosen topology
+        sdnc: loaded SDN Controller"""
 
         try:
-            # print(postConfig)
             pce = PostConfigExecutor(sdnc)
             ret = pce.run(postConfig)
-            # print(ret)
-            # self.view.printTextLog(ret)
+            self.view.printTextLog('Post config sucess: ' + str(ret))
         except Exception as e:
             print("Something went wrong " + str(e))
 

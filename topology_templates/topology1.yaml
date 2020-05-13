@@ -1,19 +1,18 @@
-### Topology description ###
+### TOPOLOGY DESCRIPTION ###
 # using Open Flow protocol version 1.0
 topologyDescription: "OpenFlow protokol a jeho zpravy"
 topologyAuthor: "John Doe"
 topologyVersion: "v2.0"
 topolofyOFVersion: "OpenFlow 1.0"
 
-### TOPOLOGY SETUP
+### TOPOLOGY SETUP ###
 # Define topology_tests which will be applied in the system after clicked on button Test topology
 # [test_name] [params] [expected_output]
 topologyTests:
 
-### VIRTUAL NETWORK SETUP
+### VIRTUAL NETWORK SETUP ###
 networkTemplate: network2 # network templates in network_template folder
 
-# Mininet switches
 networkSetup:
   ofVersion: 10 # openflow version
   ipBase: 10.0.0.0/8 # base IP address for hosts
@@ -30,15 +29,12 @@ networkSetup:
   # IVSSwitch - Indigo Virtual Switch
   # OVSSwitch - Open vSwitch switch. Depends on ovs-vsctl, OVSSwitch = OVSKernelSwitch
 
-### SDN CONTROLLERS SETUP (SWITCHES AND PACKAGES)
+### SDN CONTROLLERS SETUP ###
 
-# run options for Onos SDN Controller
 Onos: "onos_config1"
 
-# run options for Opendaylight SDN Controller
 Opendaylight: "odl_config1"
 
-# run options for Pox SDN Controller
 Pox:
   - --verbose
   - py
@@ -51,12 +47,11 @@ Pox:
   - misc.gephi_topo
   - host_tracker
 
-# run options for Ryu SDN Controller
 Ryu:
   - --verbose
   - --observe-links
   - ryu/app/gui_topology/gui_topology.py
   - ryu/app/simple_switch.py
 
-# SDN CONTROLLERS POST CONFIGURATION
+### SDN CONTROLLERS POST CONFIGURATION ###
 sdnControllersPostConfig: "topology1PostConfig"

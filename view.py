@@ -12,8 +12,6 @@ from view_help import ViewHelp
 from view_templates import ViewTemplates
 
 
-
-
 class View:
     """ View for the MVC architecture. """
 
@@ -140,9 +138,12 @@ class View:
     def logInit(self, path):
         """Init file reader for logs"""
 
-        timeNow = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-        f = open(path + "/" + timeNow + ".txt", "a")
-        return f
+        try:
+            timeNow = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+            f = open(path + "/" + timeNow + ".txt", "a")
+            return f
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def loadTopologyTemplates(self):
         """Load topology templates from path file"""
@@ -162,22 +163,31 @@ class View:
             print("Something went wrong " + str(e))
 
     def loadImplementedSDNControllers(self, controllers):
-        """Load implemented controllers"""
+        """Load implemented controllers
+        controllers: loaded SDN controllers"""
 
-        self.cmbSDNController['values'] = []
-        self.cmbSDNController.set('')
-        for c in controllers:
-            self.cmbSDNController['values'] = (*self.cmbSDNController['values'], c)
+        try:
+            self.cmbSDNController['values'] = []
+            self.cmbSDNController.set('')
+            for c in controllers:
+                self.cmbSDNController['values'] = (*self.cmbSDNController['values'], c)
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def loadImplementedTopologyTests(self, topologyTests):
-        """Load implemented topology tests"""
+        """Load implemented topology tests
+        topologyTests: loaded topology tests"""
 
-        self.txtTopologyTests.delete('1.0', END)
+        try:
+            self.txtTopologyTests.delete('1.0', END)
 
-        for tc in topologyTests:
-            testNameParam = tc.split()
-            testName = testNameParam[0]
-            self.txtTopologyTests.insert(END, 'Test ' + str(topologyTests.index(tc) + 1) + ' - ' + str(testName) + ': --- \n')
+            for tc in topologyTests:
+                testNameParam = tc.split()
+                testName = testNameParam[0]
+                self.txtTopologyTests.insert(END, 'Test ' + str(topologyTests.index(tc) + 1) + ' - ' + str(
+                    testName) + ': --- \n')
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def getSelectedSDNController(self):
         """Returns name of selected controller"""
@@ -198,91 +208,125 @@ class View:
         """Print text to console, file and to log window.
         data: data to write to console, GUI and to file"""
 
-        if type(data) is dict:
-            # print('is dictionary')
+        try:
+            if type(data) is dict:
+                # print('is dictionary')
 
-            for test, testResult in data.items():
+                for test, testResult in data.items():
+                    timeNow = datetime.datetime.now().strftime("%H:%M:%S")
+
+                    # print to console
+                    print('{} {}: {}'.format(timeNow, test, testResult))
+
+                    # print to text field
+                    self.txtLogger.insert(END, '{} {}: {} \n'.format(timeNow, test, testResult))
+                    self.txtLogger.see("end")
+
+                    # save to log file
+                    timeNow = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+                    self.f.write('{} {}: {} \n'.format(timeNow, test, testResult))
+                    self.f.flush()
+
+            elif type(data) is list:
+                # print('is list')
+
+                for testResult in data:
+                    timeNow = datetime.datetime.now().strftime("%H:%M:%S")
+
+                    # print to console
+                    print('{} {}'.format(timeNow, testResult))
+
+                    # print to text field
+                    self.txtLogger.insert(END, '{} {} \n'.format(timeNow, testResult))
+                    self.txtLogger.see("end")
+
+                    # save to log file
+                    timeNow = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+                    self.f.write('{} {} \n'.format(timeNow, testResult))
+                    self.f.flush()
+
+            else:
                 timeNow = datetime.datetime.now().strftime("%H:%M:%S")
 
                 # print to console
-                print('{} {}: {}'.format(timeNow, test, testResult))
+                print(timeNow + " " + str(data))
 
                 # print to text field
-                self.txtLogger.insert(END, '{} {}: {} \n'.format(timeNow, test, testResult))
+                self.txtLogger.insert(END, timeNow + " " + str(data) + '\n')
                 self.txtLogger.see("end")
 
                 # save to log file
                 timeNow = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-                self.f.write('{} {}: {} \n'.format(timeNow, test, testResult))
+                self.f.write(timeNow + " " + str(data) + '\n')
                 self.f.flush()
-
-        elif type(data) is list:
-            # print('is list')
-
-            for testResult in data:
-                timeNow = datetime.datetime.now().strftime("%H:%M:%S")
-
-                # print to console
-                print('{} {}'.format(timeNow, testResult))
-
-                # print to text field
-                self.txtLogger.insert(END, '{} {} \n'.format(timeNow, testResult))
-                self.txtLogger.see("end")
-
-                # save to log file
-                timeNow = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-                self.f.write('{} {} \n'.format(timeNow, testResult))
-                self.f.flush()
-
-        else:
-            timeNow = datetime.datetime.now().strftime("%H:%M:%S")
-
-            # print to console
-            print(timeNow + " " + str(data))
-
-            # print to text field
-            self.txtLogger.insert(END, timeNow + " " + str(data) + '\n')
-            self.txtLogger.see("end")
-
-            # save to log file
-            timeNow = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-            self.f.write(timeNow + " " + str(data) + '\n')
-            self.f.flush()
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def printTextTopologyTests(self, data):
-        """Print text to text field with Tests Results"""
+        """Print text to text field with Tests Results
+        data: text to be printed"""
 
-        self.txtTopologyTests.delete('1.0', END)
+        try:
+            self.txtTopologyTests.delete('1.0', END)
 
-        for test in data:
-            self.txtTopologyTests.insert(END, test + '\n')
+            for test in data:
+                self.txtTopologyTests.insert(END, test + '\n')
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def openTemplatesView(self):
         """Open GUI for editing templates"""
 
-        parrent2 = Toplevel(self.container)
-        WIDTH = 1200
-        HEIGHT = 800
-        parrent2.geometry("%sx%s" % (WIDTH, HEIGHT))
-        parrent2.title("Edit topology templates")
-        templatesGUI = ViewTemplates(parrent2)
+        try:
+            parrent2 = Toplevel(self.container)
+            WIDTH = 1200
+            HEIGHT = 800
+            parrent2.geometry("%sx%s" % (WIDTH, HEIGHT))
+            parrent2.title("Edit topology templates")
+            templatesGUI = ViewTemplates(parrent2)
 
-        parrent2.resizable(width=False, height=False)
+            parrent2.resizable(width=False, height=False)
 
-        # Gets the requested values of the height and widht.
-        windowWidth = parrent2.winfo_reqwidth()
-        windowHeight = parrent2.winfo_reqheight()
-        # print("Width", windowWidth, "Height", windowHeight)
+            # Gets the requested values of the height and widht.
+            windowWidth = parrent2.winfo_reqwidth()
+            windowHeight = parrent2.winfo_reqheight()
+            # print("Width", windowWidth, "Height", windowHeight)
 
-        # Gets both half the screen width/height and window width/height
-        positionRight = int((parrent2.winfo_screenwidth() - windowWidth) / 4.5)
-        positionDown = int(parrent2.winfo_screenheight() / 5 - windowHeight / 2)
+            # Gets both half the screen width/height and window width/height
+            positionRight = int((parrent2.winfo_screenwidth() - windowWidth) / 4.5)
+            positionDown = int(parrent2.winfo_screenheight() / 5 - windowHeight / 2)
 
-        # Positions the window in the center of the page.
-        parrent2.geometry("+{}+{}".format(positionRight, positionDown))
+            # Positions the window in the center of the page.
+            parrent2.geometry("+{}+{}".format(positionRight, positionDown))
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
     def openHelpView(self):
         """Open GUI for help"""
+
+        try:
+            parrent3 = Toplevel(self.container)
+            WIDTH = 700
+            HEIGHT = 790
+            parrent3.geometry("%sx%s" % (WIDTH, HEIGHT))
+            parrent3.title("Help")
+            templatesGUI = ViewHelp(parrent3)
+
+            parrent3.resizable(width=False, height=False)
+
+            # Gets the requested values of the height and widht.
+            windowWidth = parrent3.winfo_reqwidth()
+            windowHeight = parrent3.winfo_reqheight()
+            # print("Width", windowWidth, "Height", windowHeight)
+
+            # Gets both half the screen width/height and window width/height
+            positionRight = int((parrent3.winfo_screenwidth() - windowWidth) / 2.8)
+            positionDown = int(parrent3.winfo_screenheight() / 5 - windowHeight / 2)
+
+            # Positions the window in the center of the page.
+            parrent3.geometry("+{}+{}".format(positionRight, positionDown))
+        except Exception as e:
+            print("Something went wrong " + str(e))
 
         parrent3 = Toplevel(self.container)
         WIDTH = 700

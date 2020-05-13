@@ -93,6 +93,7 @@ class ViewTemplates:
 
     def editTemplate(self):
         """Edit template button pressed"""
+
         try:
             self.txtTemplateName.config(state=NORMAL)
             self.txtTemplateName.delete(0, END)
@@ -137,6 +138,7 @@ class ViewTemplates:
 
     def deleteTemplate(self):
         """Delete template button pressed"""
+
         selTopo = self.txtTopologyTemplates.get(ACTIVE)
 
         try:
@@ -154,6 +156,7 @@ class ViewTemplates:
 
     def loadDefaultTemplate(self):
         """Load default template from file to text fields in GUI"""
+
         try:
 
             self.txtTemplateName.config(state=NORMAL)
@@ -178,6 +181,8 @@ class ViewTemplates:
             print("Something went wrong " + str(e))
 
     def loadExistingTemplates(self):
+        """Loading templates from system directory saved on the disk"""
+
         try:
             self.txtTopologyTemplates.delete(0, END)
 
@@ -191,6 +196,8 @@ class ViewTemplates:
             print("Something went wrong " + str(e))
 
     def saveTemplate(self):
+        """Save template created in GUI on the disk"""
+
         try:
             templateName = self.txtTemplateName.get()
             templateSetting = self.txtTemplateSetting.get('1.0', END)

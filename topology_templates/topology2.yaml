@@ -25,7 +25,7 @@ networkSetup:
   # NullController - no SDN controller
   sdnControllerIp: 127.0.0.1 # SDN controller IP
   sdnControllerPort: 6653 # listen port that will be SDN Controller listening for OpenFlow protocol 6653, 6654
-  autoSetMacs: False # set MAC addrs automatically like IP addresses?
+  autoSetMacs: True # set MAC addrs automatically like IP addresses?
   autoStaticArp: False # set all-pairs static MAC addrs?
   switchType: OVSSwitch
   # OVSBridge - OVSBridge is an OVSSwitch in standalone/bridge mode

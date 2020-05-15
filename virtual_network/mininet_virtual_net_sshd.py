@@ -3,7 +3,7 @@ import yaml
 from mininet.net import Mininet
 from mininet.cli import CLI
 from mininet.log import lg, info
-from mininet.node import Node, RemoteController, OVSKernelSwitch, IVSSwitch, OVSBridge
+from mininet.node import Node, RemoteController, OVSKernelSwitch, IVSSwitch, OVSBridge, NullController
 from mininet.util import waitListening
 import config
 import inspect
@@ -67,6 +67,18 @@ def virtualNetwork(networkSetup, networkTemplate):
             sdnControllerPort = 6653
 
         try:
+            c = networkSetup['sdnControllerType']
+            if c == 'RemoteController':
+                controller = lambda name: RemoteController(name, ip=sdnControllerIp, port=sdnControllerPort)
+            elif c == 'NullController':
+                controller = lambda name: NullController()
+            else:
+                controller = lambda name: RemoteController(name, ip=sdnControllerIp, port=sdnControllerPort)
+        except Exception as e:
+            print("Something went wrong " + str(e))
+            controller = lambda name: RemoteController(name, ip='127.0.0.1', port=6653)
+
+        try:
             ipBase = networkSetup['ipBase']
         except Exception as e:
             print("Something went wrong " + str(e))
@@ -102,8 +114,10 @@ def virtualNetwork(networkSetup, networkTemplate):
             print("Something went wrong " + str(e))
             autoStaticArp = False
 
+
+
         return Mininet(topo,
-                       controller=lambda name: RemoteController(name, ip=sdnControllerIp, port=sdnControllerPort),
+                       controller=controller,
                        switch=switch,
                        ipBase=ipBase,
                        cleanup=cleanUp,
@@ -166,7 +180,7 @@ def sshd(network, networkSetup):
 
         info("*** Waiting for ssh daemons to start\n")
         for server in network.hosts:
-            waitListening(server=server, port=22, timeout=5)
+            waitListening(server=server, port=22, timeout=2)
 
         info("\n*** Hosts are running sshd at the following addresses:\n")
         for host in network.hosts:

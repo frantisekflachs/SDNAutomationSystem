@@ -38,14 +38,16 @@ class Controller:
             # load parameter from GUI defined by user
             self.loadParametersFromGUI()
 
-            # run SDN controller
-            self.runSDNController()
+            # RUN SDN CONTROLLER
+            self.model.runSDNController(self.loadedSDNController, self.SDNControllerSetup)
+            self.view.printTextLog("SDN Controller started.")
 
             # sleep for 8 sec
             time.sleep(8)
 
-            # run virtual network
-            self.runVirtualNetwork()
+            # RUN VIRTUAL NETWORK
+            self.model.runVirtualNetwork(self.loadedTopologyTemplate, self.xtermEnable)
+            self.view.printTextLog("Virtual network started.")
 
             self.topologyState = "RUNNING"
             self.view.printTextLog("Topology is running.")
@@ -75,6 +77,9 @@ class Controller:
             # post config topology
             self.runPostConfigSetup(self.postConfig, self.loadedSDNController)
 
+            self.topologyState = "RUNNING"
+            self.view.printTextLog("Topology is running.")
+
         except Exception as e:
             print("Something went wrong " + str(e))
 
@@ -83,7 +88,7 @@ class Controller:
 
         try:
             # load parameter from GUI defined by user
-            self.loadParametersFromGUI()
+            self.loadParametersFromGUI2()
 
             self.model.runVirtualNetwork(self.loadedTopologyTemplate, self.xtermEnable)
             self.view.printTextLog("Virtual network started.")
@@ -93,6 +98,9 @@ class Controller:
 
             # post config topology
             self.runPostConfigSetup(self.postConfig, self.loadedSDNController)
+
+            self.topologyState = "RUNNING"
+            self.view.printTextLog("Topology is running.")
 
         except Exception as e:
             print("Something went wrong " + str(e))
@@ -176,6 +184,34 @@ class Controller:
                 "topology_templates/{}".format(self.loadedTopologyTemplate), self.loadedSDNController)
 
             if (self.topologyTests or self.networkTemplate or self.SDNControllerSetup) is None:
+                self.view.printTextLog("Error reading topology {} config file.".format(self.loadedTopologyTemplate))
+                return
+            self.view.printTextLog("Topology settings from {} loaded.".format(self.loadedTopologyTemplate))
+
+            # check xterm enable in GUI
+            self.xtermEnable = self.loadXTermEnable()
+        except Exception as e:
+            print("Something went wrong " + str(e))
+
+    def loadParametersFromGUI2(self):
+        """Load parameter defined bz user from GUI"""
+
+        try:
+            # load SDN controller
+            self.loadedSDNController = None
+
+            # load topology
+            self.loadedTopologyTemplate = self.loadTopology()
+            if self.loadedTopologyTemplate is None:
+                self.view.printTextLog("Topology template not selected.")
+                return
+            self.view.printTextLog("Topology {} template loaded.".format(self.loadedTopologyTemplate))
+
+            # load settings from yaml file
+            self.topologyTests, self.networkTemplate, self.SDNControllerSetup, self.postConfig = self.model.loadTopologyConfig(
+                "topology_templates/{}".format(self.loadedTopologyTemplate), self.loadedSDNController)
+
+            if (self.topologyTests or self.networkTemplate) is None:
                 self.view.printTextLog("Error reading topology {} config file.".format(self.loadedTopologyTemplate))
                 return
             self.view.printTextLog("Topology settings from {} loaded.".format(self.loadedTopologyTemplate))

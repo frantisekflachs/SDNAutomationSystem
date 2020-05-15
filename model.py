@@ -21,9 +21,18 @@ class Model:
 
             tt = loadedTopologyConfig["topologyTests"]
             nt = loadedTopologyConfig["networkTemplate"]
-            sdns = loadedTopologyConfig[
-                config.implementedSDNControllersNames[config.implementedSDNControllersClasses.index(SDNController)]]
-            pc = loadedTopologyConfig['sdnControllersPostConfig']
+            if not SDNController == None:
+                sdns = loadedTopologyConfig[
+                    config.implementedSDNControllersNames[config.implementedSDNControllersClasses.index(SDNController)]]
+            else:
+                sdns = None
+            pc = ''
+            try:
+
+                pc = loadedTopologyConfig['sdnControllersPostConfig']
+            except Exception as e:
+                print("Something went wrong " + str(e))
+
             return tt, nt, sdns, pc
 
         except Exception as e:

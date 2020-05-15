@@ -23,6 +23,9 @@ class PostConfigExecutor:
         postConfigFromTemplate: loaded post config from topology template"""
 
         try:
+            if postConfigFromTemplate == '':
+                return None
+
             conf = self.implementedPostConfigs[postConfigFromTemplate]
             ret = conf.execute(self.sdnc)
             return ret

@@ -57,14 +57,14 @@ class TestExecutor:
                     sleep(5)
 
                     if isinstance(self.implementedTests[testName], SDNControllerTest):
-                        print('Instance of SDNC test')
+                        # print('Instance of SDNC test')
                         returnValue = self.implementedTests[testName].execute(testParams, self.sdnController)
                         testsResults.append('Test ' + str(testsFromConfig.index(test) + 1) + ' - ' + str(testName) + str(
                             ': OK' if (str(returnValue) == str(expectedResult)) else ': ---'))
                         print(testsResults[-1])
 
                     if isinstance(self.implementedTests[testName], NetworkTest):
-                        print('Instance of Network test')
+                        # print('Instance of Network test')
                         returnValue = self.implementedTests[testName].execute(testParams)
                         testsResults.append('Test ' + str(testsFromConfig.index(test) + 1) + ' - ' + str(testName) + str(
                             ': OK' if (str(returnValue) == str(expectedResult)) else ': ---'))
@@ -79,7 +79,7 @@ if __name__ == "__main__":
     SDNController = Floodlight()
     te = TestExecutor(SDNController)
 
-    stream = open('../topology_templates/topology3.yaml', 'r')
+    stream = open('../topology_templates/topology4.yaml', 'r')
     loadedTopologyConfig = yaml.load(stream, Loader=yaml.FullLoader)
 
     tt = loadedTopologyConfig["topologyTests"]

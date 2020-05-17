@@ -10,6 +10,7 @@ from topology_tests.controller_tests.sdn_controller_test import SDNControllerTes
 from topology_tests.network_tests.nc_tcp_2 import NcTcp2
 from topology_tests.network_tests.nc_udp_2 import NcUdp2
 from topology_tests.network_tests.network_test import NetworkTest
+from topology_tests.network_tests.ovs_flow import OvsFlow
 from topology_tests.network_tests.ping2 import Ping2
 from topology_tests.network_tests.ping import Ping
 from topology_tests.network_tests.wget import Wget
@@ -28,6 +29,7 @@ class TestExecutor:
             'wget': Wget(),
             'nc_tcp_2': NcTcp2(),
             'nc_udp_2': NcUdp2(),
+            'ovs_flow': OvsFlow(),
 
             #SDN Controller tests
             'acl_rule': AclRule(),
@@ -79,7 +81,7 @@ if __name__ == "__main__":
     SDNController = Floodlight()
     te = TestExecutor(SDNController)
 
-    stream = open('../topology_templates/topology4.yaml', 'r')
+    stream = open('../topology_templates/topology2.yaml', 'r')
     loadedTopologyConfig = yaml.load(stream, Loader=yaml.FullLoader)
 
     tt = loadedTopologyConfig["topologyTests"]

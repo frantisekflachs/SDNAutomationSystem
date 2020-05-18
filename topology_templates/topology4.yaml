@@ -1,5 +1,4 @@
 ### TOPOLOGY DESCRIPTION ###
-# using Open Flow protocol version 1.3
 topologyDescription: "HTTP server a firewall"
 topologyAuthor: "John Doe"
 topologyVersion: "v2.0"

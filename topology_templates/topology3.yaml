@@ -1,5 +1,4 @@
 ### TOPOLOGY DESCRIPTION ###
-# using Open Flow protocol version 1.3
 topologyDescription: "Open vSwitch secure mode"
 topologyAuthor: "John Doe"
 topologyVersion: "v2.0"
@@ -7,14 +6,16 @@ topolofyOFVersion: "OpenFlow 1.3"
 
 ### TOPOLOGY SETUP ###
 topologyTests:
-#  - ping 1 10.0.0.1 10.0.0.3 True
-#  - ping 1 10.0.0.2 10.0.0.4 True
-  - flow_rule switch_id 00:00:00:00:00:00:00:01 name flow_mod_1 priority 32768 match {'in_port':'1'} instructions {'instruction_apply_actions':{'actions':'output=flood'}} True
-  - flow_rule switch_id 00:00:00:00:00:00:00:01 name flow_mod_2 priority 32768 match {'in_port':'2'} instructions {'instruction_apply_actions':{'actions':'output=flood'}} True
-  - flow_rule switch_id 00:00:00:00:00:00:00:01 name flow_mod_5 priority 32768 match {'in_port':'3'} instructions {'instruction_apply_actions':{'actions':'output=flood'}} True
-  - flow_rule switch_id 00:00:00:00:00:00:00:02 name flow_mod_3 priority 32768 match {'in_port':'1'} instructions {'instruction_apply_actions':{'actions':'output=flood'}} True
-  - flow_rule switch_id 00:00:00:00:00:00:00:02 name flow_mod_4 priority 32768 match {'in_port':'2'} instructions {'instruction_apply_actions':{'actions':'output=flood'}} True
-  - flow_rule switch_id 00:00:00:00:00:00:00:02 name flow_mod_6 priority 32768 match {'in_port':'3'} instructions {'instruction_apply_actions':{'actions':'output=flood'}} True
+  # switch s1
+  - ping 1 10.0.0.1 10.0.0.2 True
+  - flow_rule switch_id 00:00:00:00:00:00:00:01 name flow_1 priority 32768 match {'in_port':'1'} instructions {'instruction_apply_actions':{'actions':'output=flood'}} True
+  - flow_rule switch_id 00:00:00:00:00:00:00:01 name flow_2 priority 32768 match {'in_port':'2'} instructions {'instruction_apply_actions':{'actions':'output=flood'}} True
+  - flow_rule switch_id 00:00:00:00:00:00:00:01 name flow_5 priority 32768 match {'in_port':'3'} instructions {'instruction_apply_actions':{'actions':'output=flood'}} True
+  # switch s2
+  - ping 1 10.0.0.3 10.0.0.2 True
+  - flow_rule switch_id 00:00:00:00:00:00:00:02 name flow_3 priority 32768 match {'in_port':'1'} instructions {'instruction_apply_actions':{'actions':'output=flood'}} True
+  - flow_rule switch_id 00:00:00:00:00:00:00:02 name flow_4 priority 32768 match {'in_port':'2'} instructions {'instruction_apply_actions':{'actions':'output=flood'}} True
+  - flow_rule switch_id 00:00:00:00:00:00:00:02 name flow_6 priority 32768 match {'in_port':'3'} instructions {'instruction_apply_actions':{'actions':'output=flood'}} True
 
 ### VIRTUAL NETWORK SETUP ###
 networkTemplate: network2 # network templates in network_template folder
@@ -43,16 +44,16 @@ networkSetup:
 
 Floodlight: "fl_config2"
 
-Onos: "onos_config2"
-
-Opendaylight: "odl_config2"
-
-Ryu:
-  - --verbose
-  - --observe-links
-  - --observe-links
-  - ryu/app/gui_topology/gui_topology.py
-  - ryu/app/simple_switch_13.py
+#Onos: "onos_config2"
+#
+#Opendaylight: "odl_config2"
+#
+#Ryu:
+#  - --verbose
+#  - --observe-links
+#  - --observe-links
+#  - ryu/app/gui_topology/gui_topology.py
+#  - ryu/app/simple_switch_13.py
 
 ### SDN CONTROLLERS POST CONFIGURATION ###
 sdnControllersPostConfig: "topology3PostConfig"

@@ -1,5 +1,4 @@
 ### TOPOLOGY DESCRIPTION ###
-# using Open Flow protocol version 1.0
 topologyDescription: "OpenFlow protokol a jeho zpravy"
 topologyAuthor: "John Doe"
 topologyVersion: "v2.0"

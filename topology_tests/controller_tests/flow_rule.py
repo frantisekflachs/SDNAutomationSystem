@@ -19,10 +19,10 @@ class FlowRule(SDNControllerTest):
         # get Flow rules from SDN controller
         allCurrentFlowRules = SDNController.listFlowTable(loadedParams['switch_id'])
         currentFlowRules = allCurrentFlowRules[loadedParams['switch_id']]
-        # print(currentFlowRules)
+        print(currentFlowRules)
 
         loadedParams.pop('switch_id')
-        # print('Loaded params:', loadedParams)
+        print('Loaded params:', loadedParams)
 
         # compare rules from SDNC and loaded from template
         found = False
@@ -34,8 +34,11 @@ class FlowRule(SDNControllerTest):
                 for key, values in loadedParams.items():
                     if key in foundRule.keys():
                         # print(key)
-                        if str(loadedParams[key]) == str(foundRule[key]):
-                            # print(loadedParams[key])
+                        # print(str(loadedParams[key]))
+                        # print(str(foundRule[key]).replace(" ", ""))
+                        if str(loadedParams[key]) == str(foundRule[key]).replace(" ", ""):
+                            # print(str(loadedParams[key]))
+                            # print(str(foundRule[key]))
                             found = True
                         else:
                             found = False

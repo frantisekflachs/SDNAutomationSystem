@@ -63,7 +63,7 @@ class Topology3PostConfig:
             print('configuring floodlight')
             flow1 = {
                 'switch': "00:00:00:00:00:00:00:01",
-                "name": "flow_mod_666",
+                "name": "flow_666",
                 "cookie": "0",
                 "priority": "32768",
                 "in_port": "4",

@@ -14,31 +14,20 @@ class FlowRule(SDNControllerTest):
             # print(params[p])
             if not p % 2:
                 loadedParams[params[p]] = params[p+1]
-        # print('Loaded params:', loadedParams)
 
         # get Flow rules from SDN controller
         allCurrentFlowRules = SDNController.listFlowTable(loadedParams['switch_id'])
         currentFlowRules = allCurrentFlowRules[loadedParams['switch_id']]
-        print(currentFlowRules)
-
         loadedParams.pop('switch_id')
-        print('Loaded params:', loadedParams)
 
         # compare rules from SDNC and loaded from template
         found = False
         for currentFlowRule in currentFlowRules:
-            # print(currentFlowRule)
             if loadedParams['name'] in currentFlowRule.keys():
-                # print(currentFlowRule.keys())
                 foundRule = currentFlowRule[loadedParams['name']]
                 for key, values in loadedParams.items():
                     if key in foundRule.keys():
-                        # print(key)
-                        # print(str(loadedParams[key]))
-                        # print(str(foundRule[key]).replace(" ", ""))
                         if str(loadedParams[key]) == str(foundRule[key]).replace(" ", ""):
-                            # print(str(loadedParams[key]))
-                            # print(str(foundRule[key]))
                             found = True
                         else:
                             found = False
@@ -47,7 +36,6 @@ class FlowRule(SDNControllerTest):
                         continue
                 # rule by definition from template is founded in flows from SDNC
                 if found:
-                    # print('flows founded')
                     return True
         # flows was not founded
         if not found:

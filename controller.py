@@ -42,8 +42,8 @@ class Controller:
             self.model.runSDNController(self.loadedSDNController, self.SDNControllerSetup)
             self.view.printTextLog("SDN Controller started.")
 
-            # sleep for 8 sec
-            time.sleep(8)
+            # sleep for 10 sec
+            time.sleep(10)
 
             # RUN VIRTUAL NETWORK
             self.model.runVirtualNetwork(self.loadedTopologyTemplate, self.xtermEnable)
@@ -51,6 +51,9 @@ class Controller:
 
             self.topologyState = "RUNNING"
             self.view.printTextLog("Topology is running.")
+
+            # sleep for 10 sec
+            time.sleep(10)
 
             # load topology tests to GUI lists
             self.view.loadImplementedTopologyTests(self.topologyTests)

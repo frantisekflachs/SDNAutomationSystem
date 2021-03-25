@@ -74,7 +74,7 @@ python-apt==1.9.0+ubuntu1.3
 python-dateutil==2.7.3
 python-debian==0.1.36
 pytz==2019.2
-PyYAML==5.1.2
+PyYAML==5.4
 reportlab==3.5.23
 repoze.lru==0.7
 requests==2.21.0
